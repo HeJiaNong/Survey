@@ -14,10 +14,11 @@
 </div>
 <div class="x-body">
     <div class="layui-row">
-        <form class="layui-form layui-col-md12 x-so">
-            <input class="layui-input" placeholder="开始日" name="start" id="start">
-            <input class="layui-input" placeholder="截止日" name="end" id="end">
-            <input type="text" name="username" placeholder="请输入用户名" autocomplete="off" class="layui-input">
+        <form class="layui-form layui-col-md12 x-so" action="{{ route('user_search_store') }}" method="post">
+            {{ csrf_field() }}
+            <input @if(isset($start)) value="{{ $start }}"  @endif class="layui-input" autocomplete="off" placeholder="开始日" name="start" id="start">
+            <input @if(isset($end)) value="{{ $end }}"  @endif class="layui-input" autocomplete="off" placeholder="截止日" name="end" id="end">
+            <input @if(isset($username)) value="{{ $username }}"  @endif type="text" name="username" placeholder="请输入用户名" autocomplete="off" class="layui-input">
             <button class="layui-btn" lay-submit="" lay-filter="sreach"><i class="layui-icon">&#xe615;</i></button>
         </form>
     </div>
@@ -26,7 +27,7 @@
         <button class="layui-btn" onclick="x_admin_show('添加用户','{{ route('users').'/add' }}',600,400)"><i
                     class="layui-icon"></i>添加
         </button>
-        <span class="x-right" style="line-height:40px">共有数据：88 条</span>
+        <span class="x-right" style="line-height:40px">共有数据：{{ $users->total() }} 条</span>
     </xblock>
     <table class="layui-table">
         <thead>
@@ -84,10 +85,10 @@
                             </a>
                             @break
                         @endswitch
-                        <a title="编辑" onclick="x_admin_show('编辑','member-edit.html',600,400)" href="javascript:;">
+                        <a title="编辑" onclick="x_admin_show('编辑','{{ route('users_edit_page',$user->id) }}',600,400)" href="javascript:;">
                             <i class="layui-icon">&#xe642;</i>
                         </a>
-                        <a onclick="x_admin_show('修改密码','member-password.html',600,400)" title="修改密码" href="javascript:;">
+                        <a onclick="x_admin_show('修改密码','{{ route('edit_passwd_page',$user->id) }}',600,400)" title="修改密码" href="javascript:;">
                             <i class="layui-icon">&#xe631;</i>
                         </a>
                         <a title="删除" onclick="member_del(this,{{ $user->id }})" href="javascript:;">
@@ -135,7 +136,7 @@
                 //发异步把用户状态进行更改
                 $.ajax({
                     async: true,    //异步
-                    type: "get",
+                    type: "GET",
                     url: "http://www.survey.test/admin/users/status/"+id+'/1',
                     traditional: true,
                     // data:id,
@@ -160,7 +161,7 @@
             } else {
                 $.ajax({
                     async: true,    //异步
-                    type: "get",
+                    type: "GET",
                     url: "http://www.survey.test/admin/users/status/"+id+'/0',
                     traditional: true,
                     // data:id,
@@ -183,7 +184,6 @@
                     }
                 });
             }
-
         });
     }
 
@@ -229,30 +229,36 @@
     function delAll(argument) {
         //获取所有被选中的多选框
         var data = tableCheck.getData();
-        layer.confirm('确认要删除' + data + '吗？', function (index) {
-            //捉到所有被选中的发异步进行删除，
-            $.ajax({
-                async: true,    //异步
-                type: "PUT",
-                url: "http://www.survey.test/admin/users/status/"+data+',/-1',
-                traditional: true,
-                // data:id,
-                dataType: "json",
-                cache: true,
-                //服务器返回执行操作的状态
-                success: function(status) {
-                    if (status === 1){
-                        $(".layui-form-checked").not('.header').parents('tr').remove();
-                        layer.msg('已删除!', {icon: 1, time: 1000});
-                    }else {
+        if (data.length == 0){
+            // alert('666');
+            layer.msg('未选择用户!', {icon:3, time: 1000});
+        }else {
+            layer.confirm('确认要删除' + data + '吗？', function (index) {
+                //捉到所有被选中的发异步进行删除，
+                $.ajax({
+                    async: true,    //异步
+                    type: "get",
+                    url: "http://www.survey.test/admin/users/status_bulk/"+data+"/-1",
+                    traditional: true,
+                    // data:id,
+                    dataType: "json",
+                    cache: true,
+                    //服务器返回执行操作的状态
+                    success: function(status) {
+                        if (status === 1){
+                            $(".layui-form-checked").not('.header').parents('tr').remove();
+                            layer.msg('已删除!', {icon: 1, time: 1000});
+                        }else {
+                            layer.msg('删除失败!', {icon:2, time: 1000});
+                        }
+                    },
+                    error:function (data) {
                         layer.msg('删除失败!', {icon:2, time: 1000});
                     }
-                },
-                error:function (data) {
-                    layer.msg('删除失败!', {icon:2, time: 1000});
-                }
+                });
             });
-        });
+        }
+
     }
 </script>
 

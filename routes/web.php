@@ -33,7 +33,23 @@ Route::group(['prefix' => '/admin/users'],function (){
     //修改用户状态逻辑
     Route::get('/status/{user}/{status}','UserController@status_store')->name('users_status_store');
     //批量修改用户状态逻辑
-    Route::put('/status/{data}/{status}','UserController@status_store_bulk')->name('users_status_store');
+    Route::get('/status_bulk/{data}/{status}','UserController@status_store_bulk')->name('users_status_store');
+    //用户编辑页面
+    Route::get('/edit/{user}','UserController@edit_page')->name('users_edit_page');
+    //用户编辑逻辑
+    Route::put('/edit/{user}','UserController@edit_store')->name('users_edit_store');
+    //修改用户密码页面
+    Route::get('/edit_passwd/{user}','UserController@edit_passwd_page')->name('edit_passwd_page');
+    //修改用户密码逻辑
+    Route::put('/edit_passwd/{user}','UserController@edit_passwd_store')->name('edit_passwd_store');
+    //搜索逻辑
+    Route::post('/search','UserController@user_search_store')->name('user_search_store');
+    //用户回收站页面
+    Route::get('/del','UserController@user_del_page')->name('user_del_page');
+    //用户回收站-删除
+    Route::get('/del/{user}','UserController@user_del_delete_store')->name('user_del_delete_store');
+    //用户回收站-搜索逻辑
+    Route::post('/del/search','UserController@user_del_search_store')->name('user_del_search_store');
 });
 
 

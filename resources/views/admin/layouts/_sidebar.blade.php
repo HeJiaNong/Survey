@@ -17,7 +17,7 @@
                         </a>
                     </li >
                     <li>
-                        <a _href="member-del.html">
+                        <a _href="{{ route('user_del_page') }}">
                             <i class="iconfont">&#xe6a7;</i>
                             <cite>会员删除</cite>
 
