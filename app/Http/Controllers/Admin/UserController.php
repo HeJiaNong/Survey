@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -47,7 +47,7 @@ class UserController extends Controller
         ]);
 
         $params = \request(['email', 'number', 'name', 'password']);
-        $params['password'] = encrypt($params['password']);  //对密码进行加密
+        $params['password'] = bcrypt($params['password']);  //对密码进行加密
 //        dd($params);
         User::create($params);
 

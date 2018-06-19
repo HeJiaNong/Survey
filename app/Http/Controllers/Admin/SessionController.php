@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -24,6 +24,8 @@ class SessionController extends Controller
             'password' => 'required',
         ]);
 
+
+//        dd($credentials);
 
         if (Auth::attempt($credentials)){
             dd(2);
