@@ -14,6 +14,13 @@ class UserController extends Controller
     private $status;
 
 
+    public function __construct()
+    {
+        $this->middleware('auth', [
+            'except' => [],    //指定动作 不使用 Auth 中间件进行过滤
+        ]);
+    }
+
     /*
      * 用户列表页
      */
@@ -174,7 +181,7 @@ class UserController extends Controller
             return false;
         }
 
-        $user->password = encrypt(\request()->password);
+        $user->password = bcrypt(\request()->password);
         $user->save();
         return 1;
 

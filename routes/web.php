@@ -19,7 +19,7 @@ use Illuminate\Support\Facades\Route;
  */
 Route::group(['prefix' => '/'], function () {
     //Home页
-    Route::get('/', 'HomeController@index')->name('home');
+    Route::get('/', 'Home\HomeController@index')->name('home');
 });
 
 

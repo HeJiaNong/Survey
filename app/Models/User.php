@@ -14,9 +14,14 @@ class User extends Authenticatable
      *
      * @var array
      */
+    //fillable 与 guarded 只限制了 create 方法，而不会限制 save。 只在创建数据时限制，不限制修改数据
+    //允许写入/修改的字段
     protected $fillable = [
-        'name','number','addr', 'email', 'password',
+        'name','number','sex','email', 'password','number','addr', 'status','activated',
     ];
+
+    //不可写入的字段
+    protected $guarded = ['id'];
 
     /**
      * The attributes that should be hidden for arrays.
