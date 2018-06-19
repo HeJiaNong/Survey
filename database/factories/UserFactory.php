@@ -20,6 +20,7 @@ $factory->define(App\Models\User::class, function (Faker $faker) {
      * 让我们可以在函数内部使用 Faker 方法来生成假数据并为模型的指定字段赋值。
      */
     $date_time = $faker->date . ' ' . $faker->time;
+
     static $password;
 
     return [

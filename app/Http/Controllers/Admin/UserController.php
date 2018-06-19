@@ -26,7 +26,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::where('status', '!=', -1)->orderBy('created_at', 'desc')->paginate(20);  //按时间倒序
+        $users = User::where('status', '!=', -1)->orderBy('id', 'asc')->paginate(20);  //按时间倒序
         return view('admin.users.member-list', compact('users'));
     }
 
@@ -223,7 +223,7 @@ class UserController extends Controller
      */
     public function user_del_page()
     {
-        $users = User::where('status', '=', '-1')->orderBy('created_at', 'desc')->paginate(20);  //按时间倒序
+        $users = User::where('status', '=', '-1')->orderBy('id', 'asc')->paginate(20);  //按时间倒序
         return view('admin.users.member-del', compact('users'));
     }
 
