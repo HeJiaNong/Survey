@@ -32,7 +32,9 @@ Route::group(['prefix' => '/admin'], function () {
     //后台欢迎页
     Route::view('/welcome', 'admin.welcome')->name('admin_welcome');
     //后台用户登陆
-    Route::get('/login', 'AdminController@login_up')->name('admin_login_up');
+    Route::get('/login', 'SessionController@login_page')->name('admin_login_up');
+    //后台登陆逻辑
+    Route::post('/login','SessionController@login_store')->name('admin_login_store');
 
     //用户管理模块
     Route::group(['prefix' => '/users'], function () {
