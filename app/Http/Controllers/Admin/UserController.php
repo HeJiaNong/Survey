@@ -4,11 +4,14 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
 
-    /*
+
+
+    /*.
      * 批量删除时接受的状态码
      */
     private $status;
@@ -16,6 +19,10 @@ class UserController extends Controller
 
     public function __construct()
     {
+//        if (!Auth::check()){
+//            session()->flash('info','未登陆');
+//            return redirect()->route('admin_login_up');
+//        }
         $this->middleware('auth', [
             'except' => [],    //指定动作 不使用 Auth 中间件进行过滤
         ]);

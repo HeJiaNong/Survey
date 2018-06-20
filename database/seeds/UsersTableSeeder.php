@@ -24,10 +24,9 @@ class UsersTableSeeder extends Seeder
         $user->sex = '男';
         $user->email = 'jianonghe@gmail.com';
         $user->password = bcrypt('hejiang335200');
-        $user->number = 1878026029;
+        $user->number = 18780260029;
         $user->addr = '成都';
         $user->status = 1;
-        $user->activated = true;
         //保存数据
         $user->save();
     }

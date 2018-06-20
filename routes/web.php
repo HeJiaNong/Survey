@@ -35,6 +35,8 @@ Route::group(['prefix' => '/admin'], function () {
     Route::get('/login', 'Admin\SessionController@login_page')->name('admin_login_up');
     //后台登陆逻辑
     Route::post('/login','Admin\SessionController@login_store')->name('admin_login_store');
+    //退出登陆
+    Route::get('/logout','Admin\SessionController@logout')->name('admin_logout');
 
     //用户管理模块
     Route::group(['prefix' => '/users'], function () {

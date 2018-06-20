@@ -30,7 +30,6 @@ $factory->define(App\Models\User::class, function (Faker $faker) {
         'password' => $password ?: $password = bcrypt('123456'),
         'number' => $faker->phoneNumber,
         'addr' => $faker->city,
-        'activated' => true,
         'status' => '1',
         'remember_token' => str_random(10),
         'created_at' => $date_time,
