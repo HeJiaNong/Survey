@@ -68,4 +68,9 @@ Route::group(['prefix' => '/admin'], function () {
         Route::post('/del/search', 'Admin\UserController@user_del_search_store')->name('user_del_search_store');
 
     });
+
+    //老师管理模块
+    Route::group(['prefix' => '/teacher'],function (){
+        Route::get('/','Admin\TeacherController@teacher_list_page')->name('teacher_list_page');
+    });
 });

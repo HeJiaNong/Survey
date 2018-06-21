@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Questionnaire;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Admin\Controller;
 use Illuminate\Validation\Rule;
 
 class QuestionnaireController extends Controller
