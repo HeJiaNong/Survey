@@ -17,20 +17,17 @@ use Illuminate\Support\Facades\Route;
 /*
  * 前台页面路由集合
  */
-Route::group(['prefix' => '/'], function () {
+Route::prefix('/')->namespace('Home')->group( function () {
     //Home页
-    Route::get('/', 'Home\HomeController@index')->name('home');
+    Route::get('/', 'HomeController@index')->name('home');
 });
 
 
 /*
  * 后台页面路由集合
  */
-Route::group(['prefix' => '/admin'], function () {
-    //后台首页
-    Route::get('/', 'Admin\AdminController@index')->name('admin');
-    //后台欢迎页
-    Route::view('/welcome', 'admin.welcome')->name('admin_welcome');
+Route::prefix('admin')->group( function () {
+
     //后台用户登陆
     Route::get('/login', 'Admin\SessionController@login_page')->name('admin_login_up');
     //后台登陆逻辑
@@ -38,39 +35,61 @@ Route::group(['prefix' => '/admin'], function () {
     //退出登陆
     Route::get('/logout','Admin\SessionController@logout')->name('admin_logout');
 
-    //用户管理模块
-    Route::group(['prefix' => '/users'], function () {
-        //会员列表
-        Route::get('/', 'Admin\UserController@index')->name('users');
-        //会员列表-添加
-        Route::get('/add', 'Admin\UserController@add_page')->name('users_add_page');
-        //会员列表-添加
-        Route::post('/add', 'Admin\UserController@add_store')->name('users_add_store');
-        //修改用户状态逻辑
-        Route::get('/status/{user}/{status}', 'Admin\UserController@status_store')->name('users_status_store');
-        //批量修改用户状态逻辑
-        Route::get('/status_bulk/{data}/{status}', 'Admin\UserController@status_store_bulk')->name('users_status_store');
-        //用户编辑页面
-        Route::get('/edit/{user}', 'Admin\UserController@edit_page')->name('users_edit_page');
-        //用户编辑逻辑
-        Route::put('/edit/{user}', 'Admin\UserController@edit_store')->name('users_edit_store');
-        //修改用户密码页面
-        Route::get('/edit_passwd/{user}', 'Admin\UserController@edit_passwd_page')->name('edit_passwd_page');
-        //修改用户密码逻辑
-        Route::put('/edit_passwd/{user}', 'Admin\UserController@edit_passwd_store')->name('edit_passwd_store');
-        //搜索逻辑
-        Route::post('/search', 'Admin\UserController@user_search_store')->name('user_search_store');
-        //用户回收站页面
-        Route::get('/del', 'Admin\UserController@user_del_page')->name('user_del_page');
-        //用户回收站-删除
-        Route::get('/del/{user}', 'Admin\UserController@user_del_delete_store')->name('user_del_delete_store');
-        //用户回收站-搜索逻辑
-        Route::post('/del/search', 'Admin\UserController@user_del_search_store')->name('user_del_search_store');
+    //后台首页
+    Route::middleware(['auth'])->get('/', 'Admin\AdminController@index')->name('admin');
+    //后台桌面页
+    Route::middleware(['auth'])->get('/desktop', 'Admin\AdminController@desktop')->name('admin_desktop');
 
+    //用户管理模块
+    Route::middleware(['auth'])->prefix('user')->namespace('Admin')->group(function () {
+        //会员列表
+        Route::get('/', 'UserController@index')->name('admin_user_list_get');
+        //会员列表-添加
+        Route::get('/add', 'UserController@add')->name('admin_user_add_get');
+        //会员列表-添加
+        Route::post('/add', 'UserController@add')->name('admin_user_add_post');
+        //修改用户状态逻辑
+        Route::get('/status/{id}', 'UserController@status')->name('admin_user_status_get');
+        //批量修改用户状态逻辑
+        Route::get('/status_bulk/{ids}', 'UserController@allStatus')->name('admin_users_status_get');
+        //用户编辑页面
+        Route::get('/edit/{id}', 'UserController@edit')->name('admin_user_edit_get');
+        //用户编辑逻辑
+        Route::put('/edit/{id}', 'UserController@edit')->name('admin_user_edit_put');
+        //用户密码修改页面
+        Route::get('/edit_passwd/{user}', 'UserController@edit_passwd_page')->name('admin_user_edit_passwd_get');
+        //修改用户密码逻辑
+        Route::put('/edit_passwd/{user}', 'UserController@edit_passwd_store')->name('admin_user_edit_passwd_put');
+        //删除逻辑
+        Route::get('/del/{id}','UserController@del')->name('admin_user_del');
+        //搜索逻辑
+        Route::match(['get','post'],'/search', 'UserController@searchStore')->name('admin_user_search_post');
     });
 
     //老师管理模块
-    Route::group(['prefix' => '/teacher'],function (){
-        Route::get('/','Admin\TeacherController@teacher_list_page')->name('teacher_list_page');
+    Route::middleware(['auth'])->prefix('teacher')->namespace('Admin')->group(function (){
+        //老师列表页面
+        Route::get('/','TeacherController@index')->name('admin_teacher_list_get');
+        //老师信息编辑页面
+        Route::get('/edit/{id}', 'TeacherController@edit')->name('admin_teacher_edit_get');
+        //老师信息编辑逻辑
+        Route::put('/edit/{id}', 'TeacherController@edit')->name('admin_teacher_edit_put');
+        //修改状态
+        Route::get('/status/{id}', 'TeacherController@status')->name('admin_teacher_status_get');
+        //批量修改状态
+        Route::get('/status_bulk/{ids}', 'TeacherController@allStatus')->name('admin_teachers_status_get');
+        //删除逻辑
+        Route::get('/del/{id}','TeacherController@del')->name('admin_teacher_del');
+        //添加
+        Route::get('/add', 'TeacherController@add')->name('admin_teacher_add_get');
+        //添加
+        Route::post('/add', 'TeacherController@add')->name('admin_teacher_add_post');
+        //搜索逻辑
+        Route::match(['get','post'],'/search', 'TeacherController@searchStore')->name('admin_teacher_search_post');
+    });
+
+    //部门管理
+    Route::middleware(['auth'])->prefix('branch')->namespace('Admin')->group(function (){
+        Route::get('/','BranchController@index')->name('admin_branch_list_get');
     });
 });

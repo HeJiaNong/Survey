@@ -2,7 +2,7 @@
 
 <body>
 <div class="x-body">
-    <form id="passwdFrom" class="layui-form" action="{{ route('edit_passwd_store',$user->id) }}" method="post">
+    <form id="passwdFrom" class="layui-form" action="{{ route('admin_user_edit_passwd_put',$user->id) }}" method="post">
         {{ csrf_field() }}
         {{ method_field('PUT') }}
       <div class="layui-form-item">
@@ -47,9 +47,9 @@
           <label for="L_repass" class="layui-form-label">
           </label>
           <button  class="layui-btn" lay-filter="save" lay-submit="">
-              增加
+              修改
           </button>
-            {{--<input type="submit" value="提交">--}}
+            <input type="submit" value="提交">
       </div>
 
 

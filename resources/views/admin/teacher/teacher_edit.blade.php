@@ -2,7 +2,7 @@
 
 <body>
 <div class="x-body">
-    <form id="editFrom" class="layui-form" action="{{ route('users_edit_store',$user->id) }}" method="post">
+    <form id="editFrom" class="layui-form" action="{{ route('admin_teacher_edit_put',$dataset->id) }}" method="post">
         {{ csrf_field() }}
         {{ method_field('PUT') }}
         <div class="layui-form-item">
@@ -11,7 +11,7 @@
             </label>
             <div class="layui-input-inline">
                 <input type="text" id="L_email" name="email" required="" lay-verify="email"
-                       autocomplete="off" class="layui-input" value="{{ $user->email }}">
+                       autocomplete="off" class="layui-input" value="{{ $dataset->email }}">
             </div>
             <div class="layui-form-mid layui-word-aux">
                 <span class="x-red">*</span>将会成为您唯一的登入名
@@ -23,15 +23,15 @@
             </label>
             <div class="layui-input-inline">
                 <input type="text" id="L_username" name="name" required="" lay-verify="nikename"
-                       autocomplete="off" class="layui-input" value="{{ $user->name }}">
+                       autocomplete="off" class="layui-input" value="{{ $dataset->name }}">
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label"><span class="x-red">*</span>性别</label>
             <div class="layui-input-block">
-                <input type="radio" name="sex" lay-skin="primary" title="男" value="男" @if($user->sex == '男') checked @endif >
-                <input type="radio" name="sex" lay-skin="primary" title="女" value="女" @if($user->sex == '女') checked @endif>
-                <input type="radio" name="sex" lay-skin="primary" title="保密" value="保密" @if($user->sex == '保密') checked @endif>
+                <input type="radio" name="sex" lay-skin="primary" title="男" value="男" @if($dataset->sex == '男') checked @endif >
+                <input type="radio" name="sex" lay-skin="primary" title="女" value="女" @if($dataset->sex == '女') checked @endif>
+                <input type="radio" name="sex" lay-skin="primary" title="保密" value="保密" @if($dataset->sex == '保密') checked @endif>
             </div>
         </div>
         <div class="layui-form-item">
@@ -40,7 +40,7 @@
             </label>
             <div class="layui-input-inline">
                 <input type="text" id="L_number" name="number" required="" lay-verify="number"
-                       autocomplete="off" class="layui-input" value="{{ $user->number }}">
+                       autocomplete="off" class="layui-input" value="{{ $dataset->number }}">
             </div>
             <div class="layui-form-mid layui-word-aux">
                 11位数字
@@ -52,16 +52,30 @@
             </label>
             <div class="layui-input-inline">
                 <input type="text" id="L_addr" name="addr" required=""
-                       autocomplete="off" class="layui-input" value="{{ $user->addr }}">
+                       autocomplete="off" class="layui-input" value="{{ $dataset->addr }}">
             </div>
         </div>
+
+        {{--<div class="layui-form-item">--}}
+            {{--<label for="L_username" class="layui-form-label">--}}
+                {{--<span class="x-red">*</span>手机号--}}
+            {{--</label>--}}
+            {{--<div class="layui-input-inline">--}}
+                {{--<input type="text" id="L_number" name="number" required="" lay-verify="number"--}}
+                       {{--autocomplete="off" class="layui-input" value="{{ $dataset->number }}">--}}
+            {{--</div>--}}
+            {{--<div class="layui-form-mid layui-word-aux">--}}
+                {{--11位数字--}}
+            {{--</div>--}}
+        {{--</div>--}}
+
         <div class="layui-form-item">
             <label for="L_repass" class="layui-form-label">
             </label>
             <button class="layui-btn" lay-filter="add" lay-submit="">
                 修改
             </button>
-            {{--<input type="submit">--}}
+            <input type="submit">
         </div>
     </form>
 </div>

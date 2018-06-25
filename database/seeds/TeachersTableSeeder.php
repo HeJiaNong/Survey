@@ -22,6 +22,7 @@ class TeachersTableSeeder extends Seeder
         $user = Teacher::find(1);
         $user->name = '冬哥';
         $user->sex = '男';
+        $user->status = true;
         //保存数据
         $user->save();
     }

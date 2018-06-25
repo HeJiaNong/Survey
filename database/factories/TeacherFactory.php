@@ -13,6 +13,10 @@ $factory->define(\App\Models\Teacher::class, function (Faker $faker) {
     return [
         'name' => $faker->name,
         'sex' => $faker->randomElement(['男','女','保密']),
+        'email' => $faker->safeEmail,
+        'number' => $faker->phoneNumber,
+        'addr' => $faker->city,
+        'status' => true,
         'created_at' => $date_time,
         'updated_at' => $date_time,
     ];

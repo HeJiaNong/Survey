@@ -10,50 +10,13 @@
                 </a>
                 <ul class="sub-menu">
                     <li>
-                        <a _href="{{ route('users') }}">
+                        <a _href="{{ route('admin_user_list_get') }}">
                             <i class="iconfont">&#xe6a7;</i>
                             <cite>会员列表</cite>
 
                         </a>
                     </li >
-                    <li>
-                        <a _href="{{ route('user_del_page') }}">
-                            <i class="iconfont">&#xe6a7;</i>
-                            <cite>会员删除</cite>
 
-                        </a>
-                    </li>
-                    <li>
-                        <a href="javascript:;">
-                            <i class="iconfont">&#xe70b;</i>
-                            <cite>会员管理</cite>
-                            <i class="iconfont nav_right">&#xe697;</i>
-                        </a>
-                        <ul class="sub-menu">
-                            <li>
-                                <a _href="xxx.html">
-                                    <i class="iconfont">&#xe6a7;</i>
-                                    <cite>会员列表</cite>
-
-                                </a>
-                            </li >
-                            <li>
-                                <a _href="xx.html">
-                                    <i class="iconfont">&#xe6a7;</i>
-                                    <cite>会员删除</cite>
-
-                                </a>
-                            </li>
-                            <li>
-                                <a _href="xx.html">
-                                    <i class="iconfont">&#xe6a7;</i>
-                                    <cite>等级管理</cite>
-
-                                </a>
-                            </li>
-
-                        </ul>
-                    </li>
                 </ul>
             </li>
             <li>
@@ -64,9 +27,16 @@
                 </a>
                 <ul class="sub-menu">
                     <li>
-                        <a _href="{{ route('teacher_list_page') }}">
+                        <a _href="{{ route('admin_teacher_list_get') }}">
                             <i class="iconfont">&#xe6a7;</i>
                             <cite>老师列表</cite>
+                        </a>
+                    </li >
+                    <li>
+                        <a _href="{{ route('admin_branch_list_get') }}">
+                            <i class="iconfont">&#xe6a7;</i>
+                            <cite>部门管理</cite>
+
                         </a>
                     </li >
                 </ul>

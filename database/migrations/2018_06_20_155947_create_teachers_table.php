@@ -18,9 +18,12 @@ class CreateTeachersTable extends Migration
             $table->increments('id');
             $table->string('name')->comment('姓名');
             $table->enum('sex',['男','女','保密'])->default('保密')->comment('性别');
+            $table->string('email')->unique()->comment('邮箱');
+            $table->string('number',30)->comment('电话号码');
+            $table->string('addr')->nullable()->comment('地址');
+            $table->boolean('status')->default(true)->comment('状态/0停用/1启用');
             $table->integer('branches_id')->unsigned()->nullable()->comment('所属部门');
             $table->timestamps();
-//            $table->foreign('branches_id')->references('id')->on('branches');   //外键
         });
     }
 
