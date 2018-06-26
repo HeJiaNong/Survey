@@ -2,7 +2,7 @@
 
 <body>
 <div class="x-body">
-    <form id="editFrom" class="layui-form" action="{{ route('admin_user_edit_put',$dataset->id) }}" method="post">
+    <form id="editFrom" class="layui-form" action="{{ route('admin_user_save',$dataset->id) }}" method="post">
         {{ csrf_field() }}
         {{ method_field('PUT') }}
         <div class="layui-form-item">

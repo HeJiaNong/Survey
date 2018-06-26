@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
-use App\Http\Controllers\Admin\Controller;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 
 class SessionController extends Controller
@@ -22,8 +22,9 @@ class SessionController extends Controller
         //数据验证
         $credentials = $this->validate($request,[
             'email' => 'email',
-            'password' => 'required',
+            'password' => 'required|min:6',
         ]);
+
 
         //has 判断是否有值，返回 true or false
         if(Auth::attempt($credentials,$request->has('remember'))){

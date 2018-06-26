@@ -2,20 +2,9 @@
 
 <body>
 <div class="x-body layui-anim layui-anim-up">
-    <form id="addForm" class="layui-form" action="{{ route('admin_user_add_post') }}" method="post">
+    <form id="addForm" class="layui-form" action="{{ route('admin_branch_save') }}" method="post">
         {{ csrf_field() }}
-        <div class="layui-form-item">
-            <label for="L_email" class="layui-form-label">
-                <span class="x-red">*</span>邮箱
-            </label>
-            <div class="layui-input-inline">
-                <input type="text" id="L_email" name="email" required="" lay-verify="email"
-                       autocomplete="off" class="layui-input">
-            </div>
-            <div class="layui-form-mid layui-word-aux">
-                <span class="x-red">*</span>将会成为您唯一的登入名
-            </div>
-        </div>
+
         <div class="layui-form-item">
             <label for="L_username" class="layui-form-label">
                 <span class="x-red">*</span>昵称
@@ -25,56 +14,7 @@
                        autocomplete="off" class="layui-input">
             </div>
         </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label"><span class="x-red">*</span>性别</label>
-            <div class="layui-input-block">
-                <input type="radio" name="sex" lay-skin="primary" title="男" value="男" >
-                <input type="radio" name="sex" lay-skin="primary" title="女" value="女" >
-                <input type="radio" name="sex" lay-skin="primary" title="保密" value="保密" checked >
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <label for="L_username" class="layui-form-label">
-                <span class="x-red">*</span>手机号
-            </label>
-            <div class="layui-input-inline">
-                <input type="text" id="L_number" name="number" required="" lay-verify="number"
-                       autocomplete="off" class="layui-input">
-            </div>
-            <div class="layui-form-mid layui-word-aux">
-                11位数字
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <label for="L_username" class="layui-form-label">
-                地址
-            </label>
-            <div class="layui-input-inline">
-                <input type="text" id="L_username" name="addr" required="" lay-verify="nikename"
-                       autocomplete="off" class="layui-input">
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <label for="L_pass" class="layui-form-label">
-                <span class="x-red">*</span>密码
-            </label>
-            <div class="layui-input-inline">
-                <input type="password" id="L_pass" name="password" required="" lay-verify="pass"
-                       autocomplete="off" class="layui-input">
-            </div>
-            <div class="layui-form-mid layui-word-aux">
-                6到16个字符
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <label for="L_repass" class="layui-form-label">
-                <span class="x-red">*</span>确认密码
-            </label>
-            <div class="layui-input-inline">
-                <input type="password" id="L_repass" name="password_confirmation" required="" lay-verify="repass"
-                       autocomplete="off" class="layui-input">
-            </div>
-        </div>
+
         <div class="layui-form-item">
             <label for="L_repass" class="layui-form-label">
             </label>

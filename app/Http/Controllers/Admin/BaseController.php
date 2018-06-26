@@ -9,32 +9,27 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\TeacherStore;
-use App\Http\Requests\UserStore;
-use App\Models\Teacher;
 use Illuminate\Http\Request;
-
-use App\Models\User;
 
 class BaseController extends Controller
 {
-    protected $model;   //模型实例
+    protected $model;           //当前模型的实例对象
 
-    protected $model_name;  //模型名称
+    protected $model_name;      //当前模型名称
 
-    protected $model_class; //模型引用
+    protected $model_class;     //App\Models\xxx
 
-    protected $getCollection;        //模型绑定
+    protected $interaction;     //当前模型所关联的模型名
 
     /*
      * 构造方法
      */
     public function __construct()
     {
+        if(isset($this->model_name)) $this->model_class  = 'App\\Models\\' . $this->model_name;     //设置模型引用
+        if(isset($this->interaction)) $this->interaction = 'App\\Models\\' . $this->interaction;    //设置模型关联
+        if(isset($this->model_class)) $this->model       = new $this->model_class();                //设置模型实例
 
-        //设置模型引用
-        $this->model_class = 'App\\Models\\' . $this->model_name;
-        $this->model = new $this->model_class();
     }
 
     /*
@@ -58,50 +53,10 @@ class BaseController extends Controller
      */
     public function index()
     {
-        $where = "(1,'=',1)";
-        $this->__search($where);
-
         $dataset = $this->model_class::paginate(10);  //分页
-
 
         return view("admin." . $this->model_name . "." . $this->model_name . "_list", compact('dataset'));
     }
-
-
-    /*
-     * 编辑
-     */
-    public function edit($id = '')
-    {
-//        dump($id);
-//        dump(\request()->method());
-
-        if (request()->isMethod('PUT')) { //判断请求方式是否为put 返回bool
-            //通过id获取collection对象
-            $collection = $this->getCollection($id);
-
-            $data = \request()->toArray();
-            //移除 _token和_method字段
-            unset($data['_token']);
-            unset($data['_method']);
-            //循环赋值
-            foreach ($data as $k => $v) {
-                $collection->$k = $v;
-            }
-
-            //保存至数据库
-            $collection->save();
-            //返回结果
-            return 1;
-        } else {
-            $this->getCollection = $this->getCollection($id);
-
-            $dataset = $this->getCollection;
-
-            return view("admin." . $this->model_name . "." . $this->model_name . "_edit", compact('dataset'));
-        }
-    }
-
 
     /*
      * 修改状态   1启用  0停用
@@ -113,7 +68,6 @@ class BaseController extends Controller
         //所以，如果数据库没有这条记录，将会直接返回error，触发前端错误提醒
         //只需要执行删除程序即可
         //修改用户的状态    1启用/0停用
-
 
         $collection = $this->getCollection($id);
 
@@ -134,7 +88,6 @@ class BaseController extends Controller
      */
     public function del($id)
     {
-
         $collection = $this->getCollection($id);
 
         $collection->delete();
@@ -143,29 +96,57 @@ class BaseController extends Controller
     }
 
     /*
-     * 添加
+     * 添加/编辑
      */
-    public function add()
+    public function save($id = '')
     {
+        //如果有id
+        if (!empty($id)){
+            if (request()->isMethod('PUT')) {
+                //todo 数据验证
 
-        //判断请求方式
-        if (\request()->isMethod('Post')) {
-            //todo 验证数据
+                $collection = $this->getCollection($id);    //通过id获取collection对象
 
-            $field = array_intersect($this->model->getFillable(), array_keys(\request()->toArray()));   //得到最终将要加入数据库的字段
+                $field = array_intersect($this->model->getFillable(), array_keys(\request()->toArray()));   //得到可修改的字段
 
-            $prams = [];    //要存入数据库的数据参数
+                foreach ($field as $k => $v) {
+                    $collection->$v = \request()->$v;    //循环赋值
+                }
 
-            foreach ($field as $k => $v) {
-                $prams[$v] = \request()->$v;    //循环赋值给数组
+                $collection->save();    //保存至数据库
+
+                return 1;   //返回结果
+
+            } else {
+                $this->getCollection = $this->getCollection($id);
+
+                $dataset = $this->getCollection;
+
+                return view("admin." . $this->model_name . "." . $this->model_name . "_save", compact('dataset'));
             }
+        }else{
+            if (\request()->isMethod('POST')) {
+                //todo 验证数据
 
-            $this->model_class::create($prams);     //将数组入库
+                $field = array_intersect($this->model->getFillable(), array_keys(\request()->toArray()));   //得到最终将要加入数据库的字段
 
-            return 1;   //返回成功信息
+                $prams = [];                            //要存入数据库的数据参数
 
-        } else {
-            return view("admin." . $this->model_name . "." . $this->model_name . "_add");   //返回视图
+                foreach ($field as $k => $v) {
+                    $prams[$v] = \request()->$v;        //循环赋值给数组
+                }
+
+                $this->model_class::create($prams);     //将数组入库
+
+                return 1;                               //返回成功信息
+
+            } else {
+                $rows = [];
+                if (isset($this->interaction)){
+                    $rows = $this->interaction::all('id','name');
+                }
+                return view("admin." . $this->model_name . "." . $this->model_name . "_save",compact('rows'));   //返回视图
+            }
         }
     }
 
@@ -175,32 +156,30 @@ class BaseController extends Controller
     public function allStatus($ids)
     {
 
-        //拼接成数组
-        $ids = array_unique(explode(',', $ids));
-        //删除数组中的空元素值
+        $ids = array_unique(explode(',', $ids));    //拼接成数组
+
         foreach ($ids as $k => $v) {
             if (empty($v) || $v == 0) {
-                unset($ids[$k]);
+                unset($ids[$k]);    //删除数组中的空元素值
             }
         }
-        //去除数组中有0的元素,并且获取数组的长度
-        $ids_count = count($ids);
+
+        $ids_count = count($ids);   //去除数组中有0的元素,并且获取数组的长度
 
         $res = $this->model_class::whereIn('id', $ids)->get();
         $res_count = $this->model_class::whereIn('id', $ids)->get()->count();
         //如果2个总数相等，说明数据库中记录条数=传递过来的id总数
         if ($res_count !== $ids_count) {
-            //操作失败
-            return false;
+
+            return false;   //操作失败
         }
 
-        //修改这些数据的状态
         $res->transform(function ($item, $key) {
-            $item->status = 0;
+            $item->status = 0;  //修改这些数据的状态
             $item->save();
         });
-        //返回修改成功的状态码
-        return 1;
+
+        return 1;   //返回修改成功的状态码
     }
 
     /*
@@ -212,17 +191,14 @@ class BaseController extends Controller
         $end = $request->end;
         $username = $request->username;
 
-        //如果开始时间为空，则为初始时间
-        $start = empty($start) ? date('Y-m-d H:i:s', 0) : $start . ' 00:00:00';
-        //如果结束时间为空，则为当前时间
-        $end = empty($end) ? date('Y-m-d H:i:s', time()) : $end . ' ' . explode(' ', date('Y-m-d H:i:s', time()))[1];
+        $start = empty($start) ? date('Y-m-d H:i:s', 0) : $start . ' 00:00:00';     //如果开始时间为空，则为初始时间
+
+        $end = empty($end) ? date('Y-m-d H:i:s', time()) : $end . ' ' . explode(' ', date('Y-m-d H:i:s', time()))[1];   //如果结束时间为空，则为当前时间
 
         if (empty($username)) {
-            //如果用户名为空，则不添加用户名条件
-            $dataset = $this->model_class::whereBetween('created_at', [$start, $end])->paginate(10);
+            $dataset = $this->model_class::whereBetween('created_at', [$start, $end])->paginate(10);    //如果用户名为空，则不添加用户名条件
         } else {
-            //如果都有值，则添加所有条件
-            $dataset = $this->model_class::where('name', 'like', '%' . $username . '%')->whereBetween('created_at', [$start, $end])->paginate(10);
+            $dataset = $this->model_class::where('name', 'like', '%' . $username . '%')->whereBetween('created_at', [$start, $end])->paginate(10);  //如果都有值，则添加所有条件
         }
 
         $start = explode(' ', $start)[0];

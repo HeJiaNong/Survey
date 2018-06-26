@@ -15,7 +15,8 @@ class CreateBranchesTable extends Migration
     {
         Schema::create('branches', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name')->comment('部门名称');
+            $table->string('name')->unique()->comment('部门名称');
+            $table->boolean('status')->default(true)->comment('状态/0停用/1启用');
             $table->timestamps();
         });
     }

@@ -24,7 +24,7 @@
     </div>
     <xblock>
         <button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon"></i>批量停用</button>
-        <button class="layui-btn" onclick="x_admin_show('添加用户','{{ route('admin_user_add_get') }}',600,400)"><i
+        <button class="layui-btn" onclick="x_admin_show('添加用户','{{ route('admin_user_save') }}',600,400)"><i
                     class="layui-icon"></i>添加
         </button>
         <span class="x-right" style="line-height:40px">共有数据：{{ $dataset->total() }} 条</span>
@@ -78,7 +78,7 @@
                                 <i class="layui-icon">&#xe62f;</i>
                             </a>
                         @endif
-                        <a title="编辑" onclick="x_admin_show('编辑','{{ route('admin_user_edit_get',$data->id) }}',600,400)" href="javascript:;">
+                        <a title="编辑" onclick="x_admin_show('编辑','{{ route('admin_user_save',$data->id) }}',600,400)" href="javascript:;">
                             <i class="layui-icon">&#xe642;</i>
                         </a>
                         <a onclick="x_admin_show('修改密码','{{ route('admin_user_edit_passwd_get',$data->id) }}',600,400)" title="修改密码" href="javascript:;">

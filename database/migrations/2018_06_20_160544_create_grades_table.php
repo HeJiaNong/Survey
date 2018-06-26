@@ -15,7 +15,10 @@ class CreateGradesTable extends Migration
     {
         Schema::create('grades', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('grades_name')->comment('班级名称');
+            $table->string('name')->unique()->comment('班级名称');
+            $table->integer('count')->unsugned()->comment('学生人数');
+            $table->integer('teacher_id')->unsigned()->comment('班主任');
+            $table->boolean('status')->default(true)->comment('状态');
             $table->timestamps();
         });
     }

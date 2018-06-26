@@ -24,7 +24,7 @@
     </div>
     <xblock>
         <button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon"></i>批量停用</button>
-        <button class="layui-btn" onclick="x_admin_show('添加用户','{{ route('admin_teacher_add_get') }}',600,400)"><i
+        <button class="layui-btn" onclick="x_admin_show('添加用户','{{ route('admin_teacher_save') }}',600,400)"><i
                     class="layui-icon"></i>添加
         </button>
         <span class="x-right" style="line-height:40px">共有数据：{{ $dataset->total() }} 条</span>
@@ -41,6 +41,7 @@
             <th>性别</th>
             <th>手机</th>
             <th>邮箱</th>
+            <th>所属部门</th>
             <th>地址</th>
             <th>加入时间</th>
             <th>状态</th>
@@ -59,6 +60,7 @@
                 <td>{{ $data->sex }}</td>
                 <td>{{ $data->number }}</td>
                 <td>{{ $data->email }}</td>
+                <td>{{ $data->branch->name }}</td>
                 <td>{{ $data->addr }}</td>
                 <td>{{ $data->created_at }}</td>
                 <td class="td-status">
@@ -85,7 +87,7 @@
                         </a>
                         @break
                     @endswitch
-                    <a title="编辑" onclick="x_admin_show('编辑','{{ route('admin_teacher_edit_get',$data->id) }}',600,400)" href="javascript:;">
+                    <a title="编辑" onclick="x_admin_show('编辑','{{ route('admin_teacher_edit',$data->id) }}',600,400)" href="javascript:;">
                         <i class="layui-icon">&#xe642;</i>
                     </a>
                     <a title="删除" onclick="member_del(this,'{{ route('admin_teacher_del',$data->id) }}')" href="javascript:;">

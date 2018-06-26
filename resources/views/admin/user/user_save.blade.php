@@ -2,14 +2,17 @@
 
 <body>
 <div class="x-body layui-anim layui-anim-up">
-    <form id="addForm" class="layui-form" action="{{ route('admin_teacher_save') }}" method="post">
+    <form id="addForm" class="layui-form" action="@if(isset($dataset)) {{ route('admin_user_save',$dataset->id) }} @else {{ route('admin_user_save') }} @endif" method="post">
         {{ csrf_field() }}
+        @if(isset($dataset))
+            {{ method_field('PUT') }}
+        @endif
         <div class="layui-form-item">
             <label for="L_email" class="layui-form-label">
                 <span class="x-red">*</span>邮箱
             </label>
             <div class="layui-input-inline">
-                <input type="text" id="L_email" name="email" required="" lay-verify="email"
+                <input @if(isset($dataset)) value="{{ $dataset->email }}" @endif type="text" id="L_email" name="email" required="" lay-verify="email"
                        autocomplete="off" class="layui-input">
             </div>
             <div class="layui-form-mid layui-word-aux">
@@ -21,29 +24,16 @@
                 <span class="x-red">*</span>昵称
             </label>
             <div class="layui-input-inline">
-                <input type="text" id="L_username" name="name" required="" lay-verify="nikename"
+                <input @if(isset($dataset)) value="{{ $dataset->name }}" @endif type="text" id="L_username" name="name" required="" lay-verify="nikename"
                        autocomplete="off" class="layui-input">
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <label for="L_username" class="layui-form-label">
-                <span class="x-red">*</span>所属部门
-            </label>
-            <div class="layui-input-inline">
-                <select name="branches_id" >
-                    <option value="0">--请选择--</option>
-                    @foreach($rows as $row)
-                        <option value="{{ $row->id }}">{{$row->name }}</option>
-                    @endforeach
-                </select>
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label"><span class="x-red">*</span>性别</label>
             <div class="layui-input-block">
-                <input type="radio" name="sex" lay-skin="primary" title="男" value="男" >
-                <input type="radio" name="sex" lay-skin="primary" title="女" value="女" >
-                <input type="radio" name="sex" lay-skin="primary" title="保密" value="保密" checked >
+                <input type="radio" name="sex" lay-skin="primary" title="男" value="男" @if(isset($dataset)) @if($dataset->sex == '男') checked @endif @endif>
+                <input type="radio" name="sex" lay-skin="primary" title="女" value="女" @if(isset($dataset)) @if($dataset->sex == '女') checked @endif @endif>
+                <input type="radio" name="sex" lay-skin="primary" title="保密" value="保密" @if(isset($dataset)) @if($dataset->sex == '保密') checked @endif @endif >
             </div>
         </div>
         <div class="layui-form-item">
@@ -51,7 +41,7 @@
                 <span class="x-red">*</span>手机号
             </label>
             <div class="layui-input-inline">
-                <input type="text" id="L_number" name="number" required="" lay-verify="number"
+                <input @if(isset($dataset)) value="{{ $dataset->number }}" @endif type="text" id="L_number" name="number" required="" lay-verify="number"
                        autocomplete="off" class="layui-input">
             </div>
             <div class="layui-form-mid layui-word-aux">
@@ -63,11 +53,33 @@
                 地址
             </label>
             <div class="layui-input-inline">
-                <input type="text" id="L_username" name="addr" required="" lay-verify="nikename"
+                <input @if(isset($dataset)) value="{{ $dataset->addr }}" @endif type="text" id="L_username" name="addr" required="" lay-verify="nikename"
                        autocomplete="off" class="layui-input">
             </div>
         </div>
-
+        @if(!isset($dataset))
+        <div class="layui-form-item">
+            <label for="L_pass" class="layui-form-label">
+                <span class="x-red">*</span>密码
+            </label>
+            <div class="layui-input-inline">
+                <input type="password" id="L_pass" name="password" required="" lay-verify="pass"
+                       autocomplete="off" class="layui-input">
+            </div>
+            <div class="layui-form-mid layui-word-aux">
+                6到16个字符
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label for="L_repass" class="layui-form-label">
+                <span class="x-red">*</span>确认密码
+            </label>
+            <div class="layui-input-inline">
+                <input type="password" id="L_repass" name="password_confirmation" required="" lay-verify="repass"
+                       autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        @endif
         <div class="layui-form-item">
             <label for="L_repass" class="layui-form-label">
             </label>

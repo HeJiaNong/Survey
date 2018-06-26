@@ -17,8 +17,8 @@ class CreateWordsTable extends Migration
             $table->increments('id');
             $table->integer('word_categories_id')->unsigned()->comment('问卷分类');
             $table->string('name')->comment('问卷名');
-            $table->integer('teachers_id')->unsigned()->comment('所属老师');
-            $table->integer('grades_id')->unsigned()->comment('所属班级');
+            $table->integer('teacher_id')->unsigned()->comment('所属老师');
+            $table->integer('grade_id')->unsigned()->comment('所属班级');
             $table->text('content')->comment('内容');
             $table->timestamps();
         });

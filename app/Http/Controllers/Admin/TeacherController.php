@@ -12,6 +12,7 @@ class TeacherController extends BaseController
 
     protected $model_name = 'Teacher';
 
+    protected $interaction = 'Grade';
     /*
      * 钩子方法，主要用于子类继承之后修改参数
      */

@@ -32,10 +32,35 @@
                             <cite>老师列表</cite>
                         </a>
                     </li >
+                </ul>
+            </li>
+            <li>
+                <a href="javascript:;">
+                    <i class="iconfont">&#xe723;</i>
+                    <cite>部门管理</cite>
+                    <i class="iconfont nav_right">&#xe697;</i>
+                </a>
+                <ul class="sub-menu">
                     <li>
                         <a _href="{{ route('admin_branch_list_get') }}">
                             <i class="iconfont">&#xe6a7;</i>
-                            <cite>部门管理</cite>
+                            <cite>部门列表</cite>
+
+                        </a>
+                    </li >
+                </ul>
+            </li>
+            <li>
+                <a href="javascript:;">
+                    <i class="iconfont">&#xe723;</i>
+                    <cite>班级管理</cite>
+                    <i class="iconfont nav_right">&#xe697;</i>
+                </a>
+                <ul class="sub-menu">
+                    <li>
+                        <a _href="{{ route('admin_grade_list_get') }}">
+                            <i class="iconfont">&#xe6a7;</i>
+                            <cite>班级列表</cite>
 
                         </a>
                     </li >

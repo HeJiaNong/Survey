@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Admin\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Admin\BaseController;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends BaseController
 {
@@ -173,6 +174,12 @@ class UserController extends BaseController
             'oldpass' => 'required',
             'password' => 'required|confirmed'
         ]);
+
+        dd(Hash::check(\request()->pldpass,$user->password));
+
+        dump(bcrypt(\request()->oldpass),$user->password);
+
+        dd(bcrypt(\request()->oldpass) != $user->password);
 
         //如果用户输入的旧密码和数据库密码不对应，则返回错误
         if (\request()->oldpass != decrypt ($user->password)) {
