@@ -53,35 +53,30 @@ class BaseController extends Controller
      */
     public function index()
     {
+        if ($this->model_name == 'Category'){
+            dump($this->model_name);
+
+            $a = $this->model_class::find(1)->topic;
+
+            foreach ($a as $v){
+                dump($v->name);
+            }
+
+            dump($a);
+        }elseif ($this->model_name == 'Topic'){
+            dump($this->model_name);
+
+            $a = $this->model_class::find(1)->category->name;
+
+            dump($a);
+        }
+
         $dataset = $this->model_class::paginate(10);  //分页
 
         return view("admin." . $this->model_name . "." . $this->model_name . "_list", compact('dataset'));
     }
 
-    /*
-     * 修改状态   1启用  0停用
-     */
-    public function status($id)
-    {
-        //Laravel 会自动解析定义在路由或控制器行为中与类型提示的变量名匹配的路由段名称的 Eloquent 模型
-        //如果在数据库中找不到对应的模型实例，将会自动生成 404 异常。
-        //所以，如果数据库没有这条记录，将会直接返回error，触发前端错误提醒
-        //只需要执行删除程序即可
-        //修改用户的状态    1启用/0停用
 
-        $collection = $this->getCollection($id);
-
-        if ($collection->status === 1) {
-            $collection->status = 0;
-        } else {
-            $collection->status = 1;
-        }
-
-        //保存状态
-        $collection->save();
-
-        return 1;
-    }
 
     /*
      * 删除记录
@@ -122,7 +117,13 @@ class BaseController extends Controller
 
                 $dataset = $this->getCollection;
 
-                return view("admin." . $this->model_name . "." . $this->model_name . "_save", compact('dataset'));
+                $rows = [];
+
+                if (isset($this->interaction)){
+                    $rows = $this->interaction::all('id','name');
+                }
+
+                return view("admin." . $this->model_name . "." . $this->model_name . "_save", compact('dataset','rows'));
             }
         }else{
             if (\request()->isMethod('POST')) {
@@ -151,11 +152,35 @@ class BaseController extends Controller
     }
 
     /*
+     * 修改状态   1启用  0停用
+     */
+    public function status($id)
+    {
+        //Laravel 会自动解析定义在路由或控制器行为中与类型提示的变量名匹配的路由段名称的 Eloquent 模型
+        //如果在数据库中找不到对应的模型实例，将会自动生成 404 异常。
+        //所以，如果数据库没有这条记录，将会直接返回error，触发前端错误提醒
+        //只需要执行删除程序即可
+        //修改用户的状态    1启用/0停用
+
+        $collection = $this->getCollection($id);
+
+        if ($collection->status === 1) {
+            $collection->status = 0;
+        } else {
+            $collection->status = 1;
+        }
+
+        //保存状态
+        $collection->save();
+
+        return 1;
+    }
+
+    /*
      * 批量修改状态
      */
     public function allStatus($ids)
     {
-
         $ids = array_unique(explode(',', $ids));    //拼接成数组
 
         foreach ($ids as $k => $v) {
@@ -167,10 +192,10 @@ class BaseController extends Controller
         $ids_count = count($ids);   //去除数组中有0的元素,并且获取数组的长度
 
         $res = $this->model_class::whereIn('id', $ids)->get();
+
         $res_count = $this->model_class::whereIn('id', $ids)->get()->count();
         //如果2个总数相等，说明数据库中记录条数=传递过来的id总数
         if ($res_count !== $ids_count) {
-
             return false;   //操作失败
         }
 
@@ -183,7 +208,7 @@ class BaseController extends Controller
     }
 
     /*
-     * 搜索逻辑
+     * 搜索
      */
     public function searchStore(Request $request)
     {

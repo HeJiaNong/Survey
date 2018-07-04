@@ -2,18 +2,56 @@
 
 <body>
 <div class="x-body layui-anim layui-anim-up">
-    <form id="addForm" class="layui-form" action="{{ route('admin_branch_save') }}" method="post">
+    <form id="addForm" class="layui-form" action="@if(isset($dataset)) {{ route('admin_user_save',$dataset->id) }} @else {{ route('admin_user_save') }} @endif" method="post">
         {{ csrf_field() }}
-
+        @if(isset($dataset))
+            {{ method_field('PUT') }}
+        @endif
         <div class="layui-form-item">
             <label for="L_username" class="layui-form-label">
-                <span class="x-red">*</span>昵称
+                <span class="x-red">*</span>问卷昵称
             </label>
             <div class="layui-input-inline">
-                <input type="text" id="L_username" name="name" required="" lay-verify="nikename"
+                <input @if(isset($dataset)) value="{{ $dataset->name }}" @endif type="text" id="L_username" name="name" required="" lay-verify="nikename"
                        autocomplete="off" class="layui-input">
             </div>
         </div>
+        <div class="layui-form-item">
+            <label for="L_username" class="layui-form-label">
+                <span class="x-red">*</span>描述
+            </label>
+            <div class="layui-input-inline">
+                <input @if(isset($dataset)) value="{{ $dataset->describe }}" @endif type="text" id="L_username" name="name" required="" lay-verify="nikename"
+                       autocomplete="off" class="layui-input">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label for="L_username" class="layui-form-label">
+                <span class="x-red">*</span>选择班级
+            </label>
+            <div class="layui-input-inline">
+                <select name="branch_id" >
+                    @foreach($rows as $row)
+                        <option value="{{ $row->id }}" @if(isset($dataset)) @if($dataset->grade->id == $row->id) selected @endif @endif  >{{$row->name }}</option>
+                    @endforeach
+                </select>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label for="L_username" class="layui-form-label">
+                <span class="x-red">*</span>选择老师
+            </label>
+            <div class="layui-input-inline">
+                <select name="branch_id" >
+                    @foreach($rows as $row)
+                        <option value="{{ $row->id }}" @if(isset($dataset)) @if($dataset->teacher->id == $row->id) selected @endif @endif  >{{$row->teacher->name }}</option>
+                    @endforeach
+                </select>
+            </div>
+        </div>
+
 
         <div class="layui-form-item">
             <label for="L_repass" class="layui-form-label">

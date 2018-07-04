@@ -14,7 +14,7 @@
 </div>
 <div class="x-body">
     <div class="layui-row">
-        <form class="layui-form layui-col-md12 x-so" action="{{ route('admin_grade_search_post') }}" method="post">
+        <form class="layui-form layui-col-md12 x-so" action="{{ route('admin_word_search_post') }}" method="post">
             {{ csrf_field() }}
             <input @if(isset($start)) value="{{ $start }}"  @endif class="layui-input" autocomplete="off" placeholder="开始日" name="start" id="start">
             <input @if(isset($end)) value="{{ $end }}"  @endif class="layui-input" autocomplete="off" placeholder="截止日" name="end" id="end">
@@ -24,7 +24,7 @@
     </div>
     <xblock>
         <button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon"></i>批量停用</button>
-        <button class="layui-btn" onclick="x_admin_show('添加用户','{{ route('admin_grade_save') }}',600,400)"><i
+        <button class="layui-btn" onclick="x_admin_show('添加问卷','{{ route('admin_word_save') }}',600,400)"><i
                     class="layui-icon"></i>添加
         </button>
         <span class="x-right" style="line-height:40px">共有数据：{{ $dataset->total() }} 条</span>
@@ -37,10 +37,13 @@
                             class="layui-icon">&#xe605;</i></div>
             </th>
             <th>ID</th>
-            <th>班级名称</th>
-            <th>班级人数</th>
-            <th>老师</th>
+            <th>问卷名称</th>
+            <th>类型</th>
+            <th>描述</th>
+            <th>参与班级</th>
+            <th>参与人数</th>
             <th>创建时间</th>
+            <th>内容详情</th>
             <th>状态</th>
             <th>操作</th>
         </tr>
@@ -54,13 +57,19 @@
                 </td>
                 <td>{{ $data->id }}</td>
                 <td>{{ $data->name }}</td>
-                <td>{{ $data->count }}</td>
+                <td>{{ $data->category->name }}</td>
+                <td>{{ $data->describe }}</td>
                 <td>
-                    @foreach($data->teacher as $value)
-                        {{ $value->name }}
-                    @endforeach
+                    {{--{{ $data->distinct() }}--}}
+                @foreach($data->grade as $value)
+                    {{ $value->name }}<br>
+                @endforeach
                 </td>
+
+                <td>{{ $data->grade()->count() }}</td>
+
                 <td>{{ $data->created_at }}</td>
+                <td><button class="layui-btn " onclick="x_admin_show('内容详情','{{ route('admin_word_save') }}')" >点击查看</button></td>
                 <td class="td-status">
                     @if($data->status === 1)
                         <span class="layui-btn layui-btn-normal layui-btn-mini">已启用</span>
@@ -70,18 +79,18 @@
                 </td>
                 <td class="td-manage">
                     @if($data->status == 1)
-                        <a onclick="member_stop(this,'{{ route('admin_grade_status_get',$data->id) }}')" href="javascript:;" title="停用">
+                        <a onclick="member_stop(this,'{{ route('admin_word_status_get',$data->id) }}')" href="javascript:;" title="停用">
                             <i class="layui-icon">&#xe601;</i>
                         </a>
                     @else
-                        <a onclick="member_stop(this,'{{ route('admin_grade_status_get',$data->id) }}')" href="javascript:;" title="启用">
+                        <a onclick="member_stop(this,'{{ route('admin_word_status_get',$data->id) }}')" href="javascript:;" title="启用">
                             <i class="layui-icon">&#xe62f;</i>
                         </a>
                     @endif
-                    <a title="编辑" onclick="x_admin_show('编辑','{{ route('admin_grade_save',$data->id) }}',600,400)" href="javascript:;">
+                    <a title="编辑" onclick="x_admin_show('编辑','{{ route('admin_word_save',$data->id) }}',600,400)" href="javascript:;">
                         <i class="layui-icon">&#xe642;</i>
                     </a>
-                    <a title="删除" onclick="member_del(this,'{{ route('admin_grade_del',$data->id) }}')" href="javascript:;">
+                    <a title="删除" onclick="member_del(this,'{{ route('admin_word_del',$data->id) }}')" href="javascript:;">
                         <i class="layui-icon"></i>
                     </a>
                 </td>
@@ -188,7 +197,7 @@
                 $.ajax({
                     async: true,    //异步
                     type: "get",
-                    url: "http://www.survey.test/admin/grade/status_bulk/"+data,
+                    url: "http://www.survey.test/admin/word/status_bulk/"+data,
                     traditional: true,
                     // data:id,
                     dataType: "json",

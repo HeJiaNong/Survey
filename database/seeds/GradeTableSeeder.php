@@ -23,7 +23,6 @@ class GradeTableSeeder extends Seeder
         $user->name = '15三年软件2';
         $user->count = 30;
         $user->status = true;
-        $user->teacher_id = 1;
         //保存数据
         $user->save();
     }

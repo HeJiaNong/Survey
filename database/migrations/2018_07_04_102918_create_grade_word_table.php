@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateWordsTable extends Migration
+class CreateGradeWordTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,11 @@ class CreateWordsTable extends Migration
      */
     public function up()
     {
-        Schema::create('words', function (Blueprint $table) {
+        Schema::create('grade_word', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name')->comment('问卷名');
-            $table->string('describe')->comment('描述');
-            $table->integer('category_id')->unsigned()->comment('问卷类型');
-            $table->boolean('status')->default(true)->comment('1启用，0停用');
+            $table->integer('word_id')->unsigned()->comment('问卷id');
+            $table->integer('grade_id')->unsigned()->comment('班级id');
+//            $table->integer('count')->unsigned()->default(0)->comment('人数');
             $table->timestamps();
         });
     }
@@ -30,6 +29,6 @@ class CreateWordsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('words');
+        Schema::dropIfExists('grade_word');
     }
 }

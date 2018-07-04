@@ -144,15 +144,15 @@
         <h1>问卷调查</h1>
     </div>
     <form data-student-src="/index/student/index.html" data-teacher-src="/index/teacher/index.html" data-staff-src="/index/staff/index.html" data-comp-src="/index/comp/index.html">
-
         <div class="select-list">
             <label class="select-election" data-level="1">
                 查询方式：
                 <!--这个name被我使用js控制,请不要修改-->
                 <select id="select-type" name="type" class="per">
-                    <option value="0" disabled="" selected="">--请选择入口--</option>
-                    <option value="3">学生综合满意度调查</option>
-                    <option value="2">教师授课满意度调查</option>
+                    <option value="0">请选择</option>
+                    @foreach($word as $k)
+                        <option value="{{ $k->id }}">{{ $k->name }}</option>
+                    @endforeach
                 </select>
             </label>
             <label class="select-election select-class hidden" data-level="2">
@@ -160,52 +160,9 @@
                 <!--这个name被我使用js控制,请不要修改-->
                 <select name="class" class="class_selected">
                     <option value="0" disabled="" selected="">--请选择班级--</option>
-                    <option value="46">17三年艺术1</option>
-                    <option value="45">17三年动漫2</option>
-                    <option value="44">184D动漫游戏设计师1</option>
-                    <option value="43">16三年游戏动漫2</option>
-                    <option value="42">17UI设计1</option>
-                    <option value="41">18艺术设计师1</option>
-                    <option value="40">17互联网1</option>
-                    <option value="39">16三年艺术3</option>
-                    <option value="38">17艺术4</option>
-                    <option value="37">18VR1</option>
-                    <option value="36">17三年动漫1</option>
-                    <option value="35">17网络技术1</option>
-                    <option value="34">17中专互联网应用2</option>
-                    <option value="33">18大数据1</option>
-                    <option value="32">16三年艺术1</option>
-                    <option value="31">17云计算软件1</option>
-                    <option value="30">17DT2</option>
-                    <option value="29">17艺术1,2</option>
-                    <option value="28">17DT1</option>
-                    <option value="27">18跨境电商1</option>
-                    <option value="26">17云电商2</option>
-                    <option value="25">17软件1</option>
-                    <option value="24">16三年软件2</option>
-                    <option value="23">18云开发1</option>
-                    <option value="22">17VR2</option>
-                    <option value="21">17VR1</option>
-                    <option value="20">17三年软件4</option>
-                    <option value="19">17三年软件3</option>
-                    <option value="18">17三年软件1</option>
-                    <option value="17">17三年软件2</option>
-                    <option value="16">16三年动漫1</option>
-                    <option value="15">18人工智能1</option>
-                    <option value="14">18移动APP1</option>
-                    <option value="13">17艺术3</option>
-                    <option value="12">17软件3</option>
-                    <option value="11">17软件2</option>
-                    <option value="10">17创客1</option>
-                    <option value="9">17三年DT1,2</option>
-                    <option value="8">16三年软件3</option>
-                    <option value="7">16三年DT1</option>
-                    <option value="6">17智能家居设计1</option>
-                    <option value="5">18计算机应用1</option>
-                    <option value="4">17三年艺术2</option>
-                    <option value="3">16三年艺术2</option>
-                    <option value="2">18UI1</option>
-                    <option value="1">16三年软件1</option>
+                    @foreach($grade as $v)
+                        <option value="{{ $v->id }}">{{ $v->name }}</option>
+                    @endforeach
                 </select>
             </label>
             <label class="select-election select-teacher hidden" data-level="3">
@@ -219,22 +176,26 @@
         <div class="submit">
             <button type="submit">进入</button>
         </div>
+        <input type="submit" value="进入">
     </form>
 </main>
 <footer>
     <div>版权所有©四川新华电脑学院满意度调查系统 </div>
     <div>技术支持：陈雪冬 卿舒心 学生:程锟,王金火</div>
 </footer>
-<script src="./满意度调查_files/jquery.min.js.下载"></script>
+<script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
 <script type="text/javascript">
 
 
 
 
     var form = document.forms[0];
+    //选择方式时触发
     document.querySelector("#select-type").addEventListener("change",function () {
         var list =document.querySelectorAll(".select-teacher,.select-class");
-        if(this.value==="1" || this.value==="2" || this.value==="3"){
+        //判断选择的id
+        console.log(this.value);
+        if(this.value != 0){
             list.forEach(function (e) {
                 e.classList.remove('hidden');
             })
@@ -244,6 +205,7 @@
             })
         }
     });
+
     /**
      * 提交之后检查是否已经选择
      */
@@ -271,18 +233,21 @@
         formdata.forEach(function (value,key) {
             data[key]=value;
         });
+
+        location = '{{ route('word') }}'+'/'+data['type']+'/'+data['class']+'/'+data['teacher'];
         /*
              根据请求的方式,跳转到不同的页面
          */
-        if(data['type']==="1"){
-            location = form.getAttribute('data-student-src')+'?type='+data['type']+'&class='+data['class']+'&teacher='+data['teacher'];
-        }else  if(data['type']==="2"){
-            location = form.getAttribute('data-teacher-src')+'?type='+data['type']+'&class='+data['class']+'&teacher='+data['teacher'];
-        }else  if(data['type']==="3"){
-            location = form.getAttribute('data-comp-src')+'?type='+data['type']+'&class='+data['class']+'&teacher='+data['teacher'];
-        }else{
-            location = form.getAttribute('data-staff-src')+'?type='+data['type'];
-        }
+        // if(data['type']==="1"){
+        //     location = form.getAttribute('data-student-src')+'?type='+data['type']+'&class='+data['class']+'&teacher='+data['teacher'];
+        // }else  if(data['type']==="2"){
+        //     location = form.getAttribute('data-teacher-src')+'?type='+data['type']+'&class='+data['class']+'&teacher='+data['teacher'];
+        // }else  if(data['type']==="3"){
+        //     location = form.getAttribute('data-comp-src')+'?type='+data['type']+'&class='+data['class']+'&teacher='+data['teacher'];
+        // }else{
+        //     location = form.getAttribute('data-staff-src')+'?type='+data['type'];
+        // }
+
     })
 
 </script>
@@ -291,13 +256,37 @@
     $(".class_selected").change(function(){
         var id = $(".class_selected").val();
         var per = $(".per").val();
-        //$(".teacher_name").text("数据请求中，请稍后...");
-        $.post('/index/index/teacher_local_select.html',{id:id,per_id:per},function (data,status) {
-            $('.teacher_name').empty();
-            $.each(data, function(key, val) {
-                $('.teacher_name').append('<option value="'+val.id+'">'+val.name+'</option>');
-            });
+        var url = '{{ route('home') }}'+'/teacher/'+id;
+        // $(".teacher_name").text("数据请求中，请稍后...");
+        // $.post('/index/index/teacher_local_select.html',{id:id,per_id:per},function (data,status) {
+        //     $('.teacher_name').empty();
+        //     $.each(data, function(key, val) {
+        //         $('.teacher_name').append('<option value="'+val.id+'">'+val.name+'</option>');
+        //     });
+        // });
+
+        console.log(url);
+        $.ajax({
+            async: true,    //异步
+            type: "GET",
+            url: url,
+            traditional: true,
+            // data:id,
+            dataType: "json",
+            cache: true,
+            //服务器返回执行操作的状态
+            success: function(data) {
+                $('.teacher_name').empty();
+                $.each(data, function(key, val) {
+                    $('.teacher_name').append('<option value="'+key+'">'+val+'</option>');
+                });
+            },
+            error:function (data) {
+                console.log('操作失败!');
+            }
         });
+
+
     });
     /*   $(".class_selected").change(function(){
            var id = $(".class_selected").val();

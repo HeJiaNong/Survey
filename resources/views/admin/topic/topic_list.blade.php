@@ -14,7 +14,7 @@
 </div>
 <div class="x-body">
     <div class="layui-row">
-        <form class="layui-form layui-col-md12 x-so" action="{{ route('admin_grade_search_post') }}" method="post">
+        <form class="layui-form layui-col-md12 x-so" action="{{ route('admin_branch_search_post') }}" method="post">
             {{ csrf_field() }}
             <input @if(isset($start)) value="{{ $start }}"  @endif class="layui-input" autocomplete="off" placeholder="开始日" name="start" id="start">
             <input @if(isset($end)) value="{{ $end }}"  @endif class="layui-input" autocomplete="off" placeholder="截止日" name="end" id="end">
@@ -24,7 +24,7 @@
     </div>
     <xblock>
         <button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon"></i>批量停用</button>
-        <button class="layui-btn" onclick="x_admin_show('添加用户','{{ route('admin_grade_save') }}',600,400)"><i
+        <button class="layui-btn" onclick="x_admin_show('添加用户','{{ route('admin_branch_save') }}',600,400)"><i
                     class="layui-icon"></i>添加
         </button>
         <span class="x-right" style="line-height:40px">共有数据：{{ $dataset->total() }} 条</span>
@@ -37,9 +37,8 @@
                             class="layui-icon">&#xe605;</i></div>
             </th>
             <th>ID</th>
-            <th>班级名称</th>
-            <th>班级人数</th>
-            <th>老师</th>
+            <th>部门名称</th>
+            <th>问卷类型</th>
             <th>创建时间</th>
             <th>状态</th>
             <th>操作</th>
@@ -54,12 +53,7 @@
                 </td>
                 <td>{{ $data->id }}</td>
                 <td>{{ $data->name }}</td>
-                <td>{{ $data->count }}</td>
-                <td>
-                    @foreach($data->teacher as $value)
-                        {{ $value->name }}
-                    @endforeach
-                </td>
+                <td>{{ $data->category->name }}</td>
                 <td>{{ $data->created_at }}</td>
                 <td class="td-status">
                     @if($data->status === 1)
@@ -70,18 +64,18 @@
                 </td>
                 <td class="td-manage">
                     @if($data->status == 1)
-                        <a onclick="member_stop(this,'{{ route('admin_grade_status_get',$data->id) }}')" href="javascript:;" title="停用">
+                        <a onclick="member_stop(this,'{{ route('admin_branch_status_get',$data->id) }}')" href="javascript:;" title="停用">
                             <i class="layui-icon">&#xe601;</i>
                         </a>
                     @else
-                        <a onclick="member_stop(this,'{{ route('admin_grade_status_get',$data->id) }}')" href="javascript:;" title="启用">
+                        <a onclick="member_stop(this,'{{ route('admin_branch_status_get',$data->id) }}')" href="javascript:;" title="启用">
                             <i class="layui-icon">&#xe62f;</i>
                         </a>
                     @endif
-                    <a title="编辑" onclick="x_admin_show('编辑','{{ route('admin_grade_save',$data->id) }}',600,400)" href="javascript:;">
+                    <a title="编辑" onclick="x_admin_show('编辑','{{ route('admin_branch_save',$data->id) }}',600,400)" href="javascript:;">
                         <i class="layui-icon">&#xe642;</i>
                     </a>
-                    <a title="删除" onclick="member_del(this,'{{ route('admin_grade_del',$data->id) }}')" href="javascript:;">
+                    <a title="删除" onclick="member_del(this,'{{ route('admin_branch_del',$data->id) }}')" href="javascript:;">
                         <i class="layui-icon"></i>
                     </a>
                 </td>
@@ -188,7 +182,7 @@
                 $.ajax({
                     async: true,    //异步
                     type: "get",
-                    url: "http://www.survey.test/admin/grade/status_bulk/"+data,
+                    url: "http://www.survey.test/admin/branch/status_bulk/"+data,
                     traditional: true,
                     // data:id,
                     dataType: "json",

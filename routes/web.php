@@ -20,6 +20,12 @@ use Illuminate\Support\Facades\Route;
 Route::prefix('/')->namespace('Home')->group( function () {
     //Home页
     Route::get('/', 'HomeController@index')->name('home');
+    //返回老师列表
+    Route::get('/teacher/{id}','HomeController@getTeacher')->name('get_teacher');
+    //问卷页
+    Route::get('/word/{wordId?}/{classId?}/{teacherId?}','HomeController@word')->name('word');
+    //提交文件
+    Route::post('/word','HomeController@wordStroe')->name('word_store');
 });
 
 
@@ -40,9 +46,9 @@ Route::prefix('admin')->namespace('Admin')->group( function () {
     Route::middleware(['auth'])->get('/desktop', 'AdminController@desktop')->name('admin_desktop');
     //用户管理模块
     Route::middleware(['auth'])->prefix('user')->group(function () {
-        //会员列表
+        //列表
         Route::get('/', 'UserController@index')->name('admin_user_list_get');
-        //会员列表-添加/修改
+        //添加/修改
         Route::match(['GET','POST','PUT'],'/save/{id?}', 'UserController@save')->name('admin_user_save');
         //修改用户状态逻辑
         Route::get('/status/{id}', 'UserController@status')->name('admin_user_status_get');
@@ -66,16 +72,14 @@ Route::prefix('admin')->namespace('Admin')->group( function () {
     Route::middleware(['auth'])->prefix('teacher')->group(function (){
         //列表页面
         Route::get('/','TeacherController@index')->name('admin_teacher_list_get');
-        //编辑
-        Route::match(['GET','PUT'],'/edit/{id}', 'TeacherController@edit')->name('admin_teacher_edit');
+        //添加/修改
+        Route::match(['GET','POST','PUT'],'/save/{id?}', 'TeacherController@save')->name('admin_teacher_save');
         //修改状态
         Route::get('/status/{id}', 'TeacherController@status')->name('admin_teacher_status_get');
         //批量修改状态
         Route::get('/status_bulk/{ids}', 'TeacherController@allStatus')->name('admin_teachers_status_get');
         //删除逻辑
         Route::get('/del/{id}','TeacherController@del')->name('admin_teacher_del');
-        //添加
-        Route::match(['GET','POST'],'/save', 'TeacherController@save')->name('admin_teacher_save');
         //搜索逻辑
         Route::match(['GET','POST'],'/search', 'TeacherController@searchStore')->name('admin_teacher_search_post');
     });
@@ -84,16 +88,14 @@ Route::prefix('admin')->namespace('Admin')->group( function () {
     Route::middleware(['auth'])->prefix('branch')->group(function (){
         //部门列表
         Route::get('/','BranchController@index')->name('admin_branch_list_get');
+        //添加/修改
+        Route::match(['GET','POST','PUT'],'/save/{id?}', 'BranchController@save')->name('admin_branch_save');
         //修改状态
         Route::get('/status/{id}', 'BranchController@status')->name('admin_branch_status_get');
         //批量修改状态
         Route::get('/status_bulk/{ids}', 'BranchController@allStatus')->name('admin_branches_status_get');
-        //编辑页面/逻辑
-        Route::match(['GET','PUT'],'/edit/{id}', 'BranchController@edit')->name('admin_branch_edit');
         //删除逻辑
         Route::get('/del/{id}','BranchController@del')->name('admin_branch_del');
-        //添加页面/逻辑
-        Route::match(['GET','POST'],'/save', 'BranchController@save')->name('admin_branch_save');
         //搜索逻辑
         Route::match(['GET','POST'],'/search', 'BranchController@searchStore')->name('admin_branch_search_post');
     });
@@ -102,18 +104,64 @@ Route::prefix('admin')->namespace('Admin')->group( function () {
     Route::middleware(['auth'])->prefix('grade')->group(function (){
         //部门列表
         Route::get('/','GradeController@index')->name('admin_grade_list_get');
+        //添加/修改
+        Route::match(['GET','POST','PUT'],'/save/{id?}', 'GradeController@save')->name('admin_grade_save');
         //修改状态
         Route::get('/status/{id}', 'GradeController@status')->name('admin_grade_status_get');
         //批量修改状态
         Route::get('/status_bulk/{ids}', 'GradeController@allStatus')->name('admin_grades_status_get');
-        //编辑页面/逻辑
-        Route::match(['GET','PUT'],'/edit/{id}', 'GradeController@edit')->name('admin_grade_edit');
         //删除逻辑
         Route::get('/del/{id}','GradeController@del')->name('admin_grade_del');
-        //添加页面/逻辑
-        Route::match(['GET','POST'],'/save', 'GradeController@save')->name('admin_grade_save');
         //搜索逻辑
         Route::match(['GET','POST'],'/search', 'GradeController@searchStore')->name('admin_grade_search_post');
+    });
+
+    //问卷管理
+    Route::middleware(['auth'])->prefix('word')->group(function (){
+        //部门列表
+        Route::get('/','WordController@index')->name('admin_word_list_get');
+        //添加/修改
+        Route::match(['GET','POST','PUT'],'/save/{id?}', 'WordController@save')->name('admin_word_save');
+        //修改状态
+        Route::get('/status/{id}', 'WordController@status')->name('admin_word_status_get');
+        //批量修改状态
+        Route::get('/status_bulk/{ids}', 'WordController@allStatus')->name('admin_words_status_get');
+        //删除逻辑
+        Route::get('/del/{id}','WordController@del')->name('admin_word_del');
+        //搜索逻辑
+        Route::match(['GET','POST'],'/search', 'WordController@searchStore')->name('admin_word_search_post');
+    });
+
+    //问卷管理
+    Route::middleware(['auth'])->prefix('category')->group(function (){
+        //部门列表
+        Route::get('/','CategoryController@index')->name('admin_category_list_get');
+        //添加/修改
+        Route::match(['GET','POST','PUT'],'/save/{id?}', 'CategoryController@save')->name('admin_category_save');
+        //修改状态
+        Route::get('/status/{id}', 'CategoryController@status')->name('admin_category_status_get');
+        //批量修改状态
+        Route::get('/status_bulk/{ids}', 'CategoryController@allStatus')->name('admin_categorys_status_get');
+        //删除逻辑
+        Route::get('/del/{id}','CategoryController@del')->name('admin_category_del');
+            //搜索逻辑
+        Route::match(['GET','POST'],'/search', 'CategoryController@searchStore')->name('admin_category_search_post');
+    });
+
+    //题目列表
+    Route::middleware(['auth'])->prefix('topic')->group(function (){
+        //部门列表
+        Route::get('/','TopicController@index')->name('admin_topic_list_get');
+        //添加/修改
+        Route::match(['GET','POST','PUT'],'/save/{id?}', 'TopicController@save')->name('admin_topic_save');
+        //修改状态
+        Route::get('/status/{id}', 'TopicController@status')->name('admin_topic_status_get');
+        //批量修改状态
+        Route::get('/status_bulk/{ids}', 'TopicController@allStatus')->name('admin_topics_status_get');
+        //删除逻辑
+        Route::get('/del/{id}','TopicController@del')->name('admin_topic_del');
+        //搜索逻辑
+        Route::match(['GET','POST'],'/search', 'TopicController@searchStore')->name('admin_topic_search_post');
     });
 
 });

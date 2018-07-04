@@ -4,7 +4,7 @@
         <ul id="nav">
             <li>
                 <a href="javascript:;">
-                    <i class="iconfont">&#xe6b8;</i>
+                    <i class="iconfont">&#xe726;</i>
                     <cite>会员管理</cite>
                     <i class="iconfont nav_right">&#xe697;</i>
                 </a>
@@ -21,7 +21,7 @@
             </li>
             <li>
                 <a href="javascript:;">
-                    <i class="iconfont">&#xe723;</i>
+                    <i class="iconfont">&#xe6b8;</i>
                     <cite>老师管理</cite>
                     <i class="iconfont nav_right">&#xe697;</i>
                 </a>
@@ -36,7 +36,7 @@
             </li>
             <li>
                 <a href="javascript:;">
-                    <i class="iconfont">&#xe723;</i>
+                    <i class="iconfont">&#xe6ce;</i>
                     <cite>部门管理</cite>
                     <i class="iconfont nav_right">&#xe697;</i>
                 </a>
@@ -45,7 +45,6 @@
                         <a _href="{{ route('admin_branch_list_get') }}">
                             <i class="iconfont">&#xe6a7;</i>
                             <cite>部门列表</cite>
-
                         </a>
                     </li >
                 </ul>
@@ -69,14 +68,26 @@
             <li>
                 <a href="javascript:;">
                     <i class="iconfont">&#xe723;</i>
-                    <cite>分类管理</cite>
+                    <cite>问卷管理</cite>
                     <i class="iconfont nav_right">&#xe697;</i>
                 </a>
                 <ul class="sub-menu">
                     <li>
-                        <a _href="cate.html">
+                        <a _href="{{ route('admin_category_list_get') }}">
                             <i class="iconfont">&#xe6a7;</i>
-                            <cite>多级分类</cite>
+                            <cite>问卷分类</cite>
+                        </a>
+                    </li >
+                    <li>
+                        <a _href="{{ route('admin_word_list_get') }}">
+                            <i class="iconfont">&#xe6a7;</i>
+                            <cite>问卷列表</cite>
+                        </a>
+                    </li >
+                    <li>
+                        <a _href="{{ route('admin_topic_list_get') }}">
+                            <i class="iconfont">&#xe6a7;</i>
+                            <cite>题目列表</cite>
                         </a>
                     </li >
                 </ul>

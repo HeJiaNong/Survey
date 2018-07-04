@@ -37,9 +37,9 @@
                             class="layui-icon">&#xe605;</i></div>
             </th>
             <th>ID</th>
-            <th>用户名</th>
+            <th>老师姓名</th>
             <th>性别</th>
-            <th>手机</th>
+            <th>手机号码</th>
             <th>邮箱</th>
             <th>所属部门</th>
             <th>地址</th>
@@ -87,7 +87,7 @@
                         </a>
                         @break
                     @endswitch
-                    <a title="编辑" onclick="x_admin_show('编辑','{{ route('admin_teacher_edit',$data->id) }}',600,400)" href="javascript:;">
+                    <a title="编辑" onclick="x_admin_show('编辑','{{ route('admin_teacher_save',$data->id) }}',600,400)" href="javascript:;">
                         <i class="layui-icon">&#xe642;</i>
                     </a>
                     <a title="删除" onclick="member_del(this,'{{ route('admin_teacher_del',$data->id) }}')" href="javascript:;">

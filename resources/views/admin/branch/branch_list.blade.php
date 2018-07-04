@@ -70,7 +70,7 @@
                             <i class="layui-icon">&#xe62f;</i>
                         </a>
                     @endif
-                    <a title="编辑" onclick="x_admin_show('编辑','{{ route('admin_branch_edit',$data->id) }}',600,400)" href="javascript:;">
+                    <a title="编辑" onclick="x_admin_show('编辑','{{ route('admin_branch_save',$data->id) }}',600,400)" href="javascript:;">
                         <i class="layui-icon">&#xe642;</i>
                     </a>
                     <a title="删除" onclick="member_del(this,'{{ route('admin_branch_del',$data->id) }}')" href="javascript:;">

@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
-use App\Http\Controllers\Admin\Controller;
 use App\Models\Teacher;
 use App\Http\Controllers\Admin\BaseController;
 
@@ -12,7 +11,7 @@ class TeacherController extends BaseController
 
     protected $model_name = 'Teacher';
 
-    protected $interaction = 'Grade';
+    protected $interaction = 'Branch';
     /*
      * 钩子方法，主要用于子类继承之后修改参数
      */

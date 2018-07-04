@@ -182,6 +182,7 @@
     function delAll(argument) {
         //获取所有被选中的多选框
         var data = tableCheck.getData();
+        console.log(data);
         if (data.length == 0){
             // alert('666');
             layer.msg('未选择用户!', {icon:3, time: 1000});

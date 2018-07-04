@@ -25,7 +25,6 @@ class SessionController extends Controller
             'password' => 'required|min:6',
         ]);
 
-
         //has 判断是否有值，返回 true or false
         if(Auth::attempt($credentials,$request->has('remember'))){
             // 登录成功后的相关操作

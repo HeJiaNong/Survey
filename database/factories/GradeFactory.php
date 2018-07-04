@@ -16,7 +16,6 @@ $factory->define(\App\Models\Grade::class, function (Faker $faker) {
     return [
         'name' => $name,
         'count' => mt_rand(30,60),
-        'teacher_id' => mt_rand(1,20),
         'status' => true,
         'created_at' => $date_time,
         'updated_at' => $date_time,

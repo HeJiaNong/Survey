@@ -13,12 +13,14 @@ class Teacher extends Model
     //要隐藏的字段
     protected $hidden = [];
 
+
+
     /*
      * 一个老师关联一个部门
      */
     public function branch()
     {
-        return $this->belongsTo('App\Models\Branch');
+        return $this->belongsTo('App\Models\Branch')->withDefault();
     }
 
     /*
@@ -26,7 +28,7 @@ class Teacher extends Model
      */
     public function grade()
     {
-        return $this->hasMany('App\Models\Grade','teacher_id');
+        return $this->belongsToMany('App\Models\Grade');
     }
 
 }

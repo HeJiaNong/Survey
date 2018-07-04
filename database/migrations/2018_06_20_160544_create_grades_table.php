@@ -17,7 +17,6 @@ class CreateGradesTable extends Migration
             $table->increments('id');
             $table->string('name')->unique()->comment('班级名称');
             $table->integer('count')->unsugned()->comment('学生人数');
-            $table->integer('teacher_id')->unsigned()->comment('班主任');
             $table->boolean('status')->default(true)->comment('状态');
             $table->timestamps();
         });
