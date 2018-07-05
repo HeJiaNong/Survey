@@ -69,7 +69,7 @@ class HomeController extends Controller
      * 问卷提交
      */
     public function wordStroe(Request $request){
-        dd($request->toArray());
+        dump($request->toArray());
     }
 
 }

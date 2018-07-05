@@ -41,6 +41,11 @@ $app->singleton(
     App\Exceptions\Handler::class
 );
 
+//对于 Lumen 而言，在 bootstrap/app.php 中注册服务提供者：
+if (env('APP_DEBUG')) {
+    $app->register(Barryvdh\Debugbar\LumenServiceProvider::class);
+}
+
 /*
 |--------------------------------------------------------------------------
 | Return The Application
