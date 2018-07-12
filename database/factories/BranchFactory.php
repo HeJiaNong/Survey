@@ -14,7 +14,6 @@ $factory->define(\App\Models\Branch::class, function (Faker $faker) {
 
     return [
         'name' => $name,
-        'status' => true,
         'created_at' => $date_time,
         'updated_at' => $date_time,
     ];

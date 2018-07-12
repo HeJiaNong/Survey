@@ -7,7 +7,7 @@
  * @author   Taylor Otwell <taylor@laravel.com>
  */
 
-define('LARAVEL_START', microtime(true));
+define('LARAVEL_START', microtime(true));   //记录程序开始运行的时间
 
 /*
 |--------------------------------------------------------------------------
@@ -20,7 +20,7 @@ define('LARAVEL_START', microtime(true));
 | loading any of our classes later on. It feels great to relax.
 |
 */
-
+//composer自动加载类库，当调用类的时候会自动引入
 require __DIR__.'/../vendor/autoload.php';
 
 /*

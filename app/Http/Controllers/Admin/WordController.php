@@ -13,27 +13,20 @@ class WordController extends BaseController
 
     protected $interaction = 'Grade';
 
+    public function addPage(){
+        dd(2);
+    }
+
     /*
       * 公共列表展示页
       */
-    public function index()
-    {
-
-        $dataset = Word::with('grade')->paginate(10);  //分页
-
-
-
-//        dd($dataset);
-
-        $count = 0;
+//    public function index()
+//    {
 //
-//        foreach ($all->grade as $v){
-//            dump($v->name);
-//            ++$count;
-//        }
-
-        return view("admin." . $this->model_name . "." . $this->model_name . "_list", compact('dataset','count'));
-    }
+//        $dataset = Word::with('grade')->paginate(10);  //分页
+//
+//        return view("admin." . $this->model_name . "." . $this->model_name . "_list", compact('dataset'));
+//    }
 //
 //    /*
 //     * 添加页面渲染

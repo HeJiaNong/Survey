@@ -11,4 +11,9 @@ class Branch extends Model
     protected $table = 'branches';
 
 
+    public function teacher()
+    {
+        return $this->hasMany('App\Models\Teacher');
+    }
+
 }

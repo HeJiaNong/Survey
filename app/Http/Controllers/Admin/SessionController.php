@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -20,13 +21,13 @@ class SessionController extends Controller
      */
     public function login_store(Request $request){
         //数据验证
-        $credentials = $this->validate($request,[
+        $this->validate($request,[
             'email' => 'email',
             'password' => 'required|min:6',
         ]);
 
-        //has 判断是否有值，返回 true or false
-        if(Auth::attempt($credentials,$request->has('remember'))){
+        //只允许状态为1的用户登陆 has 判断是否有值，返回 true or false
+        if(Auth::attempt(array_merge(\request(['email','password']),['status' => 1]),$request->has('remember'))){
             // 登录成功后的相关操作
             session()->flash('success','欢迎回来!');
             //intended 该方法可将页面重定向到上一次请求尝试访问的页面上，并接收一个默认跳转地址参数，当上一次请求记录为空时，跳转到默认地址上。

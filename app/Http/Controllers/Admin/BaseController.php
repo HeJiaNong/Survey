@@ -9,6 +9,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Grade;
+use App\Models\Teacher;
 use Illuminate\Http\Request;
 
 class BaseController extends Controller
@@ -20,6 +22,8 @@ class BaseController extends Controller
     protected $model_class;     //App\Models\xxx
 
     protected $interaction;     //当前模型所关联的模型名
+
+    protected $relations;       //模型关联
 
     /*
      * 构造方法
@@ -53,23 +57,6 @@ class BaseController extends Controller
      */
     public function index()
     {
-        if ($this->model_name == 'Category'){
-            dump($this->model_name);
-
-            $a = $this->model_class::find(1)->topic;
-
-            foreach ($a as $v){
-                dump($v->name);
-            }
-
-            dump($a);
-        }elseif ($this->model_name == 'Topic'){
-            dump($this->model_name);
-
-            $a = $this->model_class::find(1)->category->name;
-
-            dump($a);
-        }
 
         $dataset = $this->model_class::paginate(10);  //分页
 
@@ -95,7 +82,7 @@ class BaseController extends Controller
      */
     public function save($id = '')
     {
-        //如果有id
+        //如果有id 编辑页面
         if (!empty($id)){
             if (request()->isMethod('PUT')) {
                 //todo 数据验证
@@ -113,14 +100,14 @@ class BaseController extends Controller
                 return 1;   //返回结果
 
             } else {
-                $this->getCollection = $this->getCollection($id);
 
-                $dataset = $this->getCollection;
+                $dataset = $this->getCollection($id);
 
                 $rows = [];
 
-                if (isset($this->interaction)){
-                    $rows = $this->interaction::all('id','name');
+                if ($this->relations !== null){
+                    //todo 这个模型关联的表名被写死
+                    $rows = $this->model_class::first()->branch->select('id','name')->where('status',1)->get();
                 }
 
                 return view("admin." . $this->model_name . "." . $this->model_name . "_save", compact('dataset','rows'));
@@ -131,21 +118,35 @@ class BaseController extends Controller
 
                 $field = array_intersect($this->model->getFillable(), array_keys(\request()->toArray()));   //得到最终将要加入数据库的字段
 
-                $prams = [];                            //要存入数据库的数据参数
+                foreach ($field as $v) {
+                    $this->model->$v = \request()->$v;        //循环赋值给数组
 
-                foreach ($field as $k => $v) {
-                    $prams[$v] = \request()->$v;        //循环赋值给数组
+                    //如果是新增用户，则需要加密密码
+                    if ($this->model_name == 'User'){
+                        if ($v == 'password'){
+                            $this->model->$v = bcrypt(\request()->$v);
+                        }
+                    }
                 }
 
-                $this->model_class::create($prams);     //将数组入库
+                $this->model->save();     //将数组入库
+
+                $this->model->teacher()->attach(\request('teacher_id'));
 
                 return 1;                               //返回成功信息
 
             } else {
                 $rows = [];
-                if (isset($this->interaction)){
-                    $rows = $this->interaction::all('id','name');
+
+                if ($this->relations !== null){
+                    //todo 这个模型关联的表名被写死
+                    if ($this->model_name == 'Teacher'){
+                        $rows = $this->model_class::first()->branch->select('id','name')->where('status',1)->get();
+                    }elseif ($this->model_name == 'Grade'){
+                        $rows = $this->model_class::first()->teacher[0]->select('id','name')->get();
+                    }
                 }
+
                 return view("admin." . $this->model_name . "." . $this->model_name . "_save",compact('rows'));   //返回视图
             }
         }

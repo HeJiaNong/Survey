@@ -48,17 +48,13 @@ Route::prefix('admin')->namespace('Admin')->group( function () {
     Route::middleware(['auth'])->prefix('user')->group(function () {
         //列表
         Route::get('/', 'UserController@index')->name('admin_user_list_get');
-        //添加/修改
+        //添加/编辑
         Route::match(['GET','POST','PUT'],'/save/{id?}', 'UserController@save')->name('admin_user_save');
         //修改用户状态逻辑
         Route::get('/status/{id}', 'UserController@status')->name('admin_user_status_get');
         //批量修改用户状态逻辑
         Route::get('/status_bulk/{ids}', 'UserController@allStatus')->name('admin_users_status_get');
-//        //用户编辑页面
-//        Route::get('/edit/{id}', 'UserController@edit')->name('admin_user_edit_get');
-//        //用户编辑逻辑
-//        Route::put('/edit/{id}', 'UserController@edit')->name('admin_user_edit_put');
-        //用户密码修改页面
+        //修改用户密码页面
         Route::get('/edit_passwd/{user}', 'UserController@edit_passwd_page')->name('admin_user_edit_passwd_get');
         //修改用户密码逻辑
         Route::put('/edit_passwd/{user}', 'UserController@edit_passwd_store')->name('admin_user_edit_passwd_put');
@@ -74,6 +70,12 @@ Route::prefix('admin')->namespace('Admin')->group( function () {
         Route::get('/','TeacherController@index')->name('admin_teacher_list_get');
         //添加/修改
         Route::match(['GET','POST','PUT'],'/save/{id?}', 'TeacherController@save')->name('admin_teacher_save');
+
+        Route::get('add','TeacherController@addPage')->name('admin_teacher_addPage_get');      //添加页
+        Route::post('add','TeacherController@addStore')->name('admin_teacher_addStore_post');    //添加逻辑
+        Route::get('edit/{teacher}','TeacherController@editPage')->name('admin_teacher_editPage_get');    //编辑页
+        Route::put('edit/{teacher}','TeacherController@editStore')->name('admin_teacher_editStore_put');   //编辑逻辑
+
         //修改状态
         Route::get('/status/{id}', 'TeacherController@status')->name('admin_teacher_status_get');
         //批量修改状态
@@ -88,8 +90,15 @@ Route::prefix('admin')->namespace('Admin')->group( function () {
     Route::middleware(['auth'])->prefix('branch')->group(function (){
         //部门列表
         Route::get('/','BranchController@index')->name('admin_branch_list_get');
+
         //添加/修改
         Route::match(['GET','POST','PUT'],'/save/{id?}', 'BranchController@save')->name('admin_branch_save');
+
+        //添加部门
+        Route::post('/add','BranchController@add')->name('admin_branch_add');
+        //删除部门
+        Route::get('/del/{branch}','BranchController@del')->name('admin_branch_del');
+
         //修改状态
         Route::get('/status/{id}', 'BranchController@status')->name('admin_branch_status_get');
         //批量修改状态
@@ -106,6 +115,12 @@ Route::prefix('admin')->namespace('Admin')->group( function () {
         Route::get('/','GradeController@index')->name('admin_grade_list_get');
         //添加/修改
         Route::match(['GET','POST','PUT'],'/save/{id?}', 'GradeController@save')->name('admin_grade_save');
+
+        Route::get('add','GradeController@addPage')->name('admin_grade_addPage_get');      //添加页
+        Route::post('add','GradeController@addStore')->name('admin_grade_addStore_post');    //添加逻辑
+        Route::get('edit/{grade}','GradeController@editPage')->name('admin_grade_editPage_get');    //编辑页
+        Route::put('edit/{grade}','GradeController@editStore')->name('admin_grade_editStore_put');   //编辑逻辑
+
         //修改状态
         Route::get('/status/{id}', 'GradeController@status')->name('admin_grade_status_get');
         //批量修改状态
@@ -130,6 +145,10 @@ Route::prefix('admin')->namespace('Admin')->group( function () {
         Route::get('/del/{id}','WordController@del')->name('admin_word_del');
         //搜索逻辑
         Route::match(['GET','POST'],'/search', 'WordController@searchStore')->name('admin_word_search_post');
+
+        //发布问卷
+        Route::get('add','WordController@addPage')->name('admin_word_addPage');
+
     });
 
     //问卷管理

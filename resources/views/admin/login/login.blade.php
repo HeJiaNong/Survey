@@ -1,7 +1,9 @@
-@include('admin.layouts._meta')
 
-<body class="login-bg">
-    
+@extends('admin.layouts.default')
+
+@section('content')
+    <body class="login-bg">
+
     <div class="login layui-anim layui-anim-up">
         <div class="message">Survey管理登录</div>
         <div id="darkbannerwrap"></div>
@@ -9,7 +11,7 @@
         @include('admin.shared._messages')
 
         @include('admin.shared._errors')
-        
+
         <form method="post" class="layui-form" action="{{ route('admin_login_store') }}">
             {{ csrf_field() }}
             <input name="email" autocomplete="off" placeholder="邮箱"  type="text" lay-verify="required" class="layui-input" >
@@ -27,17 +29,17 @@
     <script>
         $(function  () {
             layui.use('form', function(){
-              var form = layui.form;
-              layer.msg("...", function(){
-                //关闭后的操作
+                var form = layui.form;
+                layer.msg("...", function(){
+                    //关闭后的操作
                 });
-              //监听提交
-              form.on('submit(login)', function(data){
-                layer.msg(JSON.stringify(data.field),function(){
-                    location.href='{{ route('admin_login_store') }}'
+                //监听提交
+                form.on('submit(login)', function(data){
+                    layer.msg(JSON.stringify(data.field),function(){
+                        location.href='{{ route('admin_login_store') }}'
+                    });
+                    return false;
                 });
-                return false;
-              });
             });
         })
     </script>
@@ -45,5 +47,7 @@
 
     <!-- 底部结束 -->
 
-</body>
-</html>
+    </body>
+@endsection
+
+

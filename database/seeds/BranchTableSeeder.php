@@ -21,7 +21,6 @@ class BranchTableSeeder extends Seeder
         //指定一条数据
         $user = Branch::find(1);
         $user->name = '软件部';
-        $user->status = 1;
         //保存数据
         $user->save();
     }

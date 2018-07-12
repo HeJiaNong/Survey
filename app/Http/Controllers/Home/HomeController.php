@@ -53,15 +53,15 @@ class HomeController extends Controller
 
         Word::find($wordId)->grade()->attach($classId); //添加访问记录
 
-        $topics = Word::find($wordId)->topic;
+        $topics = Word::find($wordId)->topic;   //获取题目列表
 
-        $teacherName = Teacher::find($teacherId)->name;
+        $teacherName = Teacher::find($teacherId)->name; //获取老师名字
 
-        $className = Grade::find($classId)->name;
+        $className = Grade::find($classId)->name;   //获取班级名称
 
-        $info = compact('teacherName','className');
+        $info = compact('teacherName','className'); //将班级/老师名称放入同一数组中
 
-        return view('home.word.index',compact('topics','info'));
+        return view('home.word.index',compact('topics','info'));    //模板渲染
 
     }
 

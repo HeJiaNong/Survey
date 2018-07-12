@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Grade extends Model
 {
-    protected $fillable = ['name','count','teacher_id','status'];
+    protected $fillable = ['name','count','status'];
 
     protected $table = 'grades';
 

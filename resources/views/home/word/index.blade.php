@@ -16,6 +16,8 @@
     </div>
     <form action="{{ route('word_store') }}" class="" method="post">
         {{ csrf_field() }}
+        <input type="hidden" name="teacherName" value="{{ $info['teacherName'] }}">
+        <input type="hidden" name="className" value="{{ $info['className'] }}">
         <div class="single-election">
             <h3 style="text-align: center;">班级：{{ $info['className'] }}&emsp;老师：{{ $info['teacherName'] }}</h3>
             <div id="select">
