@@ -1,7 +1,7 @@
 
 @extends('admin.layouts.default')
 
-@section('content')
+@section('body')
     <div class="x-body layui-anim layui-anim-up">
         <form id="addForm" class="layui-form" action="@if(isset($dataset)) {{ route('admin_teacher_save',$dataset->id) }} @else {{ route('admin_teacher_save') }} @endif" method="post">
             {{ csrf_field() }}

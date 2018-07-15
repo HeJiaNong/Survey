@@ -17,7 +17,7 @@ $factory->define(\App\Models\Teacher::class, function (Faker $faker) {
         'number' => $faker->phoneNumber,
         'addr' => $faker->city,
         'status' => true,
-        'branch_id' => mt_rand(1,4),
+        'branch_id' => mt_rand(1,3),
         'created_at' => $date_time,
         'updated_at' => $date_time,
     ];

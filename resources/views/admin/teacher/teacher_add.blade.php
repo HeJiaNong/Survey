@@ -1,5 +1,5 @@
 @extends('admin.layouts.default')
-@section('content')
+@section('body')
     <div class="x-body layui-anim layui-anim-up">
         <form id="addForm" class="layui-form" action=" {{ route('admin_teacher_addStore_post') }} "
               method="post">
@@ -141,14 +141,14 @@
                         });
                     },
                     error: function (data) {
-                        var msg = '';
-
-                        //将错误信息遍历出来,并且赋值到 msg
-                        for (var p in data.responseJSON.errors) { //遍历json对象的每个key/value对,p为key
-                            msg += p + " " + data.responseJSON.errors[p] + '<br />';
-                        }
-                        //弹出消息框
-                        layer.msg(msg, {icon: 5, time: 2000});
+                        // var msg = '';
+                        //
+                        // //将错误信息遍历出来,并且赋值到 msg
+                        // for (var p in data.responseJSON.errors) { //遍历json对象的每个key/value对,p为key
+                        //     msg += p + " " + data.responseJSON.errors[p] + '<br />';
+                        // }
+                        // //弹出消息框
+                        // layer.msg(msg, {icon: 5, time: 2000});
                     },
                 });
                 return false;

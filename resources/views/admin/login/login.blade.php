@@ -1,7 +1,7 @@
 
 @extends('admin.layouts.default')
 
-@section('content')
+@section('body')
     <body class="login-bg">
 
     <div class="login layui-anim layui-anim-up">

@@ -1,5 +1,5 @@
 @extends('admin.layouts.default')
-@section('content')
+@section('body')
     <div class="x-body layui-anim layui-anim-up">
         <form id="addForm" class="layui-form" action="{{ route('admin_grade_addStore_post') }}" method="post">
             {{ csrf_field() }}
@@ -24,7 +24,7 @@
 
                 <div class="layui-form-item">
                     <label for="L_username" class="layui-form-label">
-                        <span class="x-red">*</span>班主任
+                        <span class="x-red">*</span>老师
                     </label>
                     <div class="layui-input-inline">
                         <select name="teacher_id">

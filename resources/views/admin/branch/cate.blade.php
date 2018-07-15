@@ -1,7 +1,7 @@
 
 @extends('admin.layouts.default')
 
-@section('content')
+@section('body')
     <style>
             *{box-sizing:border-box;-moz-box-sizing:border-box;-webkit-box-sizing:border-box;}
             .contact-ul{margin-top:10px;font-size:14px;}
@@ -94,28 +94,24 @@
             layer.confirm("<h2>删除分组</h2>选定的部门将被删除，部门中的老师将会移至系统默认部门"+"\"@foreach($dataset as $data) @if(1 == $data->id) {{ $data->name }} @endif @endforeach\""+"</br>您确认要删除该部门吗?",function(index){
                 //发异步删除数据
                 $.ajax({
-                    type: 'get',
+                    async: true,    //异步
+                    type: "get",
                     url: url,
-                    dataType: 'json',
-                    success: function (data) {
-                        console.log(data);
-                        //移除div
-                        $(obj).parent().parent("div").remove();
-                        //弹出消息框
-                        layer.msg(data.msg,{icon:1,time:1000});
-                        //延时执行函数    延时1秒执行刷新页面
-                        setTimeout(function () {
-                            location.replace(location.href);
-                        }, 1000);
-
+                    traditional: true,
+                    // data:id,
+                    dataType: "json",
+                    cache: true,
+                    //服务器返回执行操作的状态
+                    success: function(status) {
+                        if (status === 1){
+                            $(obj).parents("tr").remove();
+                            layer.msg('已删除!', {icon: 1, time: 1000});
+                        }else {
+                            layer.msg('删除失败!', {icon:2, time: 1000});
+                        }
                     },
-                    error: function (data) {
-                        //弹出消息框
-                        layer.msg(data.responseJSON.msg,{icon:2,time:1000});
-                        //延时执行函数    延时1秒执行刷新页面
-                        setTimeout(function () {
-                            location.replace(location.href);
-                        }, 1000);
+                    error:function (data) {
+                        layer.msg('删除失败!', {icon:2, time: 1000});
                     }
                 });
 

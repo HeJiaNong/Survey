@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\Category;
 use App\Models\Questionnaire;
 use App\Models\Word;
 use Illuminate\Http\Request;
@@ -13,8 +14,52 @@ class WordController extends BaseController
 
     protected $interaction = 'Grade';
 
-    public function addPage(){
-        dd(2);
+    public function addPage(Word $word){
+
+        $rows = Word::with(['category','grade'])->get();
+
+        return view('admin.word.word_add',compact('rows'));
+    }
+
+    /*
+     * 问卷模板添加逻辑
+     */
+    public function addStore(Request $request,Word $word){
+        $this->validate($request,[
+            'name' => 'required|unique:words',
+            'describe' => 'required',
+            'grade_id' => 'required|integer',
+            'category_id' => 'required|integer',
+        ]);
+
+        $field = array_intersect($word->getFillable(), array_keys($request->toArray()));   //得到最终将要加入数据库的字段
+
+        foreach ($field as $v) {
+            $word->$v = \request()->$v;        //循环赋值给数组
+        }
+
+        $word->save();     //将数组入库
+
+        $word->grade()->attach($request->grade_id);   //添加关联关系
+
+        return ['msg' => '添加成功'];            //返回结果
+    }
+
+
+    /*
+     * 问卷展示页
+     */
+    public function show(Word $word){
+
+        return view('admin.word.word_show',compact('word'));
+        dd($id);
+    }
+
+    /*
+     * 编辑器
+     */
+    public function editor(Word $word){
+        return view('admin.word.editor',compact('word'));
     }
 
     /*
@@ -23,7 +68,7 @@ class WordController extends BaseController
 //    public function index()
 //    {
 //
-//        $dataset = Word::with('grade')->paginate(10);  //分页
+//        $rows = Word::with('grade')->paginate(10);  //分页
 //
 //        return view("admin." . $this->model_name . "." . $this->model_name . "_list", compact('dataset'));
 //    }

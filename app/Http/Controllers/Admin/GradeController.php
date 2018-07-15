@@ -24,8 +24,6 @@ class GradeController extends BaseController
 
         $dataset = Grade::with('teacher')->paginate(10);  //分页
 
-
-
         return view("admin.grade.grade_list", compact('dataset'));
     }
 
@@ -39,7 +37,6 @@ class GradeController extends BaseController
 
         $rows = Teacher::where('status',1)->select('id','name')->get();   //获取老师列表
 
-        dump($rows);
 
         return view("admin.grade.grade_add",compact('rows'));   //返回视图
     }

@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use App\Models\Topic;
 
 class TopicTableSeeder extends Seeder
 {
@@ -14,14 +15,8 @@ class TopicTableSeeder extends Seeder
         //生成数据
         //times 要生成记录的数量
         //make 生成数据
-        $users = factory(\App\Models\Topic::class)->times(3)->make();
-        \App\Models\Topic::insert($users->makeVisible(['password', 'remember_token'])->toArray());
+        $users = factory(Topic::class)->times(3)->make();
+        Topic::insert($users->toArray());
 
-//        //指定一条数据
-//        $user = \App\Models\Topic::find(1);
-//        $user->name = '软件部';
-//        $user->status = 1;
-//        //保存数据
-//        $user->save();
     }
 }

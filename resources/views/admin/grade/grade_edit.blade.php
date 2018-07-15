@@ -1,6 +1,6 @@
 @extends('admin.layouts.default')
 
-@section('content')
+@section('body')
     <div class="x-body layui-anim layui-anim-up">
     <form id="addForm" class="layui-form" action="{{ route('admin_grade_editStore_put',$grade->id) }}" method="post">
         {{ csrf_field() }}

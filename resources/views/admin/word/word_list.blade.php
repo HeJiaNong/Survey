@@ -1,7 +1,7 @@
 
 @extends('admin.layouts.default')
 
-@section('content')
+@section('body')
     <div class="x-nav">
       <span class="layui-breadcrumb">
         <a href="">首页</a>
@@ -28,7 +28,7 @@
         </div>
         <xblock>
             <button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon"></i>批量停用</button>
-            <button class="layui-btn" onclick="x_admin_show('添加问卷','{{ route('admin_word_save') }}',600,400)"><i
+            <button class="layui-btn" onclick="x_admin_show('添加问卷','{{ route('admin_word_addPage') }}',600,400)"><i
                         class="layui-icon"></i>添加
             </button>
             <span class="x-right" style="line-height:40px">共有数据：{{ $dataset->total() }} 条</span>
@@ -41,12 +41,12 @@
                                 class="layui-icon">&#xe605;</i></div>
                 </th>
                 <th>ID</th>
-                <th>问卷名称</th>
+                <th>模板名称</th>
                 <th>类型</th>
                 <th>描述</th>
-                <th>参与班级</th>
-                <th>参与人数</th>
-                <th>创建时间</th>
+                <th>允许班级</th>
+                {{--<th>参与人数</th>--}}
+                <th>更新时间</th>
                 <th>内容详情</th>
                 <th>状态</th>
                 <th>操作</th>
@@ -65,46 +65,65 @@
                     <td>{{ $data->category->name }}</td>
                     <td>{{ $data->describe }}</td>
                     <td>
-                        {{-- 返回值不重复 --}}
-                        @foreach($data->grade->unique() as $value)
-                            {{ $value->name }}<br>
-                        @endforeach
+                    {{-- 返回值不重复 --}}
+                    @foreach($data->grade->unique() as $value)
+                        {{ $value->name }}<br>
+                    @endforeach
                     </td>
 
-                    <td>{{ $data->grade()->count() }}</td> {{-- 参与人数 --}}
+                    {{--<td>{{ $data->grade()->count() }}</td> --}}{{-- 参与人数 --}}
 
-                    <td>{{ $data->created_at }}</td>
+                    <td>{{ $data->updated_at }}</td>
                     <td>
-                        <button class="layui-btn " onclick="x_admin_show('内容详情','{{ route('admin_word_save') }}')">点击查看
-                        </button>
+                        @if(!empty($data->content))
+                            <button class="layui-btn layui-btn layui-btn-xs" onclick="x_admin_show('问卷详情/测试','{{ route('admin_word_show',$data->id) }}')">
+                                <i class="iconfont">&#xe6e6;&nbsp;</i>点击查看详情
+                            </button>
+                            @if($data->status == 1)
+                            &nbsp;
+                            <a href="javascript:;"><i class="iconfont" title="复制链接" >&#xe6c0;</i></a>
+                            &nbsp;
+                            <a href="javascript:;"><i class="iconfont" title="查看二维码" >&#xe6ec;</i></a>
+                            @endif
+                        @else
+                            <button class="layui-btn layui-btn-warm layui-btn-xs" onclick="x_admin_show('发布试题','{{ route('admin_word_editor',$data->id) }}')">
+                                <i class="iconfont">&#xe69e;&nbsp;</i>编辑问卷内容
+                            </button>
+
+                        @endif
                     </td>
                     <td class="td-status">
                         @if($data->status === 1)
-                            <span class="layui-btn layui-btn-normal layui-btn-mini">已启用</span>
+                            <span class="layui-btn layui-btn-normal layui-btn-mini">已发布</span>
                         @else
-                            <span class="layui-btn layui-btn-normal layui-btn-mini layui-btn-disabled">已停用</span>
+                            <span class="layui-btn layui-btn-normal layui-btn-mini layui-btn-disabled">未发布</span>
                         @endif
                     </td>
                     <td class="td-manage">
                         @if($data->status == 1)
                             <a onclick="member_stop(this,'{{ route('admin_word_status_get',$data->id) }}')"
-                               href="javascript:;" title="停用">
+                               href="javascript:;" title="下架">
                                 <i class="layui-icon">&#xe601;</i>
                             </a>
                         @else
                             <a onclick="member_stop(this,'{{ route('admin_word_status_get',$data->id) }}')"
-                               href="javascript:;" title="启用">
+                               href="javascript:;" title="发布">
                                 <i class="layui-icon">&#xe62f;</i>
                             </a>
                         @endif
-                        <a title="编辑" onclick="x_admin_show('编辑','{{ route('admin_word_save',$data->id) }}',600,400)"
-                           href="javascript:;">
-                            <i class="layui-icon">&#xe642;</i>
-                        </a>
-                        <a title="删除" onclick="member_del(this,'{{ route('admin_word_del',$data->id) }}')"
-                           href="javascript:;">
-                            <i class="layui-icon"></i>
-                        </a>
+                        @if($data->status == 0)
+                            <a title="编辑" onclick="x_admin_show('编辑','{{ route('admin_word_save',$data->id) }}',600,400)"
+                               href="javascript:;">
+                                <i class="layui-icon">&#xe642;</i>
+                            </a>
+                            <a title="删除" onclick="member_del(this,'{{ route('admin_word_del',$data->id) }}')"
+                               href="javascript:;">
+                                <i class="layui-icon"></i>
+                            </a>
+                        @endif
+
+
+
                     </td>
                 </tr>
 
@@ -146,18 +165,18 @@
                     cache: true,
                     //服务器返回执行操作的状态
                     success: function (status) {
-                        if ($(obj).attr('title') === '启用') {
-                            $(obj).attr('title', '停用');
+                        if ($(obj).attr('title') === '发布') {
+                            $(obj).attr('title', '下架');
                             $(obj).find('i').html('&#xe601;');
 
-                            $(obj).parents("tr").find(".td-status").find('span').removeClass('layui-btn-disabled').html('已启用');
-                            layer.msg('已启用!', {icon: 6, time: 1000});
+                            $(obj).parents("tr").find(".td-status").find('span').removeClass('layui-btn-disabled').html('已发布');
+                            layer.msg('已发布!', {icon: 6, time: 1000});
                         } else {
-                            $(obj).attr('title', '启用');
+                            $(obj).attr('title', '发布');
                             $(obj).find('i').html('&#xe62f;');
 
-                            $(obj).parents("tr").find(".td-status").find('span').addClass('layui-btn-disabled').html('已停用');
-                            layer.msg('已停用!', {icon: 6, time: 1000});
+                            $(obj).parents("tr").find(".td-status").find('span').addClass('layui-btn-disabled').html('已下架');
+                            layer.msg('已下架!', {icon: 6, time: 1000});
                         }
                     },
                     error: function (data) {

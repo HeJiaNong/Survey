@@ -16,7 +16,41 @@ $factory->define(\App\Models\Word::class, function (Faker $faker) {
     return [
         'name' => $name,
         'describe' => substr($faker->text,0,10),
-        'category_id' => mt_rand(1,5),
+        'category_id' => mt_rand(1,4),
+        'content' => '{
+    questions: [
+        {
+            name: "name",
+            type: "text",
+            title: "Please enter your name:",
+            placeHolder: "Jon Snow",
+            isRequired: true
+        }, {
+            name: "birthdate",
+            type: "text",
+            inputType: "date",
+            title: "Your birthdate:",
+            isRequired: true
+        }, {
+            name: "color",
+            type: "text",
+            inputType: "color",
+            title: "Your favorite color:"
+        }, {
+            name: "email",
+            type: "text",
+            inputType: "email",
+            title: "Your e-mail:",
+            placeHolder: "jon.snow@nightwatch.org",
+            isRequired: true,
+            validators: [
+                {
+                    type: "email"
+                }
+            ]
+        }
+    ]
+}',
         'status' => true,
         'created_at' => $date_time,
         'updated_at' => $date_time,

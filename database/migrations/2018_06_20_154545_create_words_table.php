@@ -15,10 +15,11 @@ class CreateWordsTable extends Migration
     {
         Schema::create('words', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name')->comment('问卷名');
-            $table->string('describe')->comment('描述');
+            $table->string('name')->comment('问卷模板名称');
             $table->integer('category_id')->unsigned()->comment('问卷类型');
-            $table->boolean('status')->default(true)->comment('1启用，0停用');
+            $table->string('describe')->nullable()->comment('描述');
+            $table->text('content')->nullable()->comment('问卷内容');
+            $table->boolean('status')->default(true)->comment('状态：1启用，0停用');
             $table->timestamps();
         });
     }

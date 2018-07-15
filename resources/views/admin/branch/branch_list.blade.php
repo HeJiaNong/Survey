@@ -1,6 +1,6 @@
 
 @extends('admin.layouts.default')
-@section('content')
+@section('body')
     <div class="x-nav">
       <span class="layui-breadcrumb">
         <a href="">首页</a>
@@ -23,8 +23,8 @@
             </form>
         </div>
         <xblock>
-            <button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon"></i>批量停用</button>
-            <button class="layui-btn" onclick="x_admin_show('添加用户','{{ route('admin_branch_save') }}',600,400)"><i
+            <button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon"></i>批量删除</button>
+            <button class="layui-btn" onclick="x_admin_show('添加用户','{{ route('admin_branch_addPage') }}',600,400)"><i
                         class="layui-icon"></i>添加
             </button>
             <span class="x-right" style="line-height:40px">共有数据：{{ $dataset->total() }} 条</span>
@@ -39,7 +39,6 @@
                 <th>ID</th>
                 <th>部门名称</th>
                 <th>创建时间</th>
-                <th>状态</th>
                 <th>操作</th>
             </tr>
             </thead>
@@ -47,35 +46,24 @@
             @foreach($dataset as $data)
                 <tr>
                     <td>
-                        <div class="layui-unselect layui-form-checkbox" lay-skin="primary" data-id={{ $data->id }}><i
-                                    class="layui-icon">&#xe605;</i></div>
+                        @if(1 !== $data->id)
+                        <div class="layui-unselect layui-form-checkbox" lay-skin="primary" data-id={{ $data->id }}>
+                            <i class="layui-icon">&#xe605;</i>
+                        </div>
+                        @endif
                     </td>
                     <td>{{ $data->id }}</td>
                     <td>{{ $data->name }}</td>
                     <td>{{ $data->created_at }}</td>
-                    <td class="td-status">
-                        @if($data->status === 1)
-                            <span class="layui-btn layui-btn-normal layui-btn-mini">已启用</span>
-                        @else
-                            <span class="layui-btn layui-btn-normal layui-btn-mini layui-btn-disabled">已停用</span>
-                        @endif
-                    </td>
-                    <td class="td-manage">
-                        @if($data->status == 1)
-                            <a onclick="member_stop(this,'{{ route('admin_branch_status_get',$data->id) }}')" href="javascript:;" title="停用">
-                                <i class="layui-icon">&#xe601;</i>
-                            </a>
-                        @else
-                            <a onclick="member_stop(this,'{{ route('admin_branch_status_get',$data->id) }}')" href="javascript:;" title="启用">
-                                <i class="layui-icon">&#xe62f;</i>
-                            </a>
-                        @endif
-                        <a title="编辑" onclick="x_admin_show('编辑','{{ route('admin_branch_save',$data->id) }}',600,400)" href="javascript:;">
+                    <td class="td-manage"   >
+                        <a title="编辑" onclick="x_admin_show('编辑','{{ route('admin_branch_editStore',$data->id) }}',600,400)" href="javascript:;">
                             <i class="layui-icon">&#xe642;</i>
                         </a>
+                        @if(1 !== $data->id)
                         <a title="删除" onclick="member_del(this,'{{ route('admin_branch_del',$data->id) }}')" href="javascript:;">
                             <i class="layui-icon"></i>
                         </a>
+                        @endif
                     </td>
                 </tr>
 
@@ -103,45 +91,9 @@
             });
         });
 
-        /*修改用户状态*/
-        function member_stop(obj, url) {
-            layer.confirm('确认要'+$(obj).attr('title')+'吗？', function (index) {
-                //发异步把用户状态进行更改
-                $.ajax({
-                    async: true,    //异步
-                    type: "GET",
-                    url: url,
-                    traditional: true,
-                    // data:id,
-                    dataType: "json",
-                    cache: true,
-                    //服务器返回执行操作的状态
-                    success: function(status) {
-                        if ($(obj).attr('title') === '启用') {
-                            $(obj).attr('title', '停用');
-                            $(obj).find('i').html('&#xe601;');
-
-                            $(obj).parents("tr").find(".td-status").find('span').removeClass('layui-btn-disabled').html('已启用');
-                            layer.msg('已启用!', {icon: 6, time: 1000});
-                        }else {
-                            $(obj).attr('title', '启用');
-                            $(obj).find('i').html('&#xe62f;');
-
-                            $(obj).parents("tr").find(".td-status").find('span').addClass('layui-btn-disabled').html('已停用');
-                            layer.msg('已停用!', {icon: 6, time: 1000});
-                        }
-                    },
-                    error:function (data) {
-                        layer.msg('操作失败!', {icon:5, time: 1000});
-                    }
-                });
-            });
-        }
-
-
         /*用户-删除*/
         function member_del(obj, url) {
-            layer.confirm('确认要删除吗？', function (index) {
+            layer.confirm("<h2>删除分组</h2>选定的部门将被删除，部门中的老师将会移至系统默认部门"+"\"@foreach($dataset as $data) @if(1 == $data->id) {{ $data->name }} @endif @endforeach\""+"</br>您确认要删除该部门吗?", function (index) {
                 //发异步删除数据
                 $.ajax({
                     async: true,    //异步
@@ -152,13 +104,9 @@
                     dataType: "json",
                     cache: true,
                     //服务器返回执行操作的状态
-                    success: function(status) {
-                        if (status === 1){
-                            $(obj).parents("tr").remove();
-                            layer.msg('已删除!', {icon: 1, time: 1000});
-                        }else {
-                            layer.msg('删除失败!', {icon:2, time: 1000});
-                        }
+                    success: function(data) {
+                    $(obj).parents("tr").remove();
+                    layer.msg(data.msg, {icon: 1, time: 1000});
                     },
                     error:function (data) {
                         layer.msg('删除失败!', {icon:2, time: 1000});
@@ -173,9 +121,9 @@
             var data = tableCheck.getData();
             if (data.length == 0){
                 // alert('666');
-                layer.msg('未选择用户!', {icon:3, time: 1000});
+                layer.msg('未选择部门', {icon:3, time: 1000});
             }else {
-                layer.confirm('确认要停用' + data + '吗？', function (index) {
+                layer.confirm('确认要删除ID为：' + data + '&nbsp的部门吗？', function (index) {
                     //捉到所有被选中的发异步进行删除，
                     $.ajax({
                         async: true,    //异步

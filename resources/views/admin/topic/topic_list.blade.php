@@ -1,7 +1,7 @@
 
 @extends('admin.layouts.default')
 
-@section('content')
+@section('body')
     <div class="x-nav">
       <span class="layui-breadcrumb">
         <a href="">首页</a>

@@ -2,7 +2,7 @@
 
 @extends('admin.layouts.default')
 
-@section('content')
+@section('body')
     <!-- 顶部开始 -->
     <div class="container">
         <div class="logo"><a href="{{ route('admin') }}">Survey 后台管理</a></div>
@@ -114,13 +114,13 @@
                         <li>
                             <a _href="{{ route('admin_word_list_get') }}">
                                 <i class="iconfont">&#xe6a7;</i>
-                                <cite>问卷列表</cite>
+                                <cite>问卷模板</cite>
                             </a>
                         </li >
                         <li>
                             <a _href="{{ route('admin_topic_list_get') }}">
                                 <i class="iconfont">&#xe6a7;</i>
-                                <cite>题目列表</cite>
+                                <cite>答卷详情</cite>
                             </a>
                         </li >
                     </ul>

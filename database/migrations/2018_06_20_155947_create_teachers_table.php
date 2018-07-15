@@ -23,7 +23,7 @@ class CreateTeachersTable extends Migration
             $table->string('addr')->nullable()->comment('地址');
             $table->integer('order')->unsigned()->default(0)->comment('排序');
             $table->boolean('status')->default(true)->comment('状态/0停用/1启用');
-            $table->integer('branch_id')->unsigned()->comment('所属部门');
+            $table->integer('branch_id')->default(1)->unsigned()->comment('所属部门');
             $table->timestamps();
         });
     }

@@ -15,16 +15,22 @@ class TeachersTableSeeder extends Seeder
         //生成数据
         //times 要生成记录的数量
         //make 生成数据
-        $users = factory(Teacher::class)->times(50)->make();
-        Teacher::insert($users->makeVisible(['password', 'remember_token'])->toArray());
+        $teachers = factory(Teacher::class)->times(50)->make();
+
+        Teacher::insert($teachers->toArray());
+
+        //赋值多对多关联
+        foreach (Teacher::all() as $teacher){
+            $teacher->grade()->attach(mt_rand(1,20));
+        }
 
         //指定一条数据
-        $user = Teacher::find(1);
-        $user->name = '冬哥';
-        $user->sex = '男';
-        $user->status = true;
-        $user->branch_id = 1;
+        $teacher = Teacher::find(1);
+        $teacher->name = '冬哥';
+        $teacher->sex = '男';
+        $teacher->status = true;
+        $teacher->branch_id = 1;
         //保存数据
-        $user->save();
+        $teacher->save();
     }
 }

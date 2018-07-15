@@ -1,5 +1,5 @@
 @extends('admin.layouts.default')
-@section('content')
+@section('body')
     <style>
         *{box-sizing:border-box;-moz-box-sizing:border-box;-webkit-box-sizing:border-box;}
         .contact-ul{margin-top:10px;font-size:14px;}

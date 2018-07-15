@@ -94,17 +94,18 @@ Route::prefix('admin')->namespace('Admin')->group( function () {
         //添加/修改
         Route::match(['GET','POST','PUT'],'/save/{id?}', 'BranchController@save')->name('admin_branch_save');
 
-        //添加部门
-        Route::post('/add','BranchController@add')->name('admin_branch_add');
+        //添加页面
+        Route::get('/add','BranchController@addPage')->name('admin_branch_addPage');
+        //添加逻辑
+        Route::post('/add','BranchController@addStore')->name('admin_branch_addStore');
+        //编辑页面
+        Route::get('/edit/{branch}','BranchController@editPage')->name('admin_branch_editPage');
+        //编辑逻辑
+        Route::put('/edit/{branch}','BranchController@editStore')->name('admin_branch_editStore');
+
         //删除部门
         Route::get('/del/{branch}','BranchController@del')->name('admin_branch_del');
 
-        //修改状态
-        Route::get('/status/{id}', 'BranchController@status')->name('admin_branch_status_get');
-        //批量修改状态
-        Route::get('/status_bulk/{ids}', 'BranchController@allStatus')->name('admin_branches_status_get');
-        //删除逻辑
-        Route::get('/del/{id}','BranchController@del')->name('admin_branch_del');
         //搜索逻辑
         Route::match(['GET','POST'],'/search', 'BranchController@searchStore')->name('admin_branch_search_post');
     });
@@ -131,7 +132,7 @@ Route::prefix('admin')->namespace('Admin')->group( function () {
         Route::match(['GET','POST'],'/search', 'GradeController@searchStore')->name('admin_grade_search_post');
     });
 
-    //问卷管理
+    //问卷模板管理
     Route::middleware(['auth'])->prefix('word')->group(function (){
         //部门列表
         Route::get('/','WordController@index')->name('admin_word_list_get');
@@ -147,11 +148,19 @@ Route::prefix('admin')->namespace('Admin')->group( function () {
         Route::match(['GET','POST'],'/search', 'WordController@searchStore')->name('admin_word_search_post');
 
         //发布问卷
-        Route::get('add','WordController@addPage')->name('admin_word_addPage');
+        Route::get('/add','WordController@addPage')->name('admin_word_addPage');
+        //发布逻辑
+        Route::post('/add','WordController@addStore')->name('admin_word_addStore');
+
+        //问卷详情页
+        Route::get('/show/{word}','WordController@show')->name('admin_word_show');
+
+        //问卷编辑器页
+        Route::get('/editor/{word}','WordController@editor')->name('admin_word_editor');
 
     });
 
-    //问卷管理
+    //问卷分类
     Route::middleware(['auth'])->prefix('category')->group(function (){
         //部门列表
         Route::get('/','CategoryController@index')->name('admin_category_list_get');
@@ -163,7 +172,7 @@ Route::prefix('admin')->namespace('Admin')->group( function () {
         Route::get('/status_bulk/{ids}', 'CategoryController@allStatus')->name('admin_categorys_status_get');
         //删除逻辑
         Route::get('/del/{id}','CategoryController@del')->name('admin_category_del');
-            //搜索逻辑
+        //搜索逻辑
         Route::match(['GET','POST'],'/search', 'CategoryController@searchStore')->name('admin_category_search_post');
     });
 

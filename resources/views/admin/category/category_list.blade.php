@@ -1,7 +1,7 @@
 
 @extends('admin.layouts.default')
 
-@section('content')
+@section('body')
     <div class="x-nav">
       <span class="layui-breadcrumb">
         <a href="">首页</a>
@@ -62,15 +62,6 @@
                     {{--@endif--}}
                     {{--</td>--}}
                     <td class="td-manage">
-                        @if($data->status == 1)
-                            <a onclick="member_stop(this,'{{ route('admin_branch_status_get',$data->id) }}')" href="javascript:;" title="停用">
-                                <i class="layui-icon">&#xe601;</i>
-                            </a>
-                        @else
-                            <a onclick="member_stop(this,'{{ route('admin_branch_status_get',$data->id) }}')" href="javascript:;" title="启用">
-                                <i class="layui-icon">&#xe62f;</i>
-                            </a>
-                        @endif
                         <a title="编辑" onclick="x_admin_show('编辑','{{ route('admin_branch_save',$data->id) }}',600,400)" href="javascript:;">
                             <i class="layui-icon">&#xe642;</i>
                         </a>

@@ -1,6 +1,6 @@
 @extends('admin.layouts.default')
 
-@section('content')
+@section('body')
     <div class="x-body">
         <form id="passwdFrom" class="layui-form" action="{{ route('admin_user_edit_passwd_put',$user->id) }}" method="post">
             {{ csrf_field() }}

@@ -16,7 +16,7 @@ class GradeTableSeeder extends Seeder
         //times 要生成记录的数量
         //make 生成数据
         $users = factory(Grade::class)->times(20)->make();
-        Grade::insert($users->makeVisible(['password', 'remember_token'])->toArray());
+        Grade::insert($users->toArray());
 
         //指定一条数据
         $user = Grade::find(1);

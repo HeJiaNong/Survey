@@ -2,7 +2,7 @@
 
 @extends('admin.layouts.default')
 
-@section('content')
+@section('body')
     <div class="x-body layui-anim layui-anim-up">
         <form id="addForm" class="layui-form" action=" {{ route('admin_teacher_editStore_put',$teacher->id) }} " method="post">
             {{ csrf_field() }}
