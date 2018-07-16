@@ -1,8 +1,11 @@
 @extends('admin.layouts.default')
 @section('body')
     <div class="x-body layui-anim layui-anim-up">
+
         <blockquote class="layui-elem-quote">欢迎管理员：
-            <span class="x-red">test</span>！当前时间:2018-04-25 20:50:53</blockquote>
+            <span class="x-red">test</span>！当前时间:2018-04-25 20:50:53
+        </blockquote>
+
         <fieldset class="layui-elem-field">
             <legend>数据统计</legend>
             <div class="layui-field-box">
@@ -62,6 +65,7 @@
                 </div>
             </div>
         </fieldset>
+
         <fieldset class="layui-elem-field">
             <legend>系统通知</legend>
             <div class="layui-field-box">
@@ -81,6 +85,7 @@
                 </table>
             </div>
         </fieldset>
+
         <fieldset class="layui-elem-field">
             <legend>系统信息</legend>
             <div class="layui-field-box">
@@ -123,6 +128,7 @@
                 </table>
             </div>
         </fieldset>
+
         <fieldset class="layui-elem-field">
             <legend>开发团队</legend>
             <div class="layui-field-box">
@@ -140,6 +146,10 @@
                 </table>
             </div>
         </fieldset>
-        <blockquote class="layui-elem-quote layui-quote-nm">感谢layui,百度Echarts,jquery,本系统由x-admin提供技术支持。</blockquote>
+
+        <blockquote class="layui-elem-quote layui-quote-nm">
+            感谢layui,百度Echarts,jquery,本系统由x-admin提供技术支持。
+        </blockquote>
+
     </div>
 @endsection

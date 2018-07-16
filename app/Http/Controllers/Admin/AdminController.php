@@ -28,6 +28,7 @@ class AdminController extends Controller
      * 桌面页
      */
     public function desktop(){
+        dump('hello');
         return view('admin.desktop.welcome');
     }
 

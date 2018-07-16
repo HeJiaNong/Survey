@@ -174,7 +174,7 @@ class BaseController extends Controller
         //保存状态
         $collection->save();
 
-        return 1;
+        return ['msg' => '操作成功!'];
     }
 
     /*

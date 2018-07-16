@@ -10,7 +10,7 @@ $factory->define(\App\Models\Branch::class, function (Faker $faker) {
      */
     $date_time = $faker->date . ' ' . $faker->time;
 
-    $name = array_random(['生活部','班主任','校长','教学主任','教务处','学生会','校团委','软件组','美工组']);
+    $name = array_random(['机房部','生活部','班主任','校长','教学主任','教务处','学生会','校团委','软件组','美工组']);
 
     return [
         'name' => $name,

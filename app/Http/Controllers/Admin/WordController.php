@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\Category;
-use App\Models\Questionnaire;
 use App\Models\Word;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
@@ -50,9 +49,7 @@ class WordController extends BaseController
      * 问卷展示页
      */
     public function show(Word $word){
-
         return view('admin.word.word_show',compact('word'));
-        dd($id);
     }
 
     /*
@@ -60,6 +57,23 @@ class WordController extends BaseController
      */
     public function editor(Word $word){
         return view('admin.word.editor',compact('word'));
+    }
+
+    /*
+     * 保存编辑问卷
+     */
+    public function saveEditor(Word $word,Request $request){
+
+        $field = array_intersect($word->getFillable(), array_keys(\request()->toArray()));   //得到可修改的字段
+
+        foreach ($field as $k => $v) {
+            $word->$v = \request()->$v;    //循环赋值
+        }
+
+        $word->save();    //保存至数据库
+
+        return ['msg' => '编辑成功'];            //返回结果
+
     }
 
     /*

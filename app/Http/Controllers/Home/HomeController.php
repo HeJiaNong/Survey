@@ -38,6 +38,7 @@ class HomeController extends Controller
             $arr[$value->id] = $value->name;
         }
 
+        dd($arr);
         return $arr;
 
     }

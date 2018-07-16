@@ -139,7 +139,7 @@ Route::prefix('admin')->namespace('Admin')->group( function () {
         //添加/修改
         Route::match(['GET','POST','PUT'],'/save/{id?}', 'WordController@save')->name('admin_word_save');
         //修改状态
-        Route::get('/status/{id}', 'WordController@status')->name('admin_word_status_get');
+        Route::get('/status/{id?}', 'WordController@status')->name('admin_word_status_get');
         //批量修改状态
         Route::get('/status_bulk/{ids}', 'WordController@allStatus')->name('admin_words_status_get');
         //删除逻辑
@@ -157,6 +157,12 @@ Route::prefix('admin')->namespace('Admin')->group( function () {
 
         //问卷编辑器页
         Route::get('/editor/{word}','WordController@editor')->name('admin_word_editor');
+
+        //保存问卷
+        Route::post('/save_editor/{word}','WordController@saveEditor')->name('admin_word_saveEditor');
+
+        //获取试题
+        Route::get('/get_survey/{word}','WordController@getSurvey')->name('admin_word_getSurvey');
 
     });
 

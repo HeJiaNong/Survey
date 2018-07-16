@@ -27,7 +27,7 @@
             </form>
         </div>
         <xblock>
-            <button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon"></i>批量停用</button>
+            <button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon"></i>批量下架</button>
             <button class="layui-btn" onclick="x_admin_show('添加问卷','{{ route('admin_word_addPage') }}',600,400)"><i
                         class="layui-icon"></i>添加
             </button>
@@ -37,15 +37,15 @@
             <thead>
             <tr>
                 <th>
-                    <div class="layui-unselect header layui-form-checkbox" lay-skin="primary"><i
-                                class="layui-icon">&#xe605;</i></div>
+                    <div class="layui-unselect header layui-form-checkbox" lay-skin="primary">
+                        <i class="layui-icon">&#xe605;</i>
+                    </div>
                 </th>
                 <th>ID</th>
                 <th>模板名称</th>
                 <th>类型</th>
                 <th>描述</th>
                 <th>允许班级</th>
-                {{--<th>参与人数</th>--}}
                 <th>更新时间</th>
                 <th>内容详情</th>
                 <th>状态</th>
@@ -74,56 +74,34 @@
                     {{--<td>{{ $data->grade()->count() }}</td> --}}{{-- 参与人数 --}}
 
                     <td>{{ $data->updated_at }}</td>
-                    <td>
+                    <td class="td-edit">
                         @if(!empty($data->content))
                             <button class="layui-btn layui-btn layui-btn-xs" onclick="x_admin_show('问卷详情/测试','{{ route('admin_word_show',$data->id) }}')">
                                 <i class="iconfont">&#xe6e6;&nbsp;</i>点击查看详情
                             </button>
-                            @if($data->status == 1)
-                            &nbsp;
-                            <a href="javascript:;"><i class="iconfont" title="复制链接" >&#xe6c0;</i></a>
-                            &nbsp;
-                            <a href="javascript:;"><i class="iconfont" title="查看二维码" >&#xe6ec;</i></a>
-                            @endif
-                        @else
-                            <button class="layui-btn layui-btn-warm layui-btn-xs" onclick="x_admin_show('发布试题','{{ route('admin_word_editor',$data->id) }}')">
-                                <i class="iconfont">&#xe69e;&nbsp;</i>编辑问卷内容
+                        @endif
+                            <button id="edit" class="layui-btn layui-btn-warm layui-btn-xs @if($data->status == 1) layui-btn-disabled @endif " @if($data->status == 0) onclick="x_admin_show('编辑问卷','{{ route('admin_word_editor',$data->id) }}')" @endif >
+                                <i class="iconfont">&#xe69e;&nbsp;</i>编辑
                             </button>
-
-                        @endif
+                            &nbsp;
+                            <a href="javascript:;" title="复制链接" onclick="alert('复制链接')">
+                                <i class="iconfont">&#xe6c0;</i>
+                            </a>
+                            &nbsp;
+                            <a href="javascript:;" title="查看二维码" onclick="alert('查看二维码')">
+                                <i class="iconfont"  >&#xe6ec;</i>
+                            </a>
                     </td>
-                    <td class="td-status">
-                        @if($data->status === 1)
-                            <span class="layui-btn layui-btn-normal layui-btn-mini">已发布</span>
-                        @else
-                            <span class="layui-btn layui-btn-normal layui-btn-mini layui-btn-disabled">未发布</span>
-                        @endif
+                    <td class="td-status layui-form">
+                        <input type="checkbox" lay-filter="switchStatus" name="switch" lay-skin="switch" lay-text="发布|下架" value="{{ $data->id }}" @if($data->status == 1) checked @endif  >
                     </td>
                     <td class="td-manage">
-                        @if($data->status == 1)
-                            <a onclick="member_stop(this,'{{ route('admin_word_status_get',$data->id) }}')"
-                               href="javascript:;" title="下架">
-                                <i class="layui-icon">&#xe601;</i>
-                            </a>
-                        @else
-                            <a onclick="member_stop(this,'{{ route('admin_word_status_get',$data->id) }}')"
-                               href="javascript:;" title="发布">
-                                <i class="layui-icon">&#xe62f;</i>
-                            </a>
-                        @endif
-                        @if($data->status == 0)
-                            <a title="编辑" onclick="x_admin_show('编辑','{{ route('admin_word_save',$data->id) }}',600,400)"
-                               href="javascript:;">
-                                <i class="layui-icon">&#xe642;</i>
-                            </a>
-                            <a title="删除" onclick="member_del(this,'{{ route('admin_word_del',$data->id) }}')"
-                               href="javascript:;">
-                                <i class="layui-icon"></i>
-                            </a>
-                        @endif
-
-
-
+                        <a id="edit2" href="javascript:;" title="编辑" @if($data->status == 0) onclick="x_admin_show('编辑','{{ route('admin_word_save',$data->id) }}',600,400)" @endif>
+                            <i class="layui-icon">&#xe642;</i>
+                        </a>
+                        <a id="del" href="javascript:;" title="删除" @if($data->status == 0) onclick="member_del(this,'{{ route('admin_word_del',$data->id) }}')" @endif>
+                            <i class="layui-icon"></i>
+                        </a>
                     </td>
                 </tr>
 
@@ -136,6 +114,10 @@
         </div>
 
     </div>
+
+@endsection
+
+@section('footer')
     <script>
         layui.use('laydate', function () {
             var laydate = layui.laydate;
@@ -150,41 +132,6 @@
                 elem: '#end' //指定元素
             });
         });
-
-        /*修改用户状态*/
-        function member_stop(obj, url) {
-            layer.confirm('确认要' + $(obj).attr('title') + '吗？', function (index) {
-                //发异步把用户状态进行更改
-                $.ajax({
-                    async: true,    //异步
-                    type: "GET",
-                    url: url,
-                    traditional: true,
-                    // data:id,
-                    dataType: "json",
-                    cache: true,
-                    //服务器返回执行操作的状态
-                    success: function (status) {
-                        if ($(obj).attr('title') === '发布') {
-                            $(obj).attr('title', '下架');
-                            $(obj).find('i').html('&#xe601;');
-
-                            $(obj).parents("tr").find(".td-status").find('span').removeClass('layui-btn-disabled').html('已发布');
-                            layer.msg('已发布!', {icon: 6, time: 1000});
-                        } else {
-                            $(obj).attr('title', '发布');
-                            $(obj).find('i').html('&#xe62f;');
-
-                            $(obj).parents("tr").find(".td-status").find('span').addClass('layui-btn-disabled').html('已下架');
-                            layer.msg('已下架!', {icon: 6, time: 1000});
-                        }
-                    },
-                    error: function (data) {
-                        layer.msg('操作失败!', {icon: 5, time: 1000});
-                    }
-                });
-            });
-        }
 
 
         /*用户-删除*/
@@ -215,7 +162,7 @@
             });
         }
 
-
+        /*批量操作*/
         function delAll(argument) {
             //获取所有被选中的多选框
             var data = tableCheck.getData();
@@ -246,7 +193,76 @@
             }
 
         }
+
+        /*修改问卷模板状态*/
+        $(function () {
+            layui.use('form',function () {
+                var form = layui.form;
+                form.on('switch(switchStatus)',function (obj) {
+                    var id = obj.value;    //获取id
+                    var url = '{{ route('admin_word_status_get') }}'+'/'+id;
+                    var checked = obj.elem.checked;
+
+                    $.ajax({
+                        async: true,    //异步
+                        type: "get",
+                        url: url,
+                        traditional: true,
+                        // data:id,
+                        dataType: "json",
+                        cache: true,
+                        //服务器返回执行操作的状态
+                        success: function (data) {
+                            if (checked === true){  //当发布时
+                                $(obj.othis[0]).parents("tr").find(".td-manage").find('#edit2').attr('onclick',"");    //修改编辑按钮的点击事件
+                                $(obj.othis[0]).parents("tr").find(".td-manage").find('#del').attr('onclick',"");    //修改编辑按钮的点击事件
+                                $(obj.othis[0]).parents("tr").find(".td-edit").find('#edit').addClass('layui-btn-disabled');    //修改编辑按钮的样式
+                                $(obj.othis[0]).parents("tr").find(".td-edit").find('#edit').attr('onclick','');    //修改编辑按钮的点击事件
+                            }else { //当下架时
+                                $(obj.othis[0]).parents("tr").find(".td-manage").find('#edit2').attr('onclick',"x_admin_show('编辑','{{ route('admin_word_save',$data->id) }}',600,400)");    //修改编辑按钮的点击事件
+                                $(obj.othis[0]).parents("tr").find(".td-manage").find('#del').attr('onclick',"member_del(this,'{{ route('admin_word_del',$data->id) }}')");    //修改编辑按钮的点击事件
+                                $(obj.othis[0]).parents("tr").find(".td-edit").find('#edit').removeClass('layui-btn-disabled');    //修改编辑按钮的样式
+                                $(obj.othis[0]).parents("tr").find(".td-edit").find('#edit').attr('onclick',"x_admin_show('编辑问卷','{{ route('admin_word_editor',$data->id) }}')"); //修改编辑按钮的点击事件
+                            }
+                            layer.msg(data.msg, {icon: 1, time: 1000});
+                        },
+                        error: function (data) {
+                            layer.msg('操作失败!', {icon: 2, time: 1000});
+                        }
+                    });
+                });
+            })
+        })
+
+
     </script>
 @endsection
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 

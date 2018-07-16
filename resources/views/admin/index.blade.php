@@ -37,7 +37,35 @@
     <!-- 左侧菜单开始 -->
     <div class="left-nav">
         <div id="side-nav">
+
             <ul id="nav">
+                <li>
+                    <a href="javascript:;">
+                        <i class="iconfont">&#xe723;</i>
+                        <cite>问卷管理</cite>
+                        <i class="iconfont nav_right">&#xe697;</i>
+                    </a>
+                    <ul class="sub-menu">
+                        <li>
+                            <a _href="{{ route('admin_category_list_get') }}">
+                                <i class="iconfont">&#xe6a7;</i>
+                                <cite>问卷分类</cite>
+                            </a>
+                        </li >
+                        <li>
+                            <a _href="{{ route('admin_word_list_get') }}">
+                                <i class="iconfont">&#xe6a7;</i>
+                                <cite>问卷模板</cite>
+                            </a>
+                        </li >
+                        <li>
+                            <a _href="{{ route('admin_topic_list_get') }}">
+                                <i class="iconfont">&#xe6a7;</i>
+                                <cite>答卷详情</cite>
+                            </a>
+                        </li >
+                    </ul>
+                </li>
                 <li>
                     <a href="javascript:;">
                         <i class="iconfont">&#xe726;</i>
@@ -92,39 +120,7 @@
                         </li >
                     </ul>
                 </li>
-                <li>
-                    <a href="javascript:;">
-                        <i class="iconfont">&#xe723;</i>
-                        <cite>问卷管理</cite>
-                        <i class="iconfont nav_right">&#xe697;</i>
-                    </a>
-                    <ul class="sub-menu">
-                        <li>
-                            <a _href="{{ route('admin_word_addPage') }}">
-                                <i class="iconfont">&#xe6a7;</i>
-                                <cite>发布问卷</cite>
-                            </a>
-                        </li >
-                        <li>
-                            <a _href="{{ route('admin_category_list_get') }}">
-                                <i class="iconfont">&#xe6a7;</i>
-                                <cite>问卷分类</cite>
-                            </a>
-                        </li >
-                        <li>
-                            <a _href="{{ route('admin_word_list_get') }}">
-                                <i class="iconfont">&#xe6a7;</i>
-                                <cite>问卷模板</cite>
-                            </a>
-                        </li >
-                        <li>
-                            <a _href="{{ route('admin_topic_list_get') }}">
-                                <i class="iconfont">&#xe6a7;</i>
-                                <cite>答卷详情</cite>
-                            </a>
-                        </li >
-                    </ul>
-                </li>
+
                 <li>
                     <a href="javascript:;">
                         <i class="iconfont">&#xe723;</i>
@@ -254,7 +250,7 @@
     <div class="page-content">
         <div class="layui-tab tab" lay-filter="xbs_tab" lay-allowclose="false">
             <ul class="layui-tab-title">
-                <li class="home"><i class="layui-icon">&#xe68e;</i>我的桌面</li>
+                <li class="home"><i class="layui-icon">&#xe68e;</i>问卷概况</li>
             </ul>
             <div class="layui-tab-content">
                 <div class="layui-tab-item layui-show">

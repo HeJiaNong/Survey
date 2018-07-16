@@ -51,7 +51,7 @@ $factory->define(\App\Models\Word::class, function (Faker $faker) {
         }
     ]
 }',
-        'status' => true,
+        'status' => false,
         'created_at' => $date_time,
         'updated_at' => $date_time,
     ];
