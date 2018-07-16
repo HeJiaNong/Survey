@@ -16,6 +16,7 @@
 
         @section('footer')
             <script type="text/javascript">
+
                 //本土化语言
                 SurveyEditor.editorLocalization.currentLocale = "zh-cn";
                 //编辑器主题 defaule bootstrap orange darkblue darkrose  stone winter winterstone
@@ -51,12 +52,21 @@
                                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')    //发送csrf_token
                             },
                             success: function(data) {
-                                console.log(data);
-                                alert('控制台已输出');
+                                layer.msg(data.msg, {icon: 1, time: 1000});
+                                setTimeout(function () {
+                                    // 获得frame索引
+                                    var index = parent.layer.getFrameIndex(window.name);
+                                    //关闭当前frame
+                                    parent.layer.close(index);
+                                }, 1000);
                             },
                             error:function (data) {
-
-                                alert('失败');
+                                layer.msg('操作失败', {icon: 1, time: 1000});
+                                setTimeout(function () {// 获得frame索引
+                                    var index = parent.layer.getFrameIndex(window.name);
+                                    //关闭当前frame
+                                    parent.layer.close(index);
+                                }, 1000);
                             }
                         });
                     });
