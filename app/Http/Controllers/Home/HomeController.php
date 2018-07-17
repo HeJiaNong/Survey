@@ -45,7 +45,6 @@ class HomeController extends Controller
         if ($word->status == 0){    //判断问卷状态是否发布
             return response()->view('errors.404_taikong',['msg' => '404'],404);   //返回404页面
         }
-
         //todo 更具不同的规则来返回是否需要填写问卷信息
         return view('home.word.word_show',compact('word'));
 
