@@ -16,8 +16,11 @@ class WordTableSeeder extends Seeder
         //times 要生成记录的数量
         //make 生成数据
         $users = factory(Word::class)->times(3)->make();
-
-
+        $i = 1;
+        foreach ($users as $user){
+            $user->qrcode = 'http://www.survey.test/static/qrcodes/'.$i.'.png';
+            $i++;
+        }
         Word::insert($users->toArray());
 
         //赋值多对多关联

@@ -33,7 +33,7 @@
             </button>
             <span class="x-right" style="line-height:40px">共有数据：{{ $dataset->total() }} 条</span>
         </xblock>
-        <table class="layui-table">
+        <table class="layui-table layui-form">
             <thead>
             <tr>
                 <th>
@@ -84,15 +84,16 @@
                                 <i class="iconfont">&#xe69e;&nbsp;</i>编辑
                             </button>
                             &nbsp;
-                            <a href="javascript:;" title="复制链接" onclick="alert('复制链接')">
+                            <a href="javascript:;" title="复制链接" onclick="copyURL('{{ route('home_wordShow',$data->id) }}')">
                                 <i class="iconfont">&#xe6c0;</i>
                             </a>
                             &nbsp;
-                            <a href="javascript:;" title="查看二维码" onclick="alert('查看二维码')">
+                            <a href="javascript:;" title="查看二维码" onclick="qrcode('{{ $data->qrcode }}')">
                                 <i class="iconfont"  >&#xe6ec;</i>
                             </a>
+
                     </td>
-                    <td class="td-status layui-form">
+                    <td class="td-status ">
                         <input type="checkbox" lay-filter="switchStatus" name="switch" lay-skin="switch" lay-text="发布|下架" value="{{ $data->id }}" @if($data->status == 1) checked @endif  >
                     </td>
                     <td class="td-manage">
@@ -132,6 +133,42 @@
                 elem: '#end' //指定元素
             });
         });
+
+        /*复制链接*/
+        function copyURL(url) {
+            var oInput = document.createElement('input');
+            oInput.value = url;
+            document.body.appendChild(oInput);
+            oInput.select(); // 选择对象
+            document.execCommand("Copy"); // 执行浏览器复制命令
+            oInput.className = 'oInput';
+            oInput.style.display='none';
+            layer.msg('复制URL成功!', {icon: 1, time: 1000});
+        }
+
+        /*查看二维码*/
+        function qrcode(url) {
+
+            var json = {
+                "title": "二维码", //相册标题
+                "id": url, //相册id
+                "start": 0, //初始显示的图片序号，默认0
+                "data": [   //相册包含的图片，数组格式
+                    {
+                        "alt": "二维码",
+                        "pid": url, //图片id
+                        "src": url, //原图地址
+                        "thumb": url //缩略图地址
+                    }
+                ]
+            };
+            //弹出层，弹出二维码图片
+            layer.photos({
+                photos: json
+                ,anim: 0 //0-6的选择，指定弹出图片动画类型，默认随机（请注意，3.0之前的版本用shift参数）
+            });
+
+        }
 
 
         /*用户-删除*/

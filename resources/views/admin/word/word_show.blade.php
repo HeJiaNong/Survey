@@ -12,15 +12,35 @@
         @endsection
 
         @section('footer')
-            <script type="text/javascript" >
+            <script>
+                //Example of adding new locale into the library.
+                var mycustomSurveyStrings = {
+                    pagePrevText: "My Page Prev",
+                    pageNextText: "My Page Next",
+                    completeText: "OK - Press to Complete"
+                };
+                Survey
+                    .surveyLocalization
+                    .locales["my"] = mycustomSurveyStrings;
+
+                //主题
+                Survey
+                    .StylesManager
+                    .applyTheme("default");
+
                 var json = {!! $word->content !!};
 
                 window.survey = new Survey.Model(json);
 
-                //完成问卷
-                survey.onComplete.add(function (result) {
-                        document.querySelector('#surveyResult').innerHTML = "result: " + JSON.stringify(result.data);
+                survey
+                    .onComplete
+                    .add(function (result) {
+                        document
+                            .querySelector('#surveyResult')
+                            .innerHTML = "result: " + JSON.stringify(result.data);
                     });
+                //本土化
+                survey.locale = 'zh-cn';
 
                 $("#surveyElement").Survey({model: survey});
             </script>

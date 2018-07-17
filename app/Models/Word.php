@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Word extends Model
 {
     //允许添加的字段
-    protected $fillable = ['name','describe','category_id','content','status'];
+    protected $fillable = ['name','describe','category_id','content','qrcode','status'];
 
 
     public function grade(){

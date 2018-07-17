@@ -20,6 +20,13 @@ use Illuminate\Support\Facades\Route;
 Route::prefix('/')->namespace('Home')->group( function () {
     //Home页
     Route::get('/', 'HomeController@index')->name('home');
+
+    //问卷基础信息填写页面
+    Route::get('/word_info','HomeController@wordInfo')->name('home_wordInfo');
+
+    Route::get('/word_show/{word}','HomeController@wordShow')->name('home_wordShow');
+
+    Route::get('/getGrade/{id}', 'HomeController@getGrade')->name('getGrade');
     //返回老师列表
     Route::get('/teacher/{id}','HomeController@getTeacher')->name('get_teacher');
     //问卷页
@@ -152,7 +159,7 @@ Route::prefix('admin')->namespace('Admin')->group( function () {
         //发布逻辑
         Route::post('/add','WordController@addStore')->name('admin_word_addStore');
 
-        //问卷详情页
+        //问卷测试页
         Route::get('/show/{word}','WordController@show')->name('admin_word_show');
 
         //问卷编辑器页

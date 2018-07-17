@@ -9,6 +9,7 @@ use App\Models\Teacher;
 use App\Models\Topic;
 use App\Models\Word;
 use Illuminate\Http\Request;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class HomeController extends Controller
 {
@@ -17,10 +18,56 @@ class HomeController extends Controller
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View 返回视图
      */
     public function index(){
-        $word = Word::all('id','name');
-        $grade = Grade::all('id','name');
+        return view('home.index',compact('word'));
+    }
 
-        return view('home.index',compact('word','grade'));
+    /*
+     * 问卷基础信息填写页面
+     */
+    public function wordInfo(){
+
+        $word = Word::with('grade')->get();
+
+        foreach ($word as $value){
+            foreach ($value->grade as $value){
+                dump($value->name);
+            }
+            break;
+        }
+
+        return view('home.word.word_info',compact('word'));
+    }
+
+    /*
+     * 问卷展示页面
+     */
+    public function wordShow(Word $word){
+        if ($word->status == 0){    //判断问卷状态是否发布
+            return response()->view('errors.404_taikong',['msg' => '404'],404);   //返回404页面
+        }
+
+        //todo 更具不同的规则来返回是否需要填写问卷信息
+        return view('home.word.word_show',compact('word'));
+
+    }
+
+    /**
+     * 通过班级获取对应老师
+     * @param $classId integer 班级id
+     * @return array 返回json数据
+     */
+    public function getGrade($classId){
+
+        $word = Word::with('grade')->find($classId);
+
+        $arr = [];
+
+        foreach ($word->grade as $value){
+            $arr[$value->id] = $value->name;
+        }
+
+        return json_encode($arr);
+
     }
 
     /**
@@ -38,8 +85,7 @@ class HomeController extends Controller
             $arr[$value->id] = $value->name;
         }
 
-        dd($arr);
-        return $arr;
+        return json_encode($arr);
 
     }
 

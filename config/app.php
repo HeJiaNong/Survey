@@ -135,7 +135,7 @@ return [
     | this array to grant expanded functionality to your applications.
     |
     */
-
+    //服务提供者
     'providers' => [
 
         /*
@@ -164,6 +164,7 @@ return [
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
         Barryvdh\Debugbar\ServiceProvider::class,   //Debug调试
+        SimpleSoftwareIO\QrCode\QrCodeServiceProvider::class, //Simple QrCode二维码
 
 
         /*
@@ -191,7 +192,7 @@ return [
     | the aliases are "lazy" loaded so they don't hinder performance.
     |
     */
-
+    //门面
     'aliases' => [
 
         'App' => Illuminate\Support\Facades\App::class,
@@ -228,6 +229,7 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
         'Debugbar' => Barryvdh\Debugbar\Facade::class,  //Debug门面
+        'QrCode' => SimpleSoftwareIO\QrCode\Facades\QrCode::class //Simple QrCode 二维码
 
     ],
 

@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Admin;
 use App\Models\Category;
 use App\Models\Word;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Validation\Rule;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class WordController extends BaseController
 {
@@ -37,6 +39,13 @@ class WordController extends BaseController
             $word->$v = \request()->$v;        //循环赋值给数组
         }
 
+        $word->save();     //将数组入库,这时候$word就有id,可以执行以下通过id生成二维码操作
+
+        //通过id生成二维码
+        QrCode::format('png')->size(200)->generate(route('home_wordShow',$word->id),public_path('static/qrcodes/'.$word->id.'.png'));
+
+        $word->qrcode = URL::asset('static/qrcodes/'.$word->id.'.png'); //赋值二维码地址
+
         $word->save();     //将数组入库
 
         $word->grade()->attach($request->grade_id);   //添加关联关系
@@ -46,9 +55,9 @@ class WordController extends BaseController
 
 
     /*
-     * 问卷展示页
+     * 问卷测试页
      */
-    public function show(Word $word){
+    public function show(Word $word,Request $request){
         return view('admin.word.word_show',compact('word'));
     }
 

@@ -22,7 +22,9 @@
                 //编辑器主题 defaule bootstrap orange darkblue darkrose  stone winter winterstone
                 SurveyEditor.StylesManager.applyTheme("defaule");
 
-                var editorOptions = {};
+                var editorOptions = {
+                    // questionTypes: ["text", "checkbox", "radiogroup", "dropdown","boolean"]
+                };
 
                 //生成编辑器
                 var editor = new SurveyEditor.SurveyEditor("editorElement", editorOptions);
