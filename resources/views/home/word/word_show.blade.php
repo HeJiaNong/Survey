@@ -59,9 +59,11 @@
         //主题
         Survey
             .StylesManager
-            .applyTheme("default");
+            .applyTheme("winter");
 
         var json = {!! $word->content !!};
+
+
 
         window.survey = new Survey.Model(json);
 
