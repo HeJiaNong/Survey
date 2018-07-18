@@ -35,6 +35,7 @@
     </style>
 </head>
 <body>
+<h2>{{ $exception->getMessage() }}</h2>
     <div id="svgContainer"></div>
 </body>
 <script>

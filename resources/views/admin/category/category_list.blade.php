@@ -25,7 +25,7 @@
         </div>
         <xblock>
             <button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon"></i>批量停用</button>
-            <button class="layui-btn" onclick="x_admin_show('添加用户','{{ route('admin_branch_save') }}',600,400)"><i
+            <button class="layui-btn" onclick="x_admin_show('添加问卷类型','{{ route('admin_category_save') }}',600,400)"><i
                         class="layui-icon"></i>添加
             </button>
             <span class="x-right" style="line-height:40px">共有数据：{{ $dataset->total() }} 条</span>
@@ -62,10 +62,10 @@
                     {{--@endif--}}
                     {{--</td>--}}
                     <td class="td-manage">
-                        <a title="编辑" onclick="x_admin_show('编辑','{{ route('admin_branch_save',$data->id) }}',600,400)" href="javascript:;">
+                        <a title="编辑" onclick="x_admin_show('编辑','{{ route('admin_category_save',$data->id) }}',600,400)" href="javascript:;">
                             <i class="layui-icon">&#xe642;</i>
                         </a>
-                        <a title="删除" onclick="member_del(this,'{{ route('admin_branch_del',$data->id) }}')" href="javascript:;">
+                        <a title="删除" onclick="member_del(this,'{{ route('admin_category_del',$data->id) }}')" href="javascript:;">
                             <i class="layui-icon"></i>
                         </a>
                     </td>
@@ -172,7 +172,7 @@
                     $.ajax({
                         async: true,    //异步
                         type: "get",
-                        url: "http://www.survey.test/admin/branch/status_bulk/"+data,
+                        url: "http://www.survey.test/admin/category/status_bulk/"+data,
                         traditional: true,
                         // data:id,
                         dataType: "json",

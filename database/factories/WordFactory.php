@@ -15,7 +15,7 @@ $factory->define(\App\Models\Word::class, function (Faker $faker) {
 
     return [
         'name' => $name,
-        'describe' => substr($faker->text,0,10),
+        'describe' => $faker->text,
         'category_id' => mt_rand(1,4),
         'content' => '{
     questions: [

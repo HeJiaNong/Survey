@@ -18,7 +18,7 @@ class WordTableSeeder extends Seeder
         $users = factory(Word::class)->times(3)->make();
         $i = 1;
         foreach ($users as $user){
-            $user->qrcode = 'http://www.survey.test/static/qrcodes/'.$i.'.png';
+            $user->qrcode = URL::asset('/static/qrcodes/').'/'.$i.'.png';
             $i++;
         }
         Word::insert($users->toArray());

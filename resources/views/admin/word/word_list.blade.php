@@ -61,7 +61,7 @@
                         </div>
                     </td>
                     <td>{{ $data->id }}</td>
-                    <td>{{ $data->name }}</td>
+                    <td><a target="_blank" href="{{ route('home_wordShow',$data->id) }}">{{ $data->name }}</a></td>
                     <td>{{ $data->category->name }}</td>
                     <td>{{ $data->describe }}</td>
                     <td>
@@ -80,7 +80,7 @@
                                 <i class="iconfont">&#xe6e6;&nbsp;</i>点击查看详情
                             </button>
                         @endif
-                            <button id="edit" class="layui-btn layui-btn-warm layui-btn-xs @if($data->status == 1) layui-btn-disabled @endif " @if($data->status == 0) onclick="x_admin_show('编辑问卷','{{ route('admin_word_editor',$data->id) }}')" @endif >
+                            <button id="edit" url="x_admin_show('编辑问卷','{{ route('admin_word_editor',$data->id) }}')" class="layui-btn layui-btn-warm layui-btn-xs @if($data->status == 1) layui-btn-disabled @endif " @if($data->status == 0) onclick="x_admin_show('编辑问卷','{{ route('admin_word_editor',$data->id) }}')" @endif >
                                 <i class="iconfont">&#xe69e;&nbsp;</i>编辑
                             </button>
                             &nbsp;
@@ -97,10 +97,10 @@
                         <input type="checkbox" lay-filter="switchStatus" name="switch" lay-skin="switch" lay-text="发布|下架" value="{{ $data->id }}" @if($data->status == 1) checked @endif  >
                     </td>
                     <td class="td-manage">
-                        <a id="edit2" href="javascript:;" title="编辑" @if($data->status == 0) onclick="x_admin_show('编辑','{{ route('admin_word_save',$data->id) }}',600,400)" @endif>
+                        <a id="edit2" url="x_admin_show('编辑','{{ route('admin_word_save',$data->id) }}',600,400)" href="javascript:;" title="编辑" @if($data->status == 0) onclick="x_admin_show('编辑','{{ route('admin_word_save',$data->id) }}',600,400)" @endif>
                             <i class="layui-icon">&#xe642;</i>
                         </a>
-                        <a id="del" href="javascript:;" title="删除" @if($data->status == 0) onclick="member_del(this,'{{ route('admin_word_del',$data->id) }}')" @endif>
+                        <a id="del" url="member_del(this,'{{ route('admin_word_del',$data->id) }}')" href="javascript:;" title="删除" @if($data->status == 0) onclick="member_del(this,'{{ route('admin_word_del',$data->id) }}')" @endif>
                             <i class="layui-icon"></i>
                         </a>
                     </td>
@@ -120,6 +120,50 @@
 
 @section('footer')
     <script>
+        /*修改问卷模板状态*/
+        $(function () {
+            layui.use('form',function () {
+                var form = layui.form;
+                form.on('switch(switchStatus)',function (obj) {
+                    var id = obj.value;    //获取id
+                    var url = '{{ route('admin_word_status_get') }}'+'/'+id;
+                    var checked = obj.elem.checked;
+
+                    $.ajax({
+                        async: true,    //异步
+                        type: "get",
+                        url: url,
+                        traditional: true,
+                        // data:id,
+                        dataType: "json",
+                        cache: true,
+                        //服务器返回执行操作的状态
+                        success: function (data) {
+                            var onclick = $(obj.othis[0]).parents("tr").find(".td-edit").find('#edit').attr('url');
+                            var onclick2 = $(obj.othis[0]).parents("tr").find(".td-manage").find('#edit2').attr('url');
+                            var del = $(obj.othis[0]).parents("tr").find(".td-manage").find('#del').attr('url');
+                            if (checked === true){  //当发布时
+                                $(obj.othis[0]).parents("tr").find(".td-manage").find('#edit2').attr('onclick',"");    //修改编辑按钮的点击事件
+                                $(obj.othis[0]).parents("tr").find(".td-manage").find('#del').attr('onclick',"");    //修改编辑按钮的点击事件
+                                $(obj.othis[0]).parents("tr").find(".td-edit").find('#edit').addClass('layui-btn-disabled');    //修改编辑按钮的样式
+                                $(obj.othis[0]).parents("tr").find(".td-edit").find('#edit').attr('onclick','');    //修改编辑按钮的点击事件
+                            }else { //当下架时
+
+                                $(obj.othis[0]).parents("tr").find(".td-manage").find('#edit2').attr('onclick',onclick2);    //修改编辑按钮的点击事件
+                                $(obj.othis[0]).parents("tr").find(".td-manage").find('#del').attr('onclick',del);    //修改编辑按钮的点击事件
+                                $(obj.othis[0]).parents("tr").find(".td-edit").find('#edit').removeClass('layui-btn-disabled');    //修改编辑按钮的样式
+                                $(obj.othis[0]).parents("tr").find(".td-edit").find('#edit').attr('onclick',onclick); //修改编辑按钮的点击事件
+                            }
+                            layer.msg(data.msg, {icon: 1, time: 1000});
+                        },
+                        error: function (data) {
+                            layer.msg('操作失败!', {icon: 2, time: 1000});
+                        }
+                    });
+                });
+            })
+        });
+
         layui.use('laydate', function () {
             var laydate = layui.laydate;
 
@@ -231,45 +275,7 @@
 
         }
 
-        /*修改问卷模板状态*/
-        $(function () {
-            layui.use('form',function () {
-                var form = layui.form;
-                form.on('switch(switchStatus)',function (obj) {
-                    var id = obj.value;    //获取id
-                    var url = '{{ route('admin_word_status_get') }}'+'/'+id;
-                    var checked = obj.elem.checked;
 
-                    $.ajax({
-                        async: true,    //异步
-                        type: "get",
-                        url: url,
-                        traditional: true,
-                        // data:id,
-                        dataType: "json",
-                        cache: true,
-                        //服务器返回执行操作的状态
-                        success: function (data) {
-                            if (checked === true){  //当发布时
-                                $(obj.othis[0]).parents("tr").find(".td-manage").find('#edit2').attr('onclick',"");    //修改编辑按钮的点击事件
-                                $(obj.othis[0]).parents("tr").find(".td-manage").find('#del').attr('onclick',"");    //修改编辑按钮的点击事件
-                                $(obj.othis[0]).parents("tr").find(".td-edit").find('#edit').addClass('layui-btn-disabled');    //修改编辑按钮的样式
-                                $(obj.othis[0]).parents("tr").find(".td-edit").find('#edit').attr('onclick','');    //修改编辑按钮的点击事件
-                            }else { //当下架时
-                                $(obj.othis[0]).parents("tr").find(".td-manage").find('#edit2').attr('onclick',"x_admin_show('编辑','{{ route('admin_word_save',$data->id) }}',600,400)");    //修改编辑按钮的点击事件
-                                $(obj.othis[0]).parents("tr").find(".td-manage").find('#del').attr('onclick',"member_del(this,'{{ route('admin_word_del',$data->id) }}')");    //修改编辑按钮的点击事件
-                                $(obj.othis[0]).parents("tr").find(".td-edit").find('#edit').removeClass('layui-btn-disabled');    //修改编辑按钮的样式
-                                $(obj.othis[0]).parents("tr").find(".td-edit").find('#edit').attr('onclick',"x_admin_show('编辑问卷','{{ route('admin_word_editor',$data->id) }}')"); //修改编辑按钮的点击事件
-                            }
-                            layer.msg(data.msg, {icon: 1, time: 1000});
-                        },
-                        error: function (data) {
-                            layer.msg('操作失败!', {icon: 2, time: 1000});
-                        }
-                    });
-                });
-            })
-        })
 
 
     </script>
