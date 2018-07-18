@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Seeder;
 use App\Models\Word;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class WordTableSeeder extends Seeder
 {
@@ -18,10 +19,14 @@ class WordTableSeeder extends Seeder
         $users = factory(Word::class)->times(3)->make();
         $i = 1;
         foreach ($users as $user){
+            //通过id生成二维码
+            QrCode::format('png')->size(200)->generate(route('home_wordShow',$i),public_path('static/qrcodes/'.$i.'.png'));
             $user->qrcode = URL::asset('/static/qrcodes/').'/'.$i.'.png';
             $i++;
         }
         Word::insert($users->toArray());
+
+
 
         //赋值多对多关联
         foreach (Word::all() as $value){
