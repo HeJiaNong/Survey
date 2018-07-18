@@ -63,7 +63,7 @@
                     <td>{{ $data->id }}</td>
                     <td><a target="_blank" href="{{ route('home_wordShow',$data->id) }}">{{ $data->name }}</a></td>
                     <td>{{ $data->category->name }}</td>
-                    <td>{{ $data->describe }}</td>
+                    <td><span title="{{ $data->describe }}">{{ mb_substr($data->describe,0,5) }}…</span></td>
                     <td>
                     {{-- 返回值不重复 --}}
                     @foreach($data->grade->unique() as $value)
