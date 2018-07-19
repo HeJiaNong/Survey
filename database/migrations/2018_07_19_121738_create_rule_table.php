@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateCategoryTable extends Migration
+class CreateRuleTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,10 @@ class CreateCategoryTable extends Migration
      */
     public function up()
     {
-        Schema::create('category', function (Blueprint $table) {
+        Schema::create('rule', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name')->unique()->comment('问卷方式');
-            $table->string('describe')->nullable()->comment('描述');
+            $table->integer('type')->unsigned()->comment('1为用户信息,2为班级信息');
+            $table->string('name')->unique()->comment('必填信息');
             $table->timestamps();
         });
     }
@@ -28,6 +28,6 @@ class CreateCategoryTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('category');
+        Schema::dropIfExists('rule');
     }
 }

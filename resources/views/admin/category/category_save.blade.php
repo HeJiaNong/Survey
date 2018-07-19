@@ -5,50 +5,41 @@
     <div class="x-body">
         <form action="" method="post" class="layui-form layui-form-pane">
             <div class="layui-form-item">
-                <label for="name" class="layui-form-label">
-                    <span class="x-red">*</span>问卷类型名
+                <label for="name" class="layui-form-label" style="width: auto">
+                    <span class="x-red">*</span>问卷类型名:
                 </label>
                 <div class="layui-input-inline">
-                    <input type="text" id="name" name="name" required="" lay-verify="required"
-                           autocomplete="off" class="layui-input">
+                    <input type="text" id="name" name="name" required="" lay-verify="required" autocomplete="off" class="layui-input">
                 </div>
             </div>
             <div class="layui-form-item layui-form-text">
                 <label class="layui-form-label">
-                    限制条件
+                    请选择必要信息(未选表示无条件)
                 </label>
                 <table  class="layui-table layui-input-block">
                     <tbody>
                     <tr>
                         <td>
-                            <input type="checkbox" name="like1[write]" lay-skin="primary" title="用户管理">
+                            <input type="checkbox" name="like1[write]" lay-skin="primary" title="用户信息">
                         </td>
                         <td>
                             <div class="layui-input-block">
-                                <input name="id[]" lay-skin="primary" type="checkbox" title="用户停用" value="2">
-                                <input name="id[]" lay-skin="primary" type="checkbox" value="2" title="用户删除">
-                                <input name="id[]" lay-skin="primary" type="checkbox" value="2" title="用户修改">
-                                <input name="id[]" lay-skin="primary" type="checkbox" value="2" title="用户改密">
-                                <input name="id[]" lay-skin="primary" type="checkbox" value="2" title="用户列表">
-                                <input name="id[]" lay-skin="primary" type="checkbox" value="2" title="用户改密">
-                                <input name="id[]" lay-skin="primary" type="checkbox" value="2" title="用户列表">
-                                <input name="id[]" lay-skin="primary" type="checkbox" value="2" title="用户改密">
-                                <input name="id[]" lay-skin="primary" type="checkbox" value="2" title="用户列表">
+                                <input name="id[]" lay-skin="primary" type="checkbox" value="2" title="电子邮箱" >
+                                <input name="id[]" lay-skin="primary" type="checkbox" value="2" title="用户姓名">
+                                <input name="id[]" lay-skin="primary" type="checkbox" value="2" title="电话号码">
+                                <input name="id[]" lay-skin="primary" type="checkbox" value="2" title="QQ号码">
                             </div>
                         </td>
                     </tr>
                     <tr>
                         <td>
 
-                            <input name="id[]" lay-skin="primary" type="checkbox" value="2" title="文章管理">
+                            <input name="id[]" lay-skin="primary" type="checkbox" value="2" title="班级信息">
                         </td>
                         <td>
                             <div class="layui-input-block">
-                                <input name="id[]" lay-skin="primary" type="checkbox" value="2" title="文章添加">
-                                <input name="id[]" lay-skin="primary" type="checkbox" value="2" title="文章删除">
-                                <input name="id[]" lay-skin="primary" type="checkbox" value="2" title="文章修改">
-                                <input name="id[]" lay-skin="primary" type="checkbox" value="2" title="文章改密">
-                                <input name="id[]" lay-skin="primary" type="checkbox" value="2" title="文章列表">
+                                <input name="id[]" lay-skin="primary" type="checkbox" value="2" title="班级名称">
+                                <input name="id[]" lay-skin="primary" type="checkbox" value="2" title="老师名称">
                             </div>
                         </td>
                     </tr>

@@ -8,7 +8,7 @@
 @endsection
 
 @section('body')
-    <div id="test" class="sv_main sv_frame sv_default_css" style="">
+    <div id="test" class="sv_main sv_frame sv_default_css">
         <div class="sv_custom_header"></div>
         <div class="sv_container">
             <div class="sv_header">
