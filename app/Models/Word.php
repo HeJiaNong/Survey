@@ -14,10 +14,6 @@ class Word extends Model
         return $this->belongsToMany('App\Models\Grade');
     }
 
-    public function topic(){
-        return $this->belongsToMany('App\Models\Topic');
-    }
-
     public function category(){
         return $this->belongsTo('App\Models\Category')->withDefault();
     }
