@@ -39,10 +39,10 @@
     <div id="svgContainer"></div>
 </body>
 <script>
-    var svgContainer = document.getElementById('svgContainer');
+    var svgContainer = document.getElementById("svgContainer");
     var animItem = bodymovin.loadAnimation({
         wrapper: svgContainer,
-        animType: 'svg',
+        animType: "svg",
         loop: true,
         animationData: JSON.parse(animationData)
     });
