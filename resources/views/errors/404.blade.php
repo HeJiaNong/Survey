@@ -4,8 +4,9 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <script src="http://doctrinedesign.com/vecteezy/bodymovin.js"></script>
-    <script src="http://www.doctrinedesign.com/vecteezy/space404/data.js"></script>
+
+    <script src="{{ URL::asset('/static/errors/404/js/bodymovin.js') }}"></script>
+    <script src="{{ URL::asset('/static/errors/404/js/data.js') }}"></script>
     <title>404页面</title>
     <style>
         html {
