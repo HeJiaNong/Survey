@@ -22,7 +22,6 @@ class DatabaseSeeder extends Seeder
         $this->call(GradeTableSeeder::class);
         $this->call(WordTableSeeder::class);
         $this->call(CategoryTableSeeder::class);
-        $this->call(TopicTableSeeder::class);
 
         Model::reguard();
     }
