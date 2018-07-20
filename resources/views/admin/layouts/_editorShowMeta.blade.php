@@ -6,8 +6,9 @@
 
 
 <script src="https://unpkg.com/jquery"></script>
+
 <script type="text/javascript">
     document.write("<scr"+"ipt src=\"https://surveyjs.azureedge.net/1.0.33/survey.jquery.js\"></sc"+"ript>")
-</script>　　
+</script>
 {{--<script src="https://surveyjs.azureedge.net/1.0.33/survey.jquery.js"></script>--}}
 <link href="https://surveyjs.azureedge.net/1.0.33/survey.css" type="text/css" rel="stylesheet"/>

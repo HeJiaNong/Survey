@@ -17,15 +17,16 @@ class WordController extends BaseController
 
     public function addPage(Word $word){
 
-        $rows = Word::with(['category','grade'])->get();
+        $dataset = Word::with(['category','grade'])->get();
 
-        return view('admin.word.word_add',compact('rows'));
+        return view('admin.word.word_add',compact('dataset'));
     }
 
     /*
      * 问卷模板添加逻辑
      */
     public function addStore(Request $request,Word $word){
+        dd($request);
         $this->validate($request,[
             'name' => 'required|unique:words',
             'describe' => 'required',

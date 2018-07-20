@@ -28,7 +28,7 @@
         </div>
         <xblock>
             <button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon"></i>批量下架</button>
-            <button class="layui-btn" onclick="x_admin_show('添加问卷','{{ route('admin_word_addPage') }}',600,400)"><i
+            <button class="layui-btn" onclick="x_admin_show('添加问卷','{{ route('admin_word_addPage') }}',1000,600)"><i
                         class="layui-icon"></i>添加
             </button>
             <span class="x-right" style="line-height:40px">共有数据：{{ $dataset->total() }} 条</span>
@@ -45,7 +45,7 @@
                 <th>模板名称</th>
                 <th>类型</th>
                 <th>描述</th>
-                <th>允许班级</th>
+                <th>参与规则  </th>
                 <th>更新时间</th>
                 <th>内容详情</th>
                 <th>状态</th>
