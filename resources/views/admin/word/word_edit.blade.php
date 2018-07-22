@@ -4,26 +4,16 @@
 @section('body')
     <div class="x-body layui-anim layui-anim-up">
         @include('admin.shared._errors')
-        <form id="addForm" class="layui-form layui-form-pane" action="{{ route('admin_word_addStore') }}" method="post">
+        <form id="addForm" class="layui-form layui-form-pane" action="{{ route('admin_word_editStore',$word->id) }}" method="post">
             {{ csrf_field() }}
-            {{--<div class="layui-form-item">--}}
-                {{--<label for="L_username" class="layui-form-label">--}}
-                    {{--<span class="x-red">*</span>问卷昵称--}}
-                {{--</label>--}}
-                {{--<div class="layui-input-inline">--}}
-                    {{--<input type="text" id="L_username" name="name" required="" lay-verify="nikename"--}}
-                           {{--autocomplete="off" class="layui-input">--}}
-                {{--</div>--}}
-            {{--</div>--}}
-
-
+            {{ method_field('put') }}
 
             <div class="layui-form-item">
                 <label for="name" class="layui-form-label" style="width: auto">
                     <span class="x-red">*</span>模板名称:
                 </label>
                 <div class="layui-input-inline">
-                    <input type="text" id="name" name="name" required="" lay-verify="required" autocomplete="off" class="layui-input">
+                    <input value="{{ $word->name }}" type="text" id="name" name="name" required="" lay-verify="required" autocomplete="off" class="layui-input">
                 </div>
             </div>
 
@@ -33,11 +23,8 @@
                 </label>
                 <div class="layui-input-inline">
                     <select name="category_id" >
-                        @foreach($dataset as $data)
-                            @foreach($data->category->select(['id','name'])->get() as $value)
-                                <option value="{{ $value->id }}" >{{$value->name }}</option>
-                            @endforeach
-                            @break
+                        @foreach($word->category->select(['id','name'])->get() as $value)
+                            <option value="{{ $value->id }}" @if($word->category->id == $value->id) selected @endif >{{$value->name }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -58,15 +45,15 @@
                         </td>
                         <td>
                             <div id="info" class="layui-input-block">
-                                @foreach($dataset as $data)
-                                    @foreach($data->rule()->get() as $value)
-                                        @foreach($value->select(['id','name'])->get() as $v)
-                                            <input name="rule[]" lay-skin="primary" type="checkbox" value="{{ $v->id }}" title="{{ $v->name }}">
+                                {{--@foreach($dataset as $data)--}}
+                                    {{--@foreach($data->rule()->get() as $value)--}}
+                                        @foreach(\App\Models\Rule::select(['id','name'])->get() as $v)
+                                            <input name="rule[]" @if($word->rule->contains($v->id)) checked @endif lay-skin="primary" type="checkbox" value="{{ $v->id }}" title="{{ $v->name }}">
                                         @endforeach
-                                        @break
-                                    @endforeach
-                                    @break
-                                @endforeach
+                                        {{--@break--}}
+                                    {{--@endforeach--}}
+                                    {{--@break--}}
+                                {{--@endforeach--}}
                             </div>
                         </td>
                     </tr>
@@ -78,7 +65,7 @@
                         <td>
                             <div class="layui-input-block">
                                 <span onclick="viewTr('gradeTr')">
-                                    <input id="onOff" type="checkbox" value="1" lay-skin="switch" lay-text="限制|公开">
+                                    <input id="onOff" type="checkbox" value="1" @if($word->grade->isNotEmpty()) checked @endif lay-skin="switch" lay-text="限制|公开">
                                 </span>
 
                             </div>
@@ -88,7 +75,7 @@
 
 
 
-                    <tr id="gradeTr" style="display: none">
+                    <tr id="gradeTr" style="display: @if($word->grade->isNotEmpty()) @else none @endif">
                         <td>
                             <span onclick="allTouch(this,'grade')">
                                 <input  lay-skin="primary" type="checkbox" title="答卷者班级">
@@ -96,15 +83,15 @@
                         </td>
                         <td>
                             <div id="grade" class="layui-input-block" >
-                                @foreach($dataset as $data)
-                                    @foreach($data->grade()->get() as $value)
-                                        @foreach($value->select(['id','name'])->get() as $v)
-                                                <input name="grade[]" lay-skin="primary" type="checkbox" value="{{ $v->id }}" title="{{ $v->name }}">
+                                {{--@foreach($dataset as $data)--}}
+                                    {{--@foreach($data->grade()->get() as $value)--}}
+                                        @foreach(\App\Models\Grade::select(['id','name'])->get() as $v)
+                                            <input @if($word->grade->contains($v->id)) checked @endif  name="grade[]" lay-skin="primary" type="checkbox" value="{{ $v->id }}" title="{{ $v->name }}">
                                         @endforeach
-                                        @break
-                                    @endforeach
-                                    @break
-                                @endforeach
+                                        {{--@break--}}
+                                    {{--@endforeach--}}
+                                    {{--@break--}}
+                                {{--@endforeach--}}
                             </div>
                         </td>
                     </tr>
@@ -118,13 +105,13 @@
                     描述
                 </label>
                 <div class="layui-input-block">
-                    <textarea placeholder="请输入内容" id="desc" name="describe" class="layui-textarea"></textarea>
+                    <textarea  id="desc" name="describe" class="layui-textarea">{{ $word->describe }}</textarea>
                 </div>
             </div>
 
             <div class="layui-form-item">
                 <button id="submitAdd" class="layui-btn" lay-filter="add" lay-submit="">
-                    添加
+                    编辑
                 </button>
                 <input type="submit">
             </div>
@@ -168,10 +155,12 @@
                 $('#gradeTr').find('td').find('div').attr('class','layui-unselect layui-form-checkbox');    //让班级全选按钮变成未选中
                 if($('#onOff').parents('span').find('div').attr('class') === 'layui-unselect layui-form-switch'){
                     div.each(function(){
+                        console.log(1);
                         $(this).attr('class','layui-unselect layui-form-checkbox'); //移除选中特效
                     });
                     $('#grade').attr('class','layui-input-block');
                     input.each(function(){
+                        console.log(2);
                         $(this).prop('checked',false);  //移除选中实际的作用
                     });
                 }
@@ -200,13 +189,11 @@
             form.on('submit(add)', function (data) {
                 //发异步，把数据提交给php
                 var targetUrl = $("#addForm").attr("action");
-
-
                 var data = $("#addForm").serialize();
 
                 console.log(data);
                 $.ajax({
-                    type: 'post',
+                    type: 'put',
                     url: targetUrl,
                     cache: false,
                     data: data,
@@ -218,6 +205,7 @@
                             //关闭当前frame
                             parent.layer.close(index);
                         });
+
                     },
                     error: function (data) {
                         var msg = '';
@@ -228,6 +216,7 @@
                         }
                         //弹出消息框
                         layer.msg(msg, {icon: 5, time: 2000});
+
                     }
                 });
                 return false;

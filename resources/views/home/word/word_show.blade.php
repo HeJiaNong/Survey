@@ -59,7 +59,7 @@
         //主题
         Survey
             .StylesManager
-            .applyTheme("winter");
+            .applyTheme("stone");
 
         var json = {!! $word->content !!};
 

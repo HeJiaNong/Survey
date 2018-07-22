@@ -15,7 +15,7 @@ class CategoryTableSeeder extends Seeder
         //生成数据
         //times 要生成记录的数量
         //make 生成数据
-        $users = factory(Category::class)->times(4)->make();
+        $users = factory(Category::class)->times(3)->make();
 
         Category::insert($users->toArray());
 

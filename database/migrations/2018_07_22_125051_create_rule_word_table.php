@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateRuleTable extends Migration
+class CreateRuleWordTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,10 @@ class CreateRuleTable extends Migration
      */
     public function up()
     {
-        Schema::create('rule', function (Blueprint $table) {
+        Schema::create('rule_word', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('type')->unsigned()->comment('1为用户信息,2为班级信息');
-            $table->string('name')->unique()->comment('必填信息');
-            $table->timestamps();
+            $table->integer('word_id')->unsigned()->comment('问卷id');
+            $table->integer('rule_id')->unsigned()->comment('规则id');
         });
     }
 
@@ -28,6 +27,6 @@ class CreateRuleTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('rule');
+        Schema::dropIfExists('rule_word');
     }
 }

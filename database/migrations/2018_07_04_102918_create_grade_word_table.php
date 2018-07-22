@@ -18,7 +18,6 @@ class CreateGradeWordTable extends Migration
             $table->integer('word_id')->unsigned()->comment('问卷id');
             $table->integer('grade_id')->unsigned()->comment('班级id');
 //            $table->integer('count')->unsigned()->default(0)->comment('人数');
-            $table->timestamps();
         });
     }
 

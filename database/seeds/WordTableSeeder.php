@@ -31,6 +31,7 @@ class WordTableSeeder extends Seeder
         //赋值多对多关联
         foreach (Word::all() as $value){
             $value->grade()->attach(mt_rand(1,20));
+            $value->rule()->attach([1,2,3,4,5]);
         }
 
     }

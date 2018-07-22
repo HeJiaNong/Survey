@@ -17,7 +17,6 @@ class CreateGradeTeacherTable extends Migration
             $table->increments('id');
             $table->integer('grade_id')->unsigned()->comment('班级id');
             $table->integer('teacher_id')->unsigned()->comment('老师id');
-            $table->timestamps();
         });
     }
 

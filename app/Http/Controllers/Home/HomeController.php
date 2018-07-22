@@ -45,6 +45,11 @@ class HomeController extends Controller
         if ($word->status == 0){    //判断问卷状态是否发布
             abort(404,'此问卷已下架');  //抛出HTTP异常
         }
+        if ($word->rule->isNotEmpty() && $word->grade->isNotEmpty()){
+            //todo 需要填写规则消息
+            dd(666);
+        }
+
         //todo 更具不同的规则来返回是否需要填写问卷信息
         return view('home.word.word_show',compact('word'));
 

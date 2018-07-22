@@ -24,6 +24,7 @@ Route::prefix('/')->namespace('Home')->group( function () {
     //问卷基础信息填写页面
     Route::get('/word_info','HomeController@wordInfo')->name('home_wordInfo');
 
+    //问卷详情页
     Route::get('/word_show/{word}','HomeController@wordShow')->name('home_wordShow');
 
     Route::get('/getGrade/{id}', 'HomeController@getGrade')->name('getGrade');
@@ -170,6 +171,15 @@ Route::prefix('admin')->namespace('Admin')->group( function () {
 
         //获取试题
         Route::get('/get_survey/{word}','WordController@getSurvey')->name('admin_word_getSurvey');
+
+        //显示问卷规则
+        Route::get('/show_rule/{word}','WordController@showRule')->name('admin_word_showRule');
+
+        //编辑问卷基本信息页面
+        Route::get('/editpage/{word}','WordController@editPage')->name('admin_word_editPage');
+
+        //编辑问卷基本信息逻辑
+        Route::put('/editStore/{word}','WordController@editStore')->name('admin_word_editStore');
 
     });
 

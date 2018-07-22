@@ -18,5 +18,9 @@ class Word extends Model
         return $this->belongsTo('App\Models\Category')->withDefault();
     }
 
+    public function rule()
+    {
+        return $this->belongsToMany('App\Models\Rule');
+    }
 
 }
