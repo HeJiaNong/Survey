@@ -110,7 +110,7 @@ EOF;
         $rule->save();
 
         $rule = new Rule();
-        $rule->name = 'qq号码';
+        $rule->name = 'QQ号码';
         $rule->validate = "'required|integer'";
         $rule->topic_json = <<<EOF
         {

@@ -73,7 +73,7 @@ class HomeController extends Controller
                         }
                     }
                 }
-                dd(2);
+
                 session(['status' => 'ACTION']);
                 return view('home.word.word_show',compact('word'));
             }
