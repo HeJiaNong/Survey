@@ -1,5 +1,5 @@
 
-@extends('admin.layouts.default')
+@extends('home.layouts.default')
 
 @section('title','Survey 问卷调查页')
 

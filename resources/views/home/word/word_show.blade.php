@@ -1,5 +1,5 @@
 
-@extends('admin.layouts.default')
+@extends('home.layouts.default')
 
 @section('title','Survey 问卷调查页')
 
@@ -70,21 +70,23 @@
 
             //设置URL
             var url = '{{ route('home_wordSend',$word->id) }}';
-
-            //发异步发送问卷数据
+            var rules = '{!! request()->route('rules') !!}';
+            //发异步发送问卷数据 request()->route('rules')
             $.ajax({
                 // async       : false,
                 type        : "post",       //请求方式；POST
                 url         : url,          //请求链接地址
                 traditional : true,         //阻止深度序列化   默认为true
-                data        : {'result':JSON.stringify(result.data)},  //数据为题目的json格式
+                data        : {
+                    'rule' : rules,
+                    'result':JSON.stringify(result.data),
+                },  //数据为题目的json格式
                 dataType    : "json",       //预期服务器返回的数据格式
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')    //发送csrf_token
                 },
                 success: function(data) {
-                    console.log(data);
-                    layer.msg(data.msg, {icon: 1, time: 1000});
+                    console.log(data.msg);
                 },
                 error:function (data) {
                     layer.msg('操作失败', {icon: 1, time: 1000});
