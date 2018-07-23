@@ -41,7 +41,9 @@ class HomeController extends Controller
     /*
      * 问卷展示页面
      */
-    public function wordShow(Word $word,$rules = null){
+    public function wordShow(Word $word,$rules = ''){
+        $rules = urldecode($rules);
+        dump($rules);
 //        dump(\request()->route('rules'));
         if ($word->status == 0){    //判断问卷状态是否发布
             abort(404,'此问卷已下架');  //抛出HTTP异常
