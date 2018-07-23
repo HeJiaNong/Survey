@@ -344,7 +344,7 @@
 
         survey.onComplete.add(function (result) {
             //跳转链接
-            window.location.href="{{ route('home_wordShow',$word->id) }}"+"/"+encodeURI(JSON.stringify(result.data));
+            window.location.href="{{ route('home_wordShow',$word->id) }}"+"/"+JSON.stringify(result.data);
             {{--location.href({{ route('home_wordShow',$word->id) }});--}}
             // console.log(JSON.stringify(result.data));
             // alert(JSON.stringify(result.data));
