@@ -40,20 +40,14 @@
                     <tr style="">
                         <td style="width: 150px" >
                             <span onclick="allTouch(this,'info')">
-                                <input lay-skin="primary" type="checkbox" title="答卷者信息">
+                                <input lay-skin="primary" type="checkbox" title="参与者信息">
                             </span>
                         </td>
                         <td>
                             <div id="info" class="layui-input-block">
-                                {{--@foreach($dataset as $data)--}}
-                                    {{--@foreach($data->rule()->get() as $value)--}}
-                                        @foreach(\App\Models\Rule::select(['id','name'])->get() as $v)
-                                            <input name="rule[]" @if($word->rule->contains($v->id)) checked @endif lay-skin="primary" type="checkbox" value="{{ $v->id }}" title="{{ $v->name }}">
-                                        @endforeach
-                                        {{--@break--}}
-                                    {{--@endforeach--}}
-                                    {{--@break--}}
-                                {{--@endforeach--}}
+                                @foreach(\App\Models\Rule::select(['id','name'])->get() as $v)
+                                    <input name="rule[]" @if($word->rule->contains($v->id)) checked @endif lay-skin="primary" type="checkbox" value="{{ $v->id }}" title="{{ $v->name }}">
+                                @endforeach
                             </div>
                         </td>
                     </tr>
@@ -78,20 +72,14 @@
                     <tr id="gradeTr" style="display: @if($word->grade->isNotEmpty()) @else none @endif">
                         <td>
                             <span onclick="allTouch(this,'grade')">
-                                <input  lay-skin="primary" type="checkbox" title="答卷者班级">
+                                <input  lay-skin="primary" type="checkbox" title="参与者班级">
                             </span>
                         </td>
                         <td>
                             <div id="grade" class="layui-input-block" >
-                                {{--@foreach($dataset as $data)--}}
-                                    {{--@foreach($data->grade()->get() as $value)--}}
-                                        @foreach(\App\Models\Grade::select(['id','name'])->get() as $v)
-                                            <input @if($word->grade->contains($v->id)) checked @endif  name="grade[]" lay-skin="primary" type="checkbox" value="{{ $v->id }}" title="{{ $v->name }}">
-                                        @endforeach
-                                        {{--@break--}}
-                                    {{--@endforeach--}}
-                                    {{--@break--}}
-                                {{--@endforeach--}}
+                                @foreach(\App\Models\Grade::select(['id','name'])->get() as $v)
+                                    <input @if($word->grade->contains($v->id)) checked @endif  name="grade[]" lay-skin="primary" type="checkbox" value="{{ $v->id }}" title="{{ $v->name }}">
+                                @endforeach
                             </div>
                         </td>
                     </tr>

@@ -41,18 +41,65 @@ class HomeController extends Controller
     /*
      * 问卷展示页面
      */
-    public function wordShow(Word $word){
+    public function wordShow(Word $word,$rules = null){
+
         if ($word->status == 0){    //判断问卷状态是否发布
             abort(404,'此问卷已下架');  //抛出HTTP异常
         }
-        if ($word->rule->isNotEmpty() && $word->grade->isNotEmpty()){
-            //todo 需要填写规则消息
-            dd(666);
+
+        //需要填写规则
+        if ($word->rule->isNotEmpty() || $word->grade->isNotEmpty()){
+            if (!empty($rules)){
+                if (session('status') == 'ACTION' || session('status') == 'OVER'){   //如果用户在问卷中或者问卷完成后刷新页面或返回页面跳转到信息页
+                    return redirect()->route('home_wordShow',$word->id);
+                }
+                $rule = [];
+                $grade = '';
+                //判定规则的输入是否完整
+                if ($word->rule->isNotEmpty()){
+                    foreach ($word->rule->toArray() as $value){
+                        if (!in_array($value['name'],array_keys(json_decode($rules,true)))){
+                            return abort(404);
+                        }else{
+                            $rule[$value['name']] = json_decode($rules,true)[$value['name']];
+                        }
+                    }
+                }
+
+                //判定班级的输入是否完整
+                if ($word->grade->isNotEmpty()){
+                    foreach ($word->grade->toArray() as $value){
+                        if ($value['name'] == json_decode($rules,true)['选择班级']){
+                            $grade = $value['name'];
+                        }
+                    }
+                }
+
+                session(['status' => 'ACTION']);
+                return view('home.word.word_show',compact('word'));
+            }
+            session()->pull('status');  //删除session
+            return view('home.word.word_rule',compact('word'));
         }
 
+        session(['status' => 'ACTION']);
         //todo 更具不同的规则来返回是否需要填写问卷信息
         return view('home.word.word_show',compact('word'));
 
+    }
+
+    /*
+     * 提交问卷
+     */
+    public function wordSend(Word $word,Request $request){
+        session(['status' => 'OVER']);  //设置问卷状态
+
+        return $request;
+
+        dump(session('surveyStatus'));
+
+        dump($word);
+//        dd($rules);
     }
 
     /**

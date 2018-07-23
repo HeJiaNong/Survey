@@ -6,18 +6,6 @@
         @include('admin.shared._errors')
         <form id="addForm" class="layui-form layui-form-pane" action="{{ route('admin_word_addStore') }}" method="post">
             {{ csrf_field() }}
-            {{--<div class="layui-form-item">--}}
-                {{--<label for="L_username" class="layui-form-label">--}}
-                    {{--<span class="x-red">*</span>问卷昵称--}}
-                {{--</label>--}}
-                {{--<div class="layui-input-inline">--}}
-                    {{--<input type="text" id="L_username" name="name" required="" lay-verify="nikename"--}}
-                           {{--autocomplete="off" class="layui-input">--}}
-                {{--</div>--}}
-            {{--</div>--}}
-
-
-
             <div class="layui-form-item">
                 <label for="name" class="layui-form-label" style="width: auto">
                     <span class="x-red">*</span>模板名称:
@@ -33,11 +21,8 @@
                 </label>
                 <div class="layui-input-inline">
                     <select name="category_id" >
-                        @foreach($dataset as $data)
-                            @foreach($data->category->select(['id','name'])->get() as $value)
-                                <option value="{{ $value->id }}" >{{$value->name }}</option>
-                            @endforeach
-                            @break
+                        @foreach(\App\Models\Category::select(['id','name'])->get() as $value)
+                            <option value="{{ $value->id }}" >{{$value->name }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -53,19 +38,13 @@
                     <tr style="">
                         <td style="width: 150px" >
                             <span onclick="allTouch(this,'info')">
-                                <input lay-skin="primary" type="checkbox" title="答卷者信息">
+                                <input lay-skin="primary" type="checkbox" title="参与者信息">
                             </span>
                         </td>
                         <td>
                             <div id="info" class="layui-input-block">
-                                @foreach($dataset as $data)
-                                    @foreach($data->rule()->get() as $value)
-                                        @foreach($value->select(['id','name'])->get() as $v)
-                                            <input name="rule[]" lay-skin="primary" type="checkbox" value="{{ $v->id }}" title="{{ $v->name }}">
-                                        @endforeach
-                                        @break
-                                    @endforeach
-                                    @break
+                                @foreach(\App\Models\Rule::select(['id','name'])->get() as $v)
+                                    <input name="rule[]" lay-skin="primary" type="checkbox" value="{{ $v->id }}" title="{{ $v->name }}">
                                 @endforeach
                             </div>
                         </td>
@@ -85,30 +64,20 @@
                         </td>
 
                     </tr>
-
-
-
                     <tr id="gradeTr" style="display: none">
                         <td>
                             <span onclick="allTouch(this,'grade')">
-                                <input  lay-skin="primary" type="checkbox" title="答卷者班级">
+                                <input  lay-skin="primary" type="checkbox" title="参与者班级">
                             </span>
                         </td>
                         <td>
                             <div id="grade" class="layui-input-block" >
-                                @foreach($dataset as $data)
-                                    @foreach($data->grade()->get() as $value)
-                                        @foreach($value->select(['id','name'])->get() as $v)
-                                                <input name="grade[]" lay-skin="primary" type="checkbox" value="{{ $v->id }}" title="{{ $v->name }}">
-                                        @endforeach
-                                        @break
-                                    @endforeach
-                                    @break
+                                @foreach(\App\Models\Grade::select(['id','name'])->get() as $v)
+                                        <input name="grade[]" lay-skin="primary" type="checkbox" value="{{ $v->id }}" title="{{ $v->name }}">
                                 @endforeach
                             </div>
                         </td>
                     </tr>
-
                     </tbody>
                 </table>
 

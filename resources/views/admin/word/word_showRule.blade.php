@@ -15,13 +15,13 @@
                     <tr style="">
                         <td style="width: 150px" >
                             <span onclick="allTouch(this,'info')">
-                                答卷者信息
+                                参与者信息
                             </span>
                         </td>
                         <td>
                             <div id="info" class="layui-input-block">
                                 @foreach(\App\Models\Rule::select(['id','name'])->get() as $v)
-                                    <input name="rule[]" @if($word->rule->contains($v->id)) checked @endif disabled lay-skin="primary" type="checkbox" value="{{ $v->id }}" title="{{ $v->name }}">
+                                    <input name="rule[]" @if($word->rule->contains($v->id)) checked  @endif disabled  lay-skin="primary" type="checkbox" value="{{ $v->id }}" title="{{ $v->name }}">
                                 @endforeach
                             </div>
                         </td>
@@ -31,13 +31,13 @@
                     <tr id="gradeTr" >
                         <td>
                             <span onclick="allTouch(this,'grade')">
-                                答卷者班级
+                                参与者班级
                             </span>
                         </td>
                         <td>
                             <div id="grade" class="layui-input-block" >
                                 @foreach(\App\Models\Grade::select(['id','name'])->get() as $v)
-                                    <input @if($word->grade->contains($v->id)) checked @endif disabled name="grade[]" lay-skin="primary" type="checkbox" value="{{ $v->id }}" title="{{ $v->name }}">
+                                    <input @if($word->grade->contains($v->id)) checked  @endif disabled name="grade[]" lay-skin="primary" type="checkbox" value="{{ $v->id }}" title="{{ $v->name }}">
                                 @endforeach
                             </div>
                         </td>

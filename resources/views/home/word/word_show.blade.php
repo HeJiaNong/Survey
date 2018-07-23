@@ -5,6 +5,7 @@
 
 @section('head')
     @include('admin.layouts._editorShowMeta')
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 @endsection
 
 @section('body')
@@ -52,27 +53,46 @@
             pageNextText: "My Page Next",
             completeText: "OK - Press to Complete"
         };
-        Survey
-            .surveyLocalization
-            .locales["my"] = mycustomSurveyStrings;
+
+        Survey.surveyLocalization.locales["my"] = mycustomSurveyStrings;
 
         //主题
-        Survey
-            .StylesManager
-            .applyTheme("stone");
+        Survey.StylesManager.applyTheme("stone");
 
         var json = {!! $word->content !!};
 
-
-
+        //生成问卷
         window.survey = new Survey.Model(json);
 
-        survey
-            .onComplete
-            .add(function (result) {
-                document
-                    .querySelector('#surveyResult')
-                    .innerHTML = "result: " + JSON.stringify(result.data);
+        //提交问卷
+        survey.onComplete.add(function (result) {
+            console.log(JSON.stringify(result.data));
+
+            //设置URL
+            var url = '{{ route('home_wordSend',$word->id) }}';
+
+            //发异步发送问卷数据
+            $.ajax({
+                // async       : false,
+                type        : "post",       //请求方式；POST
+                url         : url,          //请求链接地址
+                traditional : true,         //阻止深度序列化   默认为true
+                data        : {'result':JSON.stringify(result.data)},  //数据为题目的json格式
+                dataType    : "json",       //预期服务器返回的数据格式
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')    //发送csrf_token
+                },
+                success: function(data) {
+                    console.log(data);
+                    layer.msg(data.msg, {icon: 1, time: 1000});
+                },
+                error:function (data) {
+                    layer.msg('操作失败', {icon: 1, time: 1000});
+                }
+            });
+
+            {{--window.location.href="{{ route('wordSend',$word->id) }}"+"/"+JSON.stringify(result.data);--}}
+                // document.querySelector('#surveyResult').innerHTML = "result: " + JSON.stringify(result.data);
             });
         //本土化
         survey.locale = 'zh-cn';

@@ -36,7 +36,8 @@
     </style>
 </head>
 <body>
-<h2>{{ $exception->getMessage() }}</h2>
+{{--输出错误信息--}}
+{{--<h2>{{ $exception->getMessage() }}</h2>--}}
     <div id="svgContainer"></div>
 </body>
 <script>

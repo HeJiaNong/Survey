@@ -19,9 +19,7 @@ class BranchController extends Controller
      */
     public function index()
     {
-
         $dataset = Branch::orderBy('order','asc')->paginate(10);  //分页
-
 
         return view("admin.branch.branch_list", compact('dataset'));
     }

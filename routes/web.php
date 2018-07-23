@@ -22,18 +22,19 @@ Route::prefix('/')->namespace('Home')->group( function () {
     Route::get('/', 'HomeController@index')->name('home');
 
     //问卷基础信息填写页面
-    Route::get('/word_info','HomeController@wordInfo')->name('home_wordInfo');
-
-    //问卷详情页
-    Route::get('/word_show/{word}','HomeController@wordShow')->name('home_wordShow');
+//    Route::get('/word_rule/{word}','HomeController@wordRule')->name('home_wordRule');
 
     Route::get('/getGrade/{id}', 'HomeController@getGrade')->name('getGrade');
     //返回老师列表
     Route::get('/teacher/{id}','HomeController@getTeacher')->name('get_teacher');
     //问卷页
     Route::get('/word/{wordId?}/{classId?}/{teacherId?}','HomeController@word')->name('word');
-    //提交文件
-    Route::post('/word','HomeController@wordStroe')->name('word_store');
+
+    //问卷详情页
+    Route::get('/word_show/{word}/{rules?}','HomeController@wordShow')->name('home_wordShow');
+
+    //提交问卷
+    Route::post('/wordSend/{word}','HomeController@wordSend')->name('home_wordSend');
 });
 
 
@@ -142,7 +143,7 @@ Route::prefix('admin')->namespace('Admin')->group( function () {
 
     //问卷模板管理
     Route::middleware(['auth'])->prefix('word')->group(function (){
-        //部门列表
+        //列表
         Route::get('/','WordController@index')->name('admin_word_list_get');
         //添加/修改
         Route::match(['GET','POST','PUT'],'/save/{id?}', 'WordController@save')->name('admin_word_save');
@@ -197,6 +198,16 @@ Route::prefix('admin')->namespace('Admin')->group( function () {
         Route::get('/del/{id}','CategoryController@del')->name('admin_category_del');
         //搜索逻辑
         Route::match(['GET','POST'],'/search', 'CategoryController@searchStore')->name('admin_category_search_post');
+
+        //添加页面
+        Route::get('/add','CategoryController@addPage')->name('admin_category_addPage');
+        //添加逻辑
+        Route::post('/add','CategoryController@addStore')->name('admin_category_addStore');
+
+        //编辑页面
+        Route::get('/edit/{category}','CategoryController@editPage')->name('admin_category_editPage');
+        //编辑逻辑
+        Route::put('/edit/{category}','CategoryController@editStore')->name('admin_category_editStore');
     });
 
     //题目列表

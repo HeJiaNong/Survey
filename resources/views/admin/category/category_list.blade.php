@@ -25,7 +25,7 @@
         </div>
         <xblock>
             <button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon"></i>批量停用</button>
-            <button class="layui-btn" onclick="x_admin_show('添加问卷类型','{{ route('admin_category_save') }}',800,400)"><i
+            <button class="layui-btn" onclick="x_admin_show('添加问卷类型','{{ route('admin_category_addPage') }}',600,400)"><i
                         class="layui-icon"></i>添加
             </button>
             <span class="x-right" style="line-height:40px">共有数据：{{ $dataset->total() }} 条</span>
@@ -34,15 +34,14 @@
             <thead>
             <tr>
                 <th>
-                    <div class="layui-unselect header layui-form-checkbox" lay-skin="primary"><i
-                                class="layui-icon">&#xe605;</i></div>
+                    <div class="layui-unselect header layui-form-checkbox" lay-skin="primary">
+                        <i class="layui-icon">&#xe605;</i>
+                    </div>
                 </th>
                 <th>ID</th>
                 <th>问卷类型</th>
-                <th>必要信息</th>
                 <th>描述</th>
                 <th>创建时间</th>
-                {{--<th>状态</th>--}}
                 <th>操作</th>
             </tr>
             </thead>
@@ -50,23 +49,16 @@
             @foreach($dataset as $data)
                 <tr>
                     <td>
-                        <div class="layui-unselect layui-form-checkbox" lay-skin="primary" data-id={{ $data->id }}><i
-                                    class="layui-icon">&#xe605;</i></div>
+                        <div class="layui-unselect layui-form-checkbox" lay-skin="primary" data-id={{ $data->id }}>
+                            <i class="layui-icon">&#xe605;</i>
+                        </div>
                     </td>
                     <td>{{ $data->id }}</td>
                     <td>{{ $data->name }}</td>
-                    <td>{{ $data->rule }}</td>
                     <td>{{ $data->describe }}</td>
                     <td>{{ $data->created_at }}</td>
-                    {{--<td class="td-status">--}}
-                    {{--@if($data->status === 1)--}}
-                    {{--<span class="layui-btn layui-btn-normal layui-btn-mini">已启用</span>--}}
-                    {{--@else--}}
-                    {{--<span class="layui-btn layui-btn-normal layui-btn-mini layui-btn-disabled">已停用</span>--}}
-                    {{--@endif--}}
-                    {{--</td>--}}
                     <td class="td-manage">
-                        <a title="编辑" onclick="x_admin_show('编辑','{{ route('admin_category_save',$data->id) }}',800,400)" href="javascript:;">
+                        <a title="编辑" onclick="x_admin_show('编辑','{{ route('admin_category_editPage',$data->id) }}',600,400)" href="javascript:;">
                             <i class="layui-icon">&#xe642;</i>
                         </a>
                         <a title="删除" onclick="member_del(this,'{{ route('admin_category_del',$data->id) }}')" href="javascript:;">
