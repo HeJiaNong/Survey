@@ -49,7 +49,8 @@ class HomeController extends Controller
         //需要填写规则
         if ($word->rule->isNotEmpty() || $word->grade->isNotEmpty()){
             if (!empty($rules)){
-                if (session('status') == 'ACTION' || session('status') == 'OVER'){   //如果用户在问卷中或者问卷完成后刷新页面或返回页面跳转到信息页
+                if (session('status') == 'ACTION' || session('status') == 'OVER' || session('status') == null){   //如果用户在问卷中或者问卷完成后刷新页面或返回页面跳转到信息页
+                    session(['status' => 'RULE']);
                     return redirect()->route('home_wordShow',$word->id);
                 }
                 $rule = [];
@@ -77,7 +78,9 @@ class HomeController extends Controller
                 session(['status' => 'ACTION']);
                 return view('home.word.word_show',compact('word'));
             }
+
             session()->pull('status');  //删除session
+            session(['status' => 'RULE']);
             return view('home.word.word_rule',compact('word'));
         }
 
