@@ -9,6 +9,7 @@ use App\Models\Teacher;
 use App\Models\Topic;
 use App\Models\Word;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class HomeController extends Controller
@@ -69,7 +70,7 @@ class HomeController extends Controller
                 //判定班级的输入是否完整
                 if ($word->grade->isNotEmpty()){
                     foreach ($word->grade->toArray() as $value){
-                        if ($value['name'] == json_decode($rules,true)['选择班级']){
+                        if ($value['name'] == json_decode($rules,true)['grade']){
                             $grade = $value['name'];
                         }
                     }
@@ -94,17 +95,40 @@ class HomeController extends Controller
      * 提交问卷
      */
     public function wordSend(Word $word,Request $request){
-        session(['status' => 'OVER']);  //设置问卷状态
+        session(['status' => 'OVER']);  //记录用户问卷状态
 
-        //todo 数据入库，数据统计
+        //接收数据
+        $userinfo = \request(['userinfo'])['userinfo'];
+        $answer = \request(['answer']);
+
+        //判定如果问卷要求输入信息时，提交数据没有信息，弹出404错误
+        if ($word->rule->isNotEmpty() && $userinfo == null){
+            abort(404,'请求非法');
+        }
+
+        //如果答案内容为空，报出404
+        if ($answer == null){
+            abort(404,'请求非法');
+        }
+
+        //得到后台需要的userinfo字段
+        $rules = [];
+        foreach ($word->rule->toArray() as $value){
+            $rules[] = $value['name'];
+        }
+
+        //排除不需要的userinfo字段
+        $userinfo = array_intersect_key(json_decode($userinfo,true),array_flip($rules));
+
+        $userinfo['ip_address'] = $request->getClientIp();
+
+        //事务提交，防止数据不同步  如果规则为公开(无规则)，就暂时保存空数据
+        DB::transaction(function () use ($word,$userinfo,$answer) {
+            $word->resultAnswer()->create($answer);     //添加记录
+            $word->resultUserinfo()->create($userinfo); //添加记录
+        });
 
         return ['msg' => 'ok'];
-
-
-        dump(session('surveyStatus'));
-
-        dump($word);
-//        dd($rules);
     }
 
     /**

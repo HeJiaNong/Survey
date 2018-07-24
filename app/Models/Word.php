@@ -23,4 +23,14 @@ class Word extends Model
         return $this->belongsToMany('App\Models\Rule');
     }
 
+    public function resultAnswer()
+    {
+        return $this->hasMany('App\Models\ResultAnswer');
+    }
+
+    public function resultUserinfo()
+    {
+        return $this->hasMany('App\Models\ResultUserinfo');
+    }
+
 }

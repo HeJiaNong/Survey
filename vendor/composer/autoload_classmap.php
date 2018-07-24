@@ -35,6 +35,8 @@ return array(
     'App\\Models\\Branch' => $baseDir . '/app/Models/Branch.php',
     'App\\Models\\Category' => $baseDir . '/app/Models/Category.php',
     'App\\Models\\Grade' => $baseDir . '/app/Models/Grade.php',
+    'App\\Models\\ResultAnswer' => $baseDir . '/app/Models/ResultAnswer.php',
+    'App\\Models\\ResultUserinfo' => $baseDir . '/app/Models/ResultUserinfo.php',
     'App\\Models\\Rule' => $baseDir . '/app/Models/Rule.php',
     'App\\Models\\Teacher' => $baseDir . '/app/Models/Teacher.php',
     'App\\Models\\Topic' => $baseDir . '/app/Models/Topic.php',

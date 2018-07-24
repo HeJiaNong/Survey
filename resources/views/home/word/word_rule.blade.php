@@ -61,7 +61,7 @@
         //             "elements": [
         //                 {
         //                     "type": "text",
-        //                     "name": "用户名",
+        //                     "name": "name",
         //                     "title": {
         //                         "zh-cn": "用户名"
         //                     },
@@ -77,7 +77,7 @@
         //             "elements": [
         //                 {
         //                     "type": "radiogroup",
-        //                     "name": "性别",
+        //                     "name": "sex",
         //                     "title": {
         //                         "zh-cn": "性别"
         //                     },
@@ -94,7 +94,7 @@
         //             "elements": [
         //                 {
         //                     "type": "text",
-        //                     "name": "邮箱",
+        //                     "name": "email",
         //                     "title": {
         //                         "zh-cn": "邮箱"
         //                     },
@@ -111,7 +111,7 @@
         //             "elements": [
         //                 {
         //                     "type": "text",
-        //                     "name": "电话号码",
+        //                     "name": "number",
         //                     "title": {
         //                         "zh-cn": "电话号码"
         //                     },
@@ -129,7 +129,7 @@
         //             "elements": [
         //                 {
         //                     "type": "text",
-        //                     "name": "QQ号码",
+        //                     "name": "qq_number",
         //                     "title": {
         //                         "zh-cn": "QQ号码"
         //                     },
@@ -146,7 +146,7 @@
         //             "elements": [
         //                 {
         //                     "type": "dropdown",
-        //                     "name": "选择班级",
+        //                     "name": "grade",
         //                     "title": {
         //                         "zh-cn": "选择班级"
         //                     },
@@ -199,102 +199,17 @@
             "pages": [
                 @if($word->rule->isNotEmpty())
                     @foreach($word->rule as $value)
-                    {!! $value->topic_json !!},
+                        {!! $value->topic_json !!},
                     @endforeach
                 @endif
 
-                {{--{--}}
-                    {{--"name": "用户名",--}}
-                    {{--"elements": [--}}
-                        {{--{--}}
-                            {{--"type": "text",--}}
-                            {{--"name": "用户名",--}}
-                            {{--"title": {--}}
-                                {{--"zh-cn": "用户名"--}}
-                            {{--},--}}
-                            {{--"isRequired": true,--}}
-                            {{--"placeHolder": {--}}
-                                {{--"zh-cn": "your name"--}}
-                            {{--}--}}
-                        {{--}--}}
-                    {{--]--}}
-                {{--},--}}
-                {{--{--}}
-                    {{--"name": "性别",--}}
-                    {{--"elements": [--}}
-                        {{--{--}}
-                            {{--"type": "radiogroup",--}}
-                            {{--"name": "性别",--}}
-                            {{--"title": {--}}
-                                {{--"zh-cn": "性别"--}}
-                            {{--},--}}
-                            {{--"isRequired": true,--}}
-                            {{--"choices": [--}}
-                                {{--"男",--}}
-                                {{--"女"--}}
-                            {{--]--}}
-                        {{--}--}}
-                    {{--]--}}
-                {{--},--}}
-                {{--{--}}
-                    {{--"name": "邮箱",--}}
-                    {{--"elements": [--}}
-                        {{--{--}}
-                            {{--"type": "text",--}}
-                            {{--"name": "邮箱",--}}
-                            {{--"title": {--}}
-                                {{--"zh-cn": "邮箱"--}}
-                            {{--},--}}
-                            {{--"isRequired": true,--}}
-                            {{--"inputType": "email",--}}
-                            {{--"placeHolder": {--}}
-                                {{--"zh-cn": "your@email.com"--}}
-                            {{--}--}}
-                        {{--}--}}
-                    {{--]--}}
-                {{--},--}}
-                {{--{--}}
-                    {{--"name": "电话号码",--}}
-                    {{--"elements": [--}}
-                        {{--{--}}
-                            {{--"type": "text",--}}
-                            {{--"name": "电话号码",--}}
-                            {{--"title": {--}}
-                                {{--"zh-cn": "电话号码"--}}
-                            {{--},--}}
-                            {{--"isRequired": true,--}}
-                            {{--"inputType": "number",--}}
-                            {{--"placeHolder": {--}}
-                                {{--"zh-cn": "your number"--}}
-                            {{--}--}}
-                        {{--}--}}
-                    {{--],--}}
-                    {{--"maxTimeToFinish": 15--}}
-                {{--},--}}
-                {{--{--}}
-                    {{--"name": "QQ号码",--}}
-                    {{--"elements": [--}}
-                        {{--{--}}
-                            {{--"type": "text",--}}
-                            {{--"name": "QQ号码",--}}
-                            {{--"title": {--}}
-                                {{--"zh-cn": "QQ号码"--}}
-                            {{--},--}}
-                            {{--"isRequired": true,--}}
-                            {{--"inputType": "number",--}}
-                            {{--"placeHolder": {--}}
-                                {{--"zh-cn": "马化腾给的"--}}
-                            {{--}--}}
-                        {{--}--}}
-                    {{--]--}}
-                {{--},--}}
                 @if($word->grade->isNotEmpty())
                 {
                     "name": "选择班级",
                     "elements": [
                         {
                             "type": "dropdown",
-                            "name": "选择班级",
+                            "name": "grade",
                             "title": {
                                 "zh-cn": "选择班级"
                             },

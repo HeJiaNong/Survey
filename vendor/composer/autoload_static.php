@@ -382,6 +382,8 @@ class ComposerStaticInit2ee69a23bc486742b57ffd5392ea0bf5
         'App\\Models\\Branch' => __DIR__ . '/../..' . '/app/Models/Branch.php',
         'App\\Models\\Category' => __DIR__ . '/../..' . '/app/Models/Category.php',
         'App\\Models\\Grade' => __DIR__ . '/../..' . '/app/Models/Grade.php',
+        'App\\Models\\ResultAnswer' => __DIR__ . '/../..' . '/app/Models/ResultAnswer.php',
+        'App\\Models\\ResultUserinfo' => __DIR__ . '/../..' . '/app/Models/ResultUserinfo.php',
         'App\\Models\\Rule' => __DIR__ . '/../..' . '/app/Models/Rule.php',
         'App\\Models\\Teacher' => __DIR__ . '/../..' . '/app/Models/Teacher.php',
         'App\\Models\\Topic' => __DIR__ . '/../..' . '/app/Models/Topic.php',
