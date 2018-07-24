@@ -122,23 +122,28 @@ class HomeController extends Controller
             $rules[] = $value['name'];
         }
 
-        //获取班级id
+        //获取班级名称
         $grade_name = json_decode($userinfo,true)['grade'];
         $grade_id = '';
 
         if ($word->grade->isNotEmpty()){
-            if ($grade_name == null){
+            $grades = [];
+            foreach ($word->grade->toArray() as $value){
+                $grades[$value['id']] = $value['name'];
+            }
+
+            if (!in_array($grade_name,$grades)){
                 abort(404,'请求非法');
             }
-            $grade_id = Grade::where('name','=',$grade_name)->select('id')->value('id');
-            if ($grade_id == null){
-                abort(404,'请求非法');
-            }
+
+            $grade_id = array_flip($grades)[$grade_name];
         }
 
 
-        //排除不需要的userinfo字段,并合并答案字段
-        $userinfo =  array_merge($answer,array_intersect_key(json_decode($userinfo,true),array_flip($rules)));
+        //排除不需要的userinfo字段
+        $userinfo = array_intersect_key(json_decode($userinfo,true),array_flip($rules));
+
+        $userinfo =  array_merge($answer,$userinfo);
 
         $userinfo['grade_id'] = $grade_id;
 
