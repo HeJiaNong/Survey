@@ -20,9 +20,9 @@ class CreateResultsTable extends Migration
             $table->text('answer')->comment('答案内容');
             $table->string('name')->nullable()->comment('名称');
             $table->string('email')->nullable()->comment('邮箱');
-            $table->integer('number')->nullable()->unsigned()->comment('电话号码');
+            $table->string('number')->nullable()->comment('电话号码');
             $table->enum('sex',['男','女'])->nullable()->comment('性别');
-            $table->integer('qq_number')->nullable()->unsigned()->comment('QQ号码');
+            $table->string('qq_number')->nullable()->comment('QQ号码');
             $table->string('ip_address')->nullable()->omment('ip地址');
             $table->string('country')->nullable()->omment('国家');
             $table->string('region')->nullable()->omment('地区');
