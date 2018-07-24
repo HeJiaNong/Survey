@@ -22,6 +22,10 @@ class CreateResultUserinfosTable extends Migration
             $table->enum('sex',['男','女'])->nullable()->comment('性别');
             $table->integer('qq_number')->nullable()->unsigned()->comment('QQ号码');
             $table->string('ip_address')->nullable()->omment('ip地址');
+            $table->string('country')->nullable()->omment('国家');
+            $table->string('region')->nullable()->omment('地区');
+            $table->string('city')->nullable()->omment('城市');
+            $table->string('isp')->nullable()->omment('运营商');
             $table->timestamps();
         });
     }
