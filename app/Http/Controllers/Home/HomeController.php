@@ -144,6 +144,7 @@ class HomeController extends Controller
         return ['msg' => 'ok'];
     }
 
+
     /**
      * 通过班级获取对应老师
      * @param $classId integer 班级id
