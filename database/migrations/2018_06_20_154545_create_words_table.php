@@ -17,7 +17,7 @@ class CreateWordsTable extends Migration
             $table->increments('id');
             $table->string('name')->comment('问卷模板名称');
             $table->integer('category_id')->unsigned()->comment('问卷类型');
-            $table->string('describe')->nullable()->comment('描述');
+            $table->text('describe')->nullable()->comment('描述');
             $table->text('content')->nullable()->comment('问卷内容');
             $table->string('qrcode')->nullable()->comment('二维码地址');
             $table->boolean('status')->default(false)->comment('状态：1启用，0停用');
