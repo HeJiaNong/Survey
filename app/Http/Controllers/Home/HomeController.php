@@ -105,6 +105,7 @@ class HomeController extends Controller
         $userinfo = \request(['userinfo'])['userinfo'];
         $answer = \request(['answer']);
 
+
         //判定如果问卷要求输入信息时，提交数据没有信息，弹出404错误
         if ($word->rule->isNotEmpty() && $userinfo == null){
             abort(404,'请求非法');
@@ -121,8 +122,25 @@ class HomeController extends Controller
             $rules[] = $value['name'];
         }
 
-        //排除不需要的userinfo字段
-        $userinfo = array_intersect_key(json_decode($userinfo,true),array_flip($rules));
+        //获取班级id
+        $grade_name = json_decode($userinfo,true)['grade'];
+        $grade_id = '';
+
+        if ($word->grade->isNotEmpty()){
+            if ($grade_name == null){
+                abort(404,'请求非法');
+            }
+            $grade_id = Grade::where('name','=',$grade_name)->select('id')->value('id');
+            if ($grade_id == null){
+                abort(404,'请求非法');
+            }
+        }
+
+
+        //排除不需要的userinfo字段,并合并答案字段
+        $userinfo =  array_merge($answer,array_intersect_key(json_decode($userinfo,true),array_flip($rules)));
+
+        $userinfo['grade_id'] = $grade_id;
 
         //获得用户IP
         $userinfo['ip_address'] = $request->getClientIp();
@@ -136,9 +154,8 @@ class HomeController extends Controller
         $userinfo['isp'] = $ip_info['data']['isp'];         //运营商
 
         //事务提交，防止数据不同步  如果规则为公开(无规则)，就暂时保存空数据
-        DB::transaction(function () use ($word,$userinfo,$answer) {
-            $word->resultAnswer()->create($answer);     //添加记录
-            $word->resultUserinfo()->create($userinfo); //添加记录
+        DB::transaction(function () use ($word,$userinfo) {
+            $word->result()->create($userinfo); //添加记录
         });
 
         return ['msg' => 'ok'];
