@@ -132,16 +132,12 @@ class WordController extends BaseController
             'grade' => 'nullable|array'
         ]);
 
-        //todo 添加规则功能，暂时为：用户信息输入，班级选择
-//        dump($request);
-
         $field = array_intersect($word->getFillable(), array_keys($request->toArray()));   //得到最终将要加入数据库的字段
 
         foreach ($field as $v) {
             $word->$v = \request()->$v;        //循环赋值给数组
         }
 
-//        dd($word);
 
         $word->save();     //将数组入库,这时候$word就有id,可以执行以下通过id生成二维码操作
 
@@ -151,6 +147,8 @@ class WordController extends BaseController
         $word->qrcode = URL::asset('static/qrcodes/'.$word->id.'.png'); //设置字段的值为二维码的url
 
         $word->save();     //将数组入库
+
+
 
         //如果用户未选择任何，就删除之前添加的记录，这里无论怎样都要进行删除
         $word->rule()->detach();   //删除对应所有数据

@@ -16,6 +16,7 @@ class CreateRulesTable extends Migration
         Schema::create('rules', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name')->comment('规则名');
+            $table->string('title')->comment('规则名');
             $table->text('topic_json')->comment('题目JSON数据');
             $table->string('validate')->comment('laravel数据验证规则');
             $table->timestamps();

@@ -18,38 +18,273 @@ $factory->define(\App\Models\Word::class, function (Faker $faker) {
         'describe' => $faker->text,
         'category_id' => mt_rand(1,4),
         'content' => '{
-    questions: [
-        {
-            name: "name",
-            type: "text",
-            title: "Please enter your name:",
-            placeHolder: "Jon Snow",
-            isRequired: true
-        }, {
-            name: "birthdate",
-            type: "text",
-            inputType: "date",
-            title: "Your birthdate:",
-            isRequired: true
-        }, {
-            name: "color",
-            type: "text",
-            inputType: "color",
-            title: "Your favorite color:"
-        }, {
-            name: "email",
-            type: "text",
-            inputType: "email",
-            title: "Your e-mail:",
-            placeHolder: "jon.snow@nightwatch.org",
-            isRequired: true,
-            validators: [
-                {
-                    type: "email"
-                }
-            ]
-        }
-    ]
+ "pages": [
+  {
+   "name": "page1",
+   "elements": [
+    {
+     "type": "rating",
+     "name": "冬哥有多优秀？",
+     "title": "冬哥有多优秀？",
+     "isRequired": true,
+     "rateValues": [
+      "秀",
+      "天秀",
+      "蒂花之秀",
+      "造化钟神秀",
+      "社会主义接班人就属你最优秀"
+     ]
+    },
+    {
+     "type": "rating",
+     "name": "问题17",
+     "title": "冬哥有多优秀？",
+     "isRequired": true,
+     "rateValues": [
+      "秀",
+      "天秀",
+      "蒂花之秀",
+      "造化钟神秀",
+      "社会主义接班人就属你最优秀"
+     ]
+    },
+    {
+     "type": "rating",
+     "name": "问题16",
+     "title": "冬哥有多优秀？",
+     "isRequired": true,
+     "rateValues": [
+      "秀",
+      "天秀",
+      "蒂花之秀",
+      "造化钟神秀",
+      "社会主义接班人就属你最优秀"
+     ]
+    },
+    {
+     "type": "rating",
+     "name": "问题15",
+     "title": "冬哥有多优秀？",
+     "isRequired": true,
+     "rateValues": [
+      "秀",
+      "天秀",
+      "蒂花之秀",
+      "造化钟神秀",
+      "社会主义接班人就属你最优秀"
+     ]
+    },
+    {
+     "type": "rating",
+     "name": "问题14",
+     "title": "冬哥有多优秀？",
+     "isRequired": true,
+     "rateValues": [
+      "秀",
+      "天秀",
+      "蒂花之秀",
+      "造化钟神秀",
+      "社会主义接班人就属你最优秀"
+     ]
+    },
+    {
+     "type": "rating",
+     "name": "问题13",
+     "title": "冬哥有多优秀？",
+     "isRequired": true,
+     "rateValues": [
+      "秀",
+      "天秀",
+      "蒂花之秀",
+      "造化钟神秀",
+      "社会主义接班人就属你最优秀"
+     ]
+    },
+    {
+     "type": "rating",
+     "name": "问题12",
+     "title": "冬哥有多优秀？",
+     "isRequired": true,
+     "rateValues": [
+      "秀",
+      "天秀",
+      "蒂花之秀",
+      "造化钟神秀",
+      "社会主义接班人就属你最优秀"
+     ]
+    },
+    {
+     "type": "rating",
+     "name": "问题11",
+     "title": "冬哥有多优秀？",
+     "isRequired": true,
+     "rateValues": [
+      "秀",
+      "天秀",
+      "蒂花之秀",
+      "造化钟神秀",
+      "社会主义接班人就属你最优秀"
+     ]
+    },
+    {
+     "type": "rating",
+     "name": "问题10",
+     "title": "冬哥有多优秀？",
+     "isRequired": true,
+     "rateValues": [
+      "秀",
+      "天秀",
+      "蒂花之秀",
+      "造化钟神秀",
+      "社会主义接班人就属你最优秀"
+     ]
+    },
+    {
+     "type": "rating",
+     "name": "问题9",
+     "title": "冬哥有多优秀？",
+     "isRequired": true,
+     "rateValues": [
+      "秀",
+      "天秀",
+      "蒂花之秀",
+      "造化钟神秀",
+      "社会主义接班人就属你最优秀"
+     ]
+    },
+    {
+     "type": "rating",
+     "name": "问题8",
+     "title": "冬哥有多优秀？",
+     "isRequired": true,
+     "rateValues": [
+      "秀",
+      "天秀",
+      "蒂花之秀",
+      "造化钟神秀",
+      "社会主义接班人就属你最优秀"
+     ]
+    },
+    {
+     "type": "rating",
+     "name": "问题7",
+     "title": "冬哥有多优秀？",
+     "isRequired": true,
+     "rateValues": [
+      "秀",
+      "天秀",
+      "蒂花之秀",
+      "造化钟神秀",
+      "社会主义接班人就属你最优秀"
+     ]
+    },
+    {
+     "type": "rating",
+     "name": "问题6",
+     "title": "冬哥有多优秀？",
+     "isRequired": true,
+     "rateValues": [
+      "秀",
+      "天秀",
+      "蒂花之秀",
+      "造化钟神秀",
+      "社会主义接班人就属你最优秀"
+     ]
+    },
+    {
+     "type": "rating",
+     "name": "问题5",
+     "title": "冬哥有多优秀？",
+     "isRequired": true,
+     "rateValues": [
+      "秀",
+      "天秀",
+      "蒂花之秀",
+      "造化钟神秀",
+      "社会主义接班人就属你最优秀"
+     ]
+    },
+    {
+     "type": "rating",
+     "name": "问题4",
+     "title": "冬哥有多优秀？",
+     "isRequired": true,
+     "rateValues": [
+      "秀",
+      "天秀",
+      "蒂花之秀",
+      "造化钟神秀",
+      "社会主义接班人就属你最优秀"
+     ]
+    },
+    {
+     "type": "rating",
+     "name": "问题3",
+     "title": "冬哥有多优秀？",
+     "isRequired": true,
+     "rateValues": [
+      "秀",
+      "天秀",
+      "蒂花之秀",
+      "造化钟神秀",
+      "社会主义接班人就属你最优秀"
+     ]
+    },
+    {
+     "type": "rating",
+     "name": "问题2",
+     "title": "冬哥有多优秀？",
+     "isRequired": true,
+     "rateValues": [
+      "秀",
+      "天秀",
+      "蒂花之秀",
+      "造化钟神秀",
+      "社会主义接班人就属你最优秀"
+     ]
+    },
+    {
+     "type": "rating",
+     "name": "问题1",
+     "title": "冬哥有多优秀？",
+     "isRequired": true,
+     "rateValues": [
+      "秀",
+      "天秀",
+      "蒂花之秀",
+      "造化钟神秀",
+      "社会主义接班人就属你最优秀"
+     ]
+    },
+    {
+     "type": "rating",
+     "name": "问题19",
+     "title": "冬哥有多优秀？",
+     "isRequired": true,
+     "rateValues": [
+      "秀",
+      "天秀",
+      "蒂花之秀",
+      "造化钟神秀",
+      "社会主义接班人就属你最优秀"
+     ]
+    },
+    {
+     "type": "rating",
+     "name": "问题18",
+     "title": "冬哥有多优秀？",
+     "isRequired": true,
+     "rateValues": [
+      "秀",
+      "天秀",
+      "蒂花之秀",
+      "造化钟神秀",
+      "社会主义接班人就属你最优秀"
+     ]
+    }
+   ]
+  }
+ ]
 }',
         'status' => false,
         'created_at' => $date_time,

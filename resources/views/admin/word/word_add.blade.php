@@ -43,8 +43,8 @@
                         </td>
                         <td>
                             <div id="info" class="layui-input-block">
-                                @foreach(\App\Models\Rule::select(['id','name'])->get() as $v)
-                                    <input name="rule[]" lay-skin="primary" type="checkbox" value="{{ $v->id }}" title="{{ $v->name }}">
+                                @foreach(\App\Models\Rule::select(['id','title'])->get() as $v)
+                                    <input name="rule[]" lay-skin="primary" type="checkbox" value="{{ $v->id }}" title="{{ $v->title }}">
                                 @endforeach
                             </div>
                         </td>

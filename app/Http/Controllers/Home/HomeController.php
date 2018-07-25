@@ -143,12 +143,15 @@ class HomeController extends Controller
         //排除不需要的userinfo字段
         $userinfo = array_intersect_key(json_decode($userinfo,true),array_flip($rules));
 
+        //合并数组
         $userinfo =  array_merge($answer,$userinfo);
 
+        //存入班级id
         $userinfo['grade_id'] = $grade_id;
 
         //获得用户IP
         $userinfo['ip_address'] = $request->getClientIp();
+
 
         //通过ip获得对应城市信息----淘宝提供的API
         $ip_info = json_decode(file_get_contents('http://ip.taobao.com/service/getIpInfo.php?ip=' . $userinfo['ip_address']),true);
@@ -158,10 +161,12 @@ class HomeController extends Controller
         $userinfo['city'] = $ip_info['data']['city'];       //城市
         $userinfo['isp'] = $ip_info['data']['isp'];         //运营商
 
-        //事务提交，防止数据不同步  如果规则为公开(无规则)，就暂时保存空数据
+        //事务提交，失败回滚
         DB::transaction(function () use ($word,$userinfo) {
             $word->result()->create($userinfo); //添加记录
         });
+
+//        $word->result()->create($userinfo); //添加记录
 
         return ['msg' => 'ok'];
     }

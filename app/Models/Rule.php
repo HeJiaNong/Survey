@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Rule extends Model
 {
     //允许添加的字段
-    protected $fillable = ['name'];
+    protected $fillable = ['name','title'];
 
     public function word()
     {
