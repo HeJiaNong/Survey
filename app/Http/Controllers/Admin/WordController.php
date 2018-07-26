@@ -148,8 +148,6 @@ class WordController extends BaseController
 
         $word->save();     //将数组入库
 
-
-
         //如果用户未选择任何，就删除之前添加的记录，这里无论怎样都要进行删除
         $word->rule()->detach();   //删除对应所有数据
         $word->grade()->detach();   //删除对应所有数据

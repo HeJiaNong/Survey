@@ -28,8 +28,8 @@
         </div>
         <xblock>
             <button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon"></i>批量下架</button>
-            <button class="layui-btn" onclick="x_admin_show('添加问卷','{{ route('admin_word_addPage') }}',1000,600)"><i
-                        class="layui-icon"></i>添加
+            <button class="layui-btn" onclick="x_admin_show('发布问卷','{{ route('admin_word_addPage') }}',1000,600)"><i
+                        class="layui-icon"></i>发布问卷
             </button>
             <span class="x-right" style="line-height:40px">共有数据：{{ $dataset->total() }} 条</span>
         </xblock>
@@ -42,19 +42,21 @@
                     </div>
                 </th>
                 <th>ID</th>
-                <th>模板名称</th>
+                <th>问卷名称</th>
                 <th>类型</th>
                 <th style="width: 120px">描述</th>
-                <th>参与规则  </th>
+                <th style="width: 60px">参与规则</th>
                 <th>更新时间</th>
                 <th style="width: 240px;">内容详情</th>
+                <th style="width: 75px;">数据统计</th>
                 <th>状态</th>
                 <th>操作</th>
             </tr>
             </thead>
+
             <tbody>
             @foreach($dataset as $data)
-                <tr>
+                <tr style="height: 50px;">
                     <td>
                         <div class="layui-unselect layui-form-checkbox" lay-skin="primary" data-id={{ $data->id }}>
                             <i class="layui-icon">&#xe605;</i>
@@ -65,24 +67,15 @@
                     <td>{{ $data->category->name }}</td>
                     <td><span title="{{ $data->describe }}">@if(mb_strlen($data->describe) > 7) {{ mb_substr($data->describe,0,7) }} … @else {{$data->describe}} @endif</span></td>
                     <td>
-                        {{--如果没有规则--}}
-                        @if($data->grade->isEmpty() && $data->rule->isEmpty())
-                            公开
-                        @else
-                            <a id="edit2"  href="javascript:;" title="编辑" onclick="x_admin_show('查看规则','{{ route('admin_word_showRule',$data->id) }}',1000,600)" >
-                                <i class="iconfont">&#xe6e6;&nbsp;</i>
-                            </a>
-                        @endif
-
-
-
-                    {{--@foreach($data->grade->unique() as $value)--}}
-                        {{--{{ $value->name }}<br>--}}
-                    {{--@endforeach--}}
+                    {{--如果没有规则--}}
+                    @if($data->grade->isEmpty() && $data->rule->isEmpty())
+                        公开
+                    @else
+                        <a id="edit2"  href="javascript:;" title="编辑" onclick="x_admin_show('查看规则','{{ route('admin_word_showRule',$data->id) }}',1000,600)" >
+                            <i class="iconfont">&#xe6e6;&nbsp;</i>
+                        </a>
+                    @endif
                     </td>
-
-                    {{--<td>{{ $data->grade()->count() }}</td> --}}{{-- 参与人数 --}}
-
                     <td>{{ $data->updated_at }}</td>
                     <td class="td-edit">
                         @if(!empty($data->content))
@@ -103,11 +96,16 @@
                             </a>
 
                     </td>
+                    <td>
+                        <button onclick="x_admin_show('发布问卷','http://www.baidu.com',1000,600)" class="layui-btn  layui-btn-sm layui-btn-radius layui-btn-normal" >
+                            参与:{{$data->result()->count()}}人
+                        </button>
+                    </td>
                     <td class="td-status ">
                         <input type="checkbox" lay-filter="switchStatus" name="switch" lay-skin="switch" lay-text="发布|下架" value="{{ $data->id }}" @if($data->status == 1) checked @endif  >
                     </td>
                     <td class="td-manage">
-                        <a id="edit2" url="x_admin_show('编辑','{{ route('admin_word_editPage',$data->id) }}',1000,600)" href="javascript:;" title="编辑" @if($data->status == 0) onclick="x_admin_show('编辑','{{ route('admin_word_editPage',$data->id) }}',1000,600)" @endif>
+                        <a id="edit2" url="x_admin_show('编辑问卷','{{ route('admin_word_editPage',$data->id) }}',1000,600)" href="javascript:;" title="编辑问卷" @if($data->status == 0) onclick="x_admin_show('编辑问卷','{{ route('admin_word_editPage',$data->id) }}',1000,600)" @endif>
                             <i class="layui-icon">&#xe642;</i>
                         </a>
                         <a id="del" url="member_del(this,'{{ route('admin_word_del',$data->id) }}')" href="javascript:;" title="删除" @if($data->status == 0) onclick="member_del(this,'{{ route('admin_word_del',$data->id) }}')" @endif>

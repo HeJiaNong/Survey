@@ -55,7 +55,7 @@
                         <li>
                             <a _href="{{ route('admin_word_list_get') }}">
                                 <i class="iconfont">&#xe6a7;</i>
-                                <cite>问卷模板</cite>
+                                <cite>问卷列表</cite>
                             </a>
                         </li >
                         <li>

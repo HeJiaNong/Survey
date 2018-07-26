@@ -67,13 +67,10 @@
         //提交问卷
         survey.onComplete.add(function (result) {
             // console.log(JSON.stringify(result.data));
-            console.log('提交问卷中...');
             //设置URL
             var url = '{{ route('home_wordSend',$word->id) }}';
             var rules = '{!! request()->route('rules') !!}';
 
-            console.log(rules);
-            console.log(JSON.stringify(result.data));
 
             //发异步发送问卷数据 request()->route('rules')
             $.ajax({
@@ -82,7 +79,7 @@
                 url         : url,          //请求链接地址
                 traditional : true,         //阻止深度序列化   默认为true
                 data        : {
-                    'userinfo' : rules,
+                    'rule' : rules,
                     'answer':JSON.stringify(result.data),
                 },  //数据为题目的json格式
                 dataType    : "json",       //预期服务器返回的数据格式
@@ -91,9 +88,12 @@
                 },
                 success: function(data) {
                     console.log(data);
+                    alert('ok');
                     // console.log(data.msg);
                 },
                 error:function (data) {
+                    alert('error');
+                    console.log(data);
                     layer.msg('操作失败', {icon: 1, time: 1000});
                 }
             });

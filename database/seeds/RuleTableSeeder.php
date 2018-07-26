@@ -65,7 +65,7 @@ EOF;
         $rule = new Rule();
         $rule->name = 'number';
         $rule->title = '电话号码';
-        $rule->validate = "'required|integer'";
+        $rule->validate = "'required|numeric|max:11'";
         $rule->topic_json = <<<EOF
         {
                     "name": "电话号码",
@@ -78,6 +78,7 @@ EOF;
                             },
                             "isRequired": true,
                             "inputType": "number",
+                            "maxLength": 11,
                             "placeHolder": {
                                 "zh-cn": "your number"
                             }
@@ -91,7 +92,7 @@ EOF;
         $rule = new Rule();
         $rule->name = 'sex';
         $rule->title = '性别';
-        $rule->validate = "'required'";
+        $rule->validate = "['required',Rule::in(['男','女']),]";
         $rule->topic_json = <<<EOF
         {
                     "name": "性别",
@@ -116,7 +117,7 @@ EOF;
         $rule = new Rule();
         $rule->name = 'qq_number';
         $rule->title = 'QQ号码';
-        $rule->validate = "'required|integer'";
+        $rule->validate = "'required|numeric|max:10'";
         $rule->topic_json = <<<EOF
         {
                     "name": "QQ号码",
@@ -129,6 +130,7 @@ EOF;
                             },
                             "isRequired": true,
                             "inputType": "number",
+                            "maxLength": 10,
                             "placeHolder": {
                                 "zh-cn": "马化腾给的"
                             }

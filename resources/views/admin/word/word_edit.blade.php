@@ -10,7 +10,7 @@
 
             <div class="layui-form-item">
                 <label for="name" class="layui-form-label" style="width: auto">
-                    <span class="x-red">*</span>模板名称:
+                    <span class="x-red">*</span>问卷名称:
                 </label>
                 <div class="layui-input-inline">
                     <input value="{{ $word->name }}" type="text" id="name" name="name" required="" lay-verify="required" autocomplete="off" class="layui-input">
