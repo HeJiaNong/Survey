@@ -15,7 +15,6 @@ class RuleTableSeeder extends Seeder
         $rule = new Rule();
         $rule->name = 'name';
         $rule->title = '用户名';
-        $rule->validate = "'required'";
         $rule->topic_json = <<<EOF
         {
                     "name": "用户名",
@@ -40,7 +39,6 @@ EOF;
         $rule = new Rule();
         $rule->name = 'email';
         $rule->title = '邮箱';
-        $rule->validate = "'required|email'";
         $rule->topic_json = <<<EOF
         {
                     "name": "邮箱",
@@ -65,7 +63,6 @@ EOF;
         $rule = new Rule();
         $rule->name = 'number';
         $rule->title = '电话号码';
-        $rule->validate = "'required|numeric|max:11'";
         $rule->topic_json = <<<EOF
         {
                     "name": "电话号码",
@@ -92,7 +89,6 @@ EOF;
         $rule = new Rule();
         $rule->name = 'sex';
         $rule->title = '性别';
-        $rule->validate = "['required',Rule::in(['男','女']),]";
         $rule->topic_json = <<<EOF
         {
                     "name": "性别",
@@ -117,7 +113,6 @@ EOF;
         $rule = new Rule();
         $rule->name = 'qq_number';
         $rule->title = 'QQ号码';
-        $rule->validate = "'required|numeric|max:10'";
         $rule->topic_json = <<<EOF
         {
                     "name": "QQ号码",
