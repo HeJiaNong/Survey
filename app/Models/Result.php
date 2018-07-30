@@ -12,4 +12,9 @@ class Result extends Model
     {
         return $this->belongsTo('App\Models\Word');
     }
+
+    public function grade()
+    {
+        return $this->belongsTo('App\Models\Grade');
+    }
 }

@@ -182,6 +182,12 @@ Route::prefix('admin')->namespace('Admin')->group( function () {
         //编辑问卷基本信息逻辑
         Route::put('/editStore/{word}','WordController@editStore')->name('admin_word_editStore');
 
+        //结果列表页
+        Route::get('/resultsPage/{word}','WordController@resultsPage')->name('admin_word_resultsPage');
+
+        //结果详情页
+        Route::get('/resultShow/{result}','WordController@resultShow')->name('admin_word_resultShow');
+
     });
 
     //问卷分类

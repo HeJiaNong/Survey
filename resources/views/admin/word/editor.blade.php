@@ -2,43 +2,116 @@
 @extends('admin.layouts.default')
 
         @section('head')
-            @include('admin.layouts._editorMeta')
+            @include('survey.builder')
             <meta name="csrf-token" content="{{ csrf_token() }}">
         @endsection
 
         @section('body')
-            <h2>编辑 {{ $word->name }} 问卷</h2>
+            {{--<h2>编辑 {{ $word->name }} 问卷</h2>--}}
             <div id="surveyContainer">
                 <div id="editorElement"></div>
             </div>
-
         @endsection
 
         @section('footer')
             <script type="text/javascript">
-
                 //本土化语言
                 SurveyEditor.editorLocalization.currentLocale = "zh-cn";
-                //编辑器主题 defaule bootstrap orange darkblue darkrose  stone winter winterstone
-                SurveyEditor.StylesManager.applyTheme("defaule");
 
+                //参数设定
                 var editorOptions = {
-                    // questionTypes: ["text", "checkbox", "radiogroup", "dropdown","boolean"]
+                    //允许显示的默认工具箱部件
+                    questionTypes: [
+                        "text",             //文本框
+                        "checkbox",         //多项选择
+                        "radiogroup",       //单项选择
+                        "dropdown",         //下拉框
+                        "comment",          //多行文本框
+                        "rating",           //评分
+                        "imagepicker",      //图片选择器
+                        "boolean",          //布尔选择
+                        "html",             //Html代码
+                        "expression",       //表达式
+                        "file",             //文件上传
+                        "matrix",           //矩阵(单选题)
+                        "matrixdropdown",   //矩阵(多选题)
+                        "matrixdynamic",    //矩阵(动态问题)
+                        "multipletext",     //文本框组
+                        "panel",            //面板
+                        "paneldynamic",     //面板(动态)
+                    ]
                 };
 
                 //生成编辑器
                 var editor = new SurveyEditor.SurveyEditor("editorElement", editorOptions);
 
+                //允许用户自定义工具箱的个数
+                editor.toolbox.copiedItemMaxCount = 5;
+
+                //工具箱分类
+                editor.toolbox.changeCategories([
+                    { name: "text",             category: "常用" },
+                    { name: "checkbox",         category: "常用" },
+                    { name: "radiogroup",       category: "常用" },
+                    { name: "dropdown",         category: "常用" },
+                    { name: "comment",          category: "常用" },
+                    { name: "rating",           category: "常用" },
+                    { name: "imagepicker",      category: "常用" },
+                    { name: "boolean",          category: "常用" },
+                    { name: "html",             category: "常用" },
+                    { name: "expression",       category: "常用" },
+                    { name: "file",             category: "常用" },
+                    { name: "multipletext",     category: "常用" },
+                    { name: "emotionsratings",  category: "常用" },
+
+                    { name: "matrix",           category: "矩阵" },
+                    { name: "matrixdropdown",   category: "矩阵" },
+                    { name: "matrixdynamic",    category: "矩阵" },
+
+                    { name: "panel",            category: "面板" },
+                    { name: "paneldynamic",     category: "面板" },
+                ]);
+
+                //打印所有工具箱部件
+                // console.log(editor.toolbox.items);
+
+                //移除工具箱部件
+                editor.toolbox.removeItem('microphone');
+                editor.toolbox.removeItem('emotionsratings');
+
+                //添加工具箱部件
+                editor.toolbox.addItem({
+                    "category" : "常用",
+                    "name" : "emotionsratings",
+                    "isCopied" : false,
+                    "iconName" : "icon-emotionsratings",
+                    "title" : "情绪评级",
+                    "json" : {
+                        "type" : "emotionsratings",
+                        "choices": [1,2,3,4,5]
+                    }
+                });
+
+                //接收后台题目内容
                 var json = @json($word->content);
 
+                //注入题目
                 editor.text = json;
 
                 //设置这个回调将使“保存”按钮可见
                 editor.saveSurveyFunc = function () {
+                    var answer = editor.text;
+                    var msg = '';
+
+                    //判断是否修改了问卷
+                    if (json === answer){
+                        msg = '确认保存吗？';
+                    }else {
+                        msg = '您已修改问卷，这将会清空统计数据，确认？';
+                    }
 
                     //弹出消息框
-                    layer.confirm('确认要保存修改吗？', function (index) {
-
+                    layer.confirm(msg, function (index) {
                         //设置URL
                         var url = '{{ route('admin_word_saveEditor',$word->id) }}';
 
@@ -74,87 +147,8 @@
                     });
 
                 }
-
             </script>
 
-            {{--<script>--}}
-                {{--var surveyName = "";--}}
-                {{--function setSurveyName(name) {--}}
-                    {{--var $titleTitle = jQuery("#sjs_editor_title_show");--}}
-                    {{--$titleTitle.find("span:first-child").text(name);--}}
-                {{--}--}}
-                {{--function startEdit() {--}}
-                    {{--var $titleEditor = jQuery("#sjs_editor_title_edit");--}}
-                    {{--var $titleTitle = jQuery("#sjs_editor_title_show");--}}
-                    {{--$titleTitle.hide();--}}
-                    {{--$titleEditor.show();--}}
-                    {{--$titleEditor.find("input")[0].value = surveyName;--}}
-                    {{--$titleEditor.find("input").focus();--}}
-                {{--}--}}
-                {{--function cancelEdit() {--}}
-                    {{--var $titleEditor = jQuery("#sjs_editor_title_edit");--}}
-                    {{--var $titleTitle = jQuery("#sjs_editor_title_show");--}}
-                    {{--$titleEditor.hide();--}}
-                    {{--$titleTitle.show();--}}
-                {{--}--}}
-                {{--function postEdit() {--}}
-                    {{--cancelEdit();--}}
-                    {{--var oldName = surveyName;--}}
-                    {{--var $titleEditor = jQuery("#sjs_editor_title_edit");--}}
-                    {{--surveyName = $titleEditor.find("input")[0].value;--}}
-                    {{--setSurveyName(surveyName);--}}
-                    {{--jQuery--}}
-                        {{--.get("/changeName?id=" + surveyId + "&name=" + surveyName, function(data) {--}}
-                            {{--surveyId = data.Id;--}}
-                        {{--})--}}
-                        {{--.fail(function(error) {--}}
-                            {{--surveyName = oldName;--}}
-                            {{--setSurveyName(surveyName);--}}
-                            {{--alert(JSON.stringify(error));--}}
-                        {{--});--}}
-                {{--}--}}
-
-                {{--function getParams() {--}}
-                    {{--var url = window.location.href--}}
-                        {{--.slice(window.location.href.indexOf("?") + 1)--}}
-                        {{--.split("&");--}}
-                    {{--var result = {};--}}
-                    {{--url.forEach(function(item) {--}}
-                        {{--var param = item.split("=");--}}
-                        {{--result[param[0]] = param[1];--}}
-                    {{--});--}}
-                    {{--return result;--}}
-                {{--}--}}
-
-                {{--Survey.dxSurveyService.serviceUrl = "";--}}
-                {{--var accessKey = "";--}}
-                {{--var editor = new SurveyEditor.SurveyEditor("editorElement");--}}
-                {{--var surveyId = decodeURI(getParams()["id"]);--}}
-                {{--editor.loadSurvey(surveyId);--}}
-                {{--editor.saveSurveyFunc = function(saveNo, callback) {--}}
-                    {{--var xhr = new XMLHttpRequest();--}}
-                    {{--xhr.open(--}}
-                        {{--"POST",--}}
-                        {{--Survey.dxSurveyService.serviceUrl + "/changeJson?accessKey=" + accessKey--}}
-                    {{--);--}}
-                    {{--xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");--}}
-                    {{--xhr.onload = function() {--}}
-                        {{--var result = xhr.response ? JSON.parse(xhr.response) : null;--}}
-                        {{--if (xhr.status === 200) {--}}
-                            {{--callback(saveNo, true);--}}
-                        {{--}--}}
-                    {{--};--}}
-                    {{--xhr.send(--}}
-                        {{--JSON.stringify({ Id: surveyId, Json: editor.text, Text: editor.text })--}}
-                    {{--);--}}
-                {{--};--}}
-                {{--editor.isAutoSave = true;--}}
-                {{--editor.showState = true;--}}
-                {{--editor.showOptions = true;--}}
-
-                {{--surveyName = surveyId;--}}
-                {{--setSurveyName(surveyName);--}}
-            {{--</script>--}}
         @endsection
 
 

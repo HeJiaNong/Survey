@@ -26,6 +26,7 @@
                 <button class="layui-btn" lay-submit="" lay-filter="sreach"><i class="layui-icon">&#xe615;</i></button>
             </form>
         </div>
+        <blockquote class="layui-elem-quote"><h3>注意!&nbsp;修改问卷操作将会清空之前统计数据！</h3></blockquote>
         <xblock>
             <button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon"></i>批量下架</button>
             <button class="layui-btn" onclick="x_admin_show('发布问卷','{{ route('admin_word_addPage') }}',1000,600)"><i
@@ -83,7 +84,7 @@
                                 <i class="iconfont">&#xe6e6;&nbsp;</i>点击查看详情
                             </button>
                         @endif
-                            <button id="edit" url="x_admin_show('编辑问卷','{{ route('admin_word_editor',$data->id) }}')" class="layui-btn layui-btn-warm layui-btn-xs @if($data->status == 1) layui-btn-disabled @endif " @if($data->status == 0) onclick="x_admin_show('编辑问卷','{{ route('admin_word_editor',$data->id) }}')" @endif >
+                            <button id="edit" url="x_admin_show('编辑 {{ $data->name }} 问卷','{{ route('admin_word_editor',$data->id) }}')" class="layui-btn layui-btn-warm layui-btn-xs @if($data->status == 1) layui-btn-disabled @endif " @if($data->status == 0) onclick="x_admin_show('编辑 {{ $data->name }} 问卷','{{ route('admin_word_editor',$data->id) }}')" @endif >
                                 <i class="iconfont">&#xe69e;&nbsp;</i>编辑
                             </button>
                             &nbsp;
@@ -97,8 +98,8 @@
 
                     </td>
                     <td>
-                        <button onclick="x_admin_show('发布问卷','http://www.baidu.com',1000,600)" class="layui-btn  layui-btn-sm layui-btn-radius layui-btn-normal" >
-                            参与:{{$data->result()->count()}}人
+                        <button onclick="x_admin_show('{{ $data->name }}','{{ route('admin_word_resultsPage',$data->id) }}')" class="layui-btn  layui-btn-sm layui-btn-radius layui-btn-normal" >
+                                参与:{{$data->result()->count()}}人
                         </button>
                     </td>
                     <td class="td-status ">

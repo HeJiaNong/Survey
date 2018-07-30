@@ -41,7 +41,7 @@ return [
 
         'mysql' => [
             'driver' => 'mysql',                                    //数据库的类型
-            'host' => env('DB_HOST', '127.0.0.1'),      //数据库的位置
+            'host' => env('DB_HOST', '127.0.0.1'),      //服务器地址
             'port' => env('DB_PORT', '3306'),           //端口号
             'database' => env('DB_DATABASE', 'survey'), //数据库名
             'username' => env('DB_USERNAME', 'root'),   //用户名

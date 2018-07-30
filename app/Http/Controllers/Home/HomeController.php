@@ -104,7 +104,7 @@ class HomeController extends Controller
         //记录用户问卷状态
         session(['status' => 'OVER']);
 
-        //文件状态判断
+        //问卷状态判断
         if ($word->status == 0) {
             return '还没上架呢';
         }
@@ -268,14 +268,6 @@ class HomeController extends Controller
 
         return view('home.word.index', compact('topics', 'info'));    //模板渲染
 
-    }
-
-    /*
-     * 问卷提交
-     */
-    public function wordStroe(Request $request)
-    {
-        dump($request->toArray());
     }
 
 }

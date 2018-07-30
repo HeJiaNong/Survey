@@ -4,7 +4,7 @@
 @section('title','Survey 问卷调查页')
 
 @section('head')
-    @include('admin.layouts._editorShowMeta')
+    @include('survey.library')
     <meta name="csrf-token" content="{{ csrf_token() }}">
 @endsection
 
@@ -22,8 +22,6 @@
             <div id="surveyResult"></div>
         </div>
     </div>
-
-
 @endsection
 
 @section('footer')
@@ -48,18 +46,29 @@
     </script>
     <script>
         //Example of adding new locale into the library.
-        var mycustomSurveyStrings = {
-            pagePrevText: "My Page Prev",
-            pageNextText: "My Page Next",
-            completeText: "OK - Press to Complete"
-        };
-
-        Survey.surveyLocalization.locales["my"] = mycustomSurveyStrings;
+        // var mycustomSurveyStrings = {
+        //     pagePrevText: "My Page Prev",
+        //     pageNextText: "My Page Next",
+        //     completeText: "OK - Press to Complete"
+        // };
+        //
+        // Survey.surveyLocalization.locales["my"] = mycustomSurveyStrings;
 
         //主题
         Survey.StylesManager.applyTheme("stone");
 
         var json = {!! $word->content !!};
+
+        // var json = {
+        //     elements: [
+        //         {
+        //             "type": "emotionsratings",
+        //             "name": "emotionsratings-widget",
+        //             "title": "Please rate the movie you've just watched",
+        //             "choices": ["1", "2", "3", "4", "5"]
+        //         }
+        //     ]
+        // };
 
         //生成问卷
         window.survey = new Survey.Model(json);

@@ -13,7 +13,8 @@
         <div class="sv_container">
             <div class="sv_header">
                 <h3>欢迎参与 "{{ $word->name }}" 问卷调查</h3>
-                <h2>开始前，请输入您的个人信息</h2>
+                <h2>开始前，请填写必要信息</h2>
+
                 <p>{{ $word->describe }}</p>
             </div>
         </div>

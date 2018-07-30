@@ -17,21 +17,16 @@ class RuleTableSeeder extends Seeder
         $rule->title = '用户名';
         $rule->topic_json = <<<EOF
         {
-                    "name": "用户名",
-                    "elements": [
-                        {
-                            "type": "text",
-                            "name": "name",
-                            "title": {
-                                "zh-cn": "用户名"
-                            },
-                            "isRequired": true,
-                            "placeHolder": {
-                                "zh-cn": "your name"
-                            }
-                        }
-                    ]
-                }
+   name: "name",
+   elements: [
+    {
+     type: "text",
+     name: "name",
+     title: "姓名",
+     isRequired: true
+    }
+   ]
+  }
 EOF;
 
         $rule->save();
@@ -41,22 +36,22 @@ EOF;
         $rule->title = '邮箱';
         $rule->topic_json = <<<EOF
         {
-                    "name": "邮箱",
-                    "elements": [
-                        {
-                            "type": "text",
-                            "name": "email",
-                            "title": {
-                                "zh-cn": "邮箱"
-                            },
-                            "isRequired": true,
-                            "inputType": "email",
-                            "placeHolder": {
-                                "zh-cn": "your@email.com"
-                            }
-                        }
-                    ]
-                }
+   name: "email",
+   elements: [
+    {
+     type: "text",
+     name: "email",
+     title: "邮箱",
+     isRequired: true,
+     validators: [
+      {
+       type: "email"
+      }
+     ],
+     inputType: "email"
+    }
+   ]
+  }
 EOF;
         $rule->save();
 
@@ -65,24 +60,25 @@ EOF;
         $rule->title = '电话号码';
         $rule->topic_json = <<<EOF
         {
-                    "name": "电话号码",
-                    "elements": [
-                        {
-                            "type": "text",
-                            "name": "number",
-                            "title": {
-                                "zh-cn": "电话号码"
-                            },
-                            "isRequired": true,
-                            "inputType": "number",
-                            "maxLength": 11,
-                            "placeHolder": {
-                                "zh-cn": "your number"
-                            }
-                        }
-                    ],
-                    "maxTimeToFinish": 15
-                }
+   name: "number",
+   elements: [
+    {
+     type: "text",
+     name: "number",
+     title: "电话号码",
+     isRequired: true,
+     validators: [
+      {
+       type: "numeric"
+      }
+     ],
+     inputType: "tel",
+     size: "",
+     maxLength: 11,
+     placeHolder: "请输入11位电话号码"
+    }
+   ]
+  }
 EOF;
         $rule->save();
 
@@ -91,22 +87,20 @@ EOF;
         $rule->title = '性别';
         $rule->topic_json = <<<EOF
         {
-                    "name": "性别",
-                    "elements": [
-                        {
-                            "type": "radiogroup",
-                            "name": "sex",
-                            "title": {
-                                "zh-cn": "性别"
-                            },
-                            "isRequired": true,
-                            "choices": [
-                                "男",
-                                "女"
-                            ]
-                        }
-                    ]
-                }
+   name: "sex",
+   elements: [
+    {
+     type: "radiogroup",
+     name: "sex",
+     title: "性别",
+     isRequired: true,
+     choices: [
+      "男",
+      "女"
+     ]
+    }
+   ]
+  }
 EOF;
         $rule->save();
 
@@ -115,23 +109,18 @@ EOF;
         $rule->title = 'QQ号码';
         $rule->topic_json = <<<EOF
         {
-                    "name": "QQ号码",
-                    "elements": [
-                        {
-                            "type": "text",
-                            "name": "qq_number",
-                            "title": {
-                                "zh-cn": "QQ号码"
-                            },
-                            "isRequired": true,
-                            "inputType": "number",
-                            "maxLength": 10,
-                            "placeHolder": {
-                                "zh-cn": "马化腾给的"
-                            }
-                        }
-                    ]
-                }
+   name: "qq_number",
+   elements: [
+    {
+     type: "text",
+     name: "qq_number",
+     title: "QQ号码",
+     isRequired: true,
+     inputType: "number",
+     maxLength: 10
+    }
+   ]
+  }
 EOF;
         $rule->save();
 

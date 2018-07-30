@@ -2,11 +2,10 @@
 @extends('admin.layouts.default')
 
         @section('head')
-            @include('admin.layouts._editorShowMeta')
+            @include('survey.library')
         @endsection
 
         @section('body')
-
             <div id="surveyElement"></div>
             <div id="surveyResult"></div>
         @endsection
@@ -14,14 +13,14 @@
         @section('footer')
             <script>
                 //Example of adding new locale into the library.
-                var mycustomSurveyStrings = {
-                    pagePrevText: "My Page Prev",
-                    pageNextText: "My Page Next",
-                    completeText: "OK - Press to Complete"
-                };
-                Survey
-                    .surveyLocalization
-                    .locales["my"] = mycustomSurveyStrings;
+                // var mycustomSurveyStrings = {
+                //     pagePrevText: "My Page Prev",
+                //     pageNextText: "My Page Next",
+                //     completeText: "OK - Press to Complete"
+                // };
+                // Survey
+                //     .surveyLocalization
+                //     .locales["my"] = mycustomSurveyStrings;
 
                 //主题
                 Survey

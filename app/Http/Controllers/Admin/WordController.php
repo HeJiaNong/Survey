@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\Category;
+use App\Models\Result;
 use App\Models\Word;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\URL;
@@ -88,6 +89,7 @@ class WordController extends BaseController
      * 编辑器
      */
     public function editor(Word $word){
+//        return view('survey.builder.builder',compact('word'));
         return view('admin.word.editor',compact('word'));
     }
 
@@ -96,15 +98,21 @@ class WordController extends BaseController
      */
     public function saveEditor(Word $word,Request $request){
 
-        $field = array_intersect($word->getFillable(), array_keys(\request()->toArray()));   //得到可修改的字段
+        //判断是否修改问卷，如果修改，则需要清空统计数据
+        if ($word->content !== $request->answer){
+            //删除当前问卷下的所有答卷
+            $word->result()->delete();
+        }
+
+        $field = array_intersect($word->getFillable(), array_keys($request->toArray()));   //得到可修改的字段
 
         foreach ($field as $k => $v) {
-            $word->$v = \request()->$v;    //循环赋值
+            $word->$v = $request->$v;    //循环赋值
         }
 
         $word->save();    //保存至数据库
 
-        return ['msg' => '编辑成功'];            //返回结果
+        return ['msg' => '编辑成功'];            //响应结果
 
     }
 
@@ -157,6 +165,21 @@ class WordController extends BaseController
 
 
         return ['msg' => '编辑成功'];            //返回结果
+    }
+
+    public function resultsPage(Word $word){
+//        $word = Word::with(['category','grade','rule','result'])->find($word)->first();
+
+        $word->load('category','grade','rule','result');    //动态添加模型关联
+
+        $paginate = Result::where('word_id','=',$word->id)->paginate(10);
+
+        return view('admin.word.resultsPage',compact('word','paginate'));
+    }
+
+    public function resultShow(Result $result){
+
+        return view('admin.word.resultShow',compact('result'));
     }
 
     /*
