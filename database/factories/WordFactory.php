@@ -25,6 +25,7 @@ $factory->define(\App\Models\Word::class, function (Faker $faker) {
     {
      "type": "emotionsratings",
      "name": "问题1",
+     "isRequired": true,
      "choices": [
       1,
       2,
@@ -36,6 +37,7 @@ $factory->define(\App\Models\Word::class, function (Faker $faker) {
     {
      "type": "emotionsratings",
      "name": "问题2",
+     "isRequired": true,
      "choices": [
       1,
       2,
@@ -47,6 +49,7 @@ $factory->define(\App\Models\Word::class, function (Faker $faker) {
     {
      "type": "emotionsratings",
      "name": "问题3",
+     "isRequired": true,
      "choices": [
       1,
       2,
@@ -58,6 +61,7 @@ $factory->define(\App\Models\Word::class, function (Faker $faker) {
     {
      "type": "emotionsratings",
      "name": "问题4",
+     "isRequired": true,
      "choices": [
       1,
       2,
@@ -69,6 +73,7 @@ $factory->define(\App\Models\Word::class, function (Faker $faker) {
     {
      "type": "emotionsratings",
      "name": "问题5",
+     "isRequired": true,
      "choices": [
       1,
       2,
@@ -80,6 +85,7 @@ $factory->define(\App\Models\Word::class, function (Faker $faker) {
     {
      "type": "emotionsratings",
      "name": "问题6",
+     "isRequired": true,
      "choices": [
       1,
       2,
@@ -91,6 +97,7 @@ $factory->define(\App\Models\Word::class, function (Faker $faker) {
     {
      "type": "emotionsratings",
      "name": "问题7",
+     "isRequired": true,
      "choices": [
       1,
       2,
@@ -102,6 +109,7 @@ $factory->define(\App\Models\Word::class, function (Faker $faker) {
     {
      "type": "emotionsratings",
      "name": "问题8",
+     "isRequired": true,
      "choices": [
       1,
       2,
@@ -113,6 +121,7 @@ $factory->define(\App\Models\Word::class, function (Faker $faker) {
     {
      "type": "emotionsratings",
      "name": "问题9",
+     "isRequired": true,
      "choices": [
       1,
       2,
@@ -124,6 +133,7 @@ $factory->define(\App\Models\Word::class, function (Faker $faker) {
     {
      "type": "emotionsratings",
      "name": "问题10",
+     "isRequired": true,
      "choices": [
       1,
       2,
@@ -135,6 +145,7 @@ $factory->define(\App\Models\Word::class, function (Faker $faker) {
     {
      "type": "emotionsratings",
      "name": "问题11",
+     "isRequired": true,
      "choices": [
       1,
       2,
@@ -146,6 +157,7 @@ $factory->define(\App\Models\Word::class, function (Faker $faker) {
     {
      "type": "emotionsratings",
      "name": "问题12",
+     "isRequired": true,
      "choices": [
       1,
       2,
@@ -157,6 +169,7 @@ $factory->define(\App\Models\Word::class, function (Faker $faker) {
     {
      "type": "emotionsratings",
      "name": "问题13",
+     "isRequired": true,
      "choices": [
       1,
       2,
@@ -168,6 +181,7 @@ $factory->define(\App\Models\Word::class, function (Faker $faker) {
     {
      "type": "emotionsratings",
      "name": "问题14",
+     "isRequired": true,
      "choices": [
       1,
       2,
@@ -179,6 +193,7 @@ $factory->define(\App\Models\Word::class, function (Faker $faker) {
     {
      "type": "emotionsratings",
      "name": "问题15",
+     "isRequired": true,
      "choices": [
       1,
       2,
@@ -190,6 +205,7 @@ $factory->define(\App\Models\Word::class, function (Faker $faker) {
     {
      "type": "emotionsratings",
      "name": "问题16",
+     "isRequired": true,
      "choices": [
       1,
       2,
@@ -201,6 +217,7 @@ $factory->define(\App\Models\Word::class, function (Faker $faker) {
     {
      "type": "emotionsratings",
      "name": "问题17",
+     "isRequired": true,
      "choices": [
       1,
       2,
@@ -212,6 +229,7 @@ $factory->define(\App\Models\Word::class, function (Faker $faker) {
     {
      "type": "emotionsratings",
      "name": "问题18",
+     "isRequired": true,
      "choices": [
       1,
       2,
@@ -223,6 +241,7 @@ $factory->define(\App\Models\Word::class, function (Faker $faker) {
     {
      "type": "emotionsratings",
      "name": "问题19",
+     "isRequired": true,
      "choices": [
       1,
       2,
@@ -234,6 +253,7 @@ $factory->define(\App\Models\Word::class, function (Faker $faker) {
     {
      "type": "emotionsratings",
      "name": "问题20",
+     "isRequired": true,
      "choices": [
       1,
       2,
