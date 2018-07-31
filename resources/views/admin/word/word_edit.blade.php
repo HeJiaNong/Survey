@@ -2,8 +2,8 @@
 @extends('admin.layouts.default')
 
 @section('body')
+    <blockquote class="layui-elem-quote"><h3>注意!修改问卷条件规则将会清空之前统计数据!</h3></blockquote>
     <div class="x-body layui-anim layui-anim-up">
-        @include('admin.shared._errors')
         <form id="addForm" class="layui-form layui-form-pane" action="{{ route('admin_word_editStore',$word->id) }}" method="post">
             {{ csrf_field() }}
             {{ method_field('put') }}
@@ -171,8 +171,6 @@
                 }
             });
 
-
-
             //监听提交
             form.on('submit(add)', function (data) {
                 //发异步，把数据提交给php
@@ -180,33 +178,34 @@
                 var data = $("#addForm").serialize();
 
                 console.log(data);
-                $.ajax({
-                    type: 'put',
-                    url: targetUrl,
-                    cache: false,
-                    data: data,
-                    dataType: 'json',
-                    success: function (data) {
-                        layer.alert(data.msg, {icon: 6}, function () {
-                            // 获得frame索引
-                            var index = parent.layer.getFrameIndex(window.name);
-                            //关闭当前frame
-                            parent.layer.close(index);
-                        });
+                    //发异步删除数据
+                    $.ajax({
+                        type: 'put',
+                        url: targetUrl,
+                        cache: false,
+                        data: data,
+                        dataType: 'json',
+                        success: function (data) {
+                            layer.alert(data.msg, {icon: 6}, function () {
+                                // 获得frame索引
+                                var index = parent.layer.getFrameIndex(window.name);
+                                //关闭当前frame
+                                parent.layer.close(index);
+                            });
 
-                    },
-                    error: function (data) {
-                        var msg = '';
+                        },
+                        error: function (data) {
+                            var msg = '';
 
-                        //将错误信息遍历出来,并且赋值到 msg
-                        for (var p in data.responseJSON.errors) { //遍历json对象的每个key/value对,p为key
-                            msg += p + " " + data.responseJSON.errors[p] + '<br />';
+                            //将错误信息遍历出来,并且赋值到 msg
+                            for (var p in data.responseJSON.errors) { //遍历json对象的每个key/value对,p为key
+                                msg += p + " " + data.responseJSON.errors[p] + '<br />';
+                            }
+                            //弹出消息框
+                            layer.msg(msg, {icon: 5, time: 2000});
+
                         }
-                        //弹出消息框
-                        layer.msg(msg, {icon: 5, time: 2000});
-
-                    }
-                });
+                    });
                 return false;
             });
         });

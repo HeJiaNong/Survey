@@ -26,7 +26,7 @@
                 <button class="layui-btn" lay-submit="" lay-filter="sreach"><i class="layui-icon">&#xe615;</i></button>
             </form>
         </div>
-        <blockquote class="layui-elem-quote"><h3>注意!&nbsp;修改问卷操作将会清空之前统计数据！</h3></blockquote>
+        {{--<blockquote class="layui-elem-quote"><h3>注意!&nbsp;修改问卷内容将会清空之前统计数据！</h3></blockquote>--}}
         <xblock>
             <button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon"></i>批量下架</button>
             <button class="layui-btn" onclick="x_admin_show('发布问卷','{{ route('admin_word_addPage') }}',1000,600)"><i
@@ -79,11 +79,11 @@
                     </td>
                     <td>{{ $data->updated_at }}</td>
                     <td class="td-edit">
-                        @if(!empty($data->content))
+                        {{--@if(!empty($data->content))--}}
                             <button class="layui-btn layui-btn layui-btn-xs" onclick="x_admin_show('问卷详情/测试','{{ route('admin_word_show',$data->id) }}')">
                                 <i class="iconfont">&#xe6e6;&nbsp;</i>点击查看详情
                             </button>
-                        @endif
+                        {{--@endif--}}
                             <button id="edit" url="x_admin_show('编辑 {{ $data->name }} 问卷','{{ route('admin_word_editor',$data->id) }}')" class="layui-btn layui-btn-warm layui-btn-xs @if($data->status == 1) layui-btn-disabled @endif " @if($data->status == 0) onclick="x_admin_show('编辑 {{ $data->name }} 问卷','{{ route('admin_word_editor',$data->id) }}')" @endif >
                                 <i class="iconfont">&#xe69e;&nbsp;</i>编辑
                             </button>

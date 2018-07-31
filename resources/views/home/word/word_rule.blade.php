@@ -4,7 +4,7 @@
 @section('title','Survey 问卷调查页')
 
 @section('head')
-    @include('admin.layouts._editorShowMeta')
+    @include('survey.library')
 @endsection
 
 @section('body')

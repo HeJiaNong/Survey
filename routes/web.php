@@ -25,8 +25,10 @@ Route::prefix('/')->namespace('Home')->group( function () {
 //    Route::get('/word_rule/{word}','HomeController@wordRule')->name('home_wordRule');
 
     Route::get('/getGrade/{id}', 'HomeController@getGrade')->name('getGrade');
+
     //返回老师列表
     Route::get('/teacher/{id}','HomeController@getTeacher')->name('get_teacher');
+
     //问卷页
     Route::get('/word/{wordId?}/{classId?}/{teacherId?}','HomeController@word')->name('word');
 
