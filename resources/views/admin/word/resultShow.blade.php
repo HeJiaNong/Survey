@@ -37,7 +37,7 @@
         survey.locale = 'zh-cn';
 
         //答案
-        survey.data = {!! $result->answer !!};
+        survey.data = {!! json_encode($result->answer) !!};
 
         survey.mode = 'display';    //只读模式
 

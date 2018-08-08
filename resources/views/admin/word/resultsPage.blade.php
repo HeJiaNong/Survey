@@ -1,11 +1,11 @@
 @extends('admin.layouts.default')
 
 @section('head')
-    <meta charset="utf-8">
-    <title>layui</title>
-    <meta name="renderer" content="webkit">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    {{--<meta charset="utf-8">--}}
+    {{--<title>layui</title>--}}
+    {{--<meta name="renderer" content="webkit">--}}
+    {{--<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">--}}
+    {{--<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">--}}
     <!-- 注意：如果你直接复制所有代码到本地，上述css路径需要改成你本地的 -->
 @endsection
 
@@ -25,7 +25,7 @@
                 <input class="layui-input" placeholder="截止日" name="end" id="end">
                 <input type="text" name="username"  placeholder="请输入用户名" autocomplete="off" class="layui-input">
                 <button class="layui-btn"  lay-submit="" lay-filter="sreach"><i class="layui-icon">&#xe615;</i></button>
-                <span class="x-right" style="line-height:40px">共有数据：88 条</span>
+                <span class="x-right" style="line-height:40px">共有数据：{{ $paginate->total() }} 条</span>
             </form>
         </div>
         {{--<xblock>--}}
@@ -44,6 +44,7 @@
                 @if($word->grade->isNotEmpty())
                     <th>班级</th>
                 @endif
+                <th>ip地区</th>
                 <th>答卷时间</th>
                 <th>答卷详情</th>
                 <th>操作</th>
@@ -60,8 +61,13 @@
                 @if($word->grade->isNotEmpty())
                     <td>{{ $result->grade->name }}</td>
                 @endif
+                <td>{{ $result->city }}</td>
                 <td>{{ $result->created_at }}</td>
-                <td><a href="{{ route('admin_word_resultShow',$result->id) }}"><span class="layui-btn layui-btn-normal layui-btn-mini">点击查看</span></a></td>
+                <td>
+                    <a title="点击查看答卷详情" href="{{ route('admin_word_resultShow',$result->id) }}">
+                        <i class="iconfont">&#xe705;</i>
+                    </a>
+                </td>
                 <td class="td-manage">
                     <a title="删除" onclick="member_del(this,'要删除的id')" href="javascript:;"><i class="layui-icon">&#xe640;</i></a>
                 </td>

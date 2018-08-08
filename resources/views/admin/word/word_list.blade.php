@@ -91,16 +91,24 @@
                             <a href="javascript:;" title="复制链接" onclick="copyURL('{{ route('home_wordShow',$data->id) }}')">
                                 <i class="iconfont">&#xe6c0;</i>
                             </a>
-                            &nbsp;
+                            &nbsp;&nbsp;&nbsp;
                             <a href="javascript:;" title="查看二维码" onclick="qrcode('{{ $data->qrcode }}')">
-                                <i class="iconfont"  >&#xe6ec;</i>
+                                <i class="iconfont">&#xe6a9;</i>
                             </a>
 
                     </td>
                     <td>
-                        <button onclick="x_admin_show('{{ $data->name }}','{{ route('admin_word_resultsPage',$data->id) }}')" class="layui-btn  layui-btn-sm layui-btn-radius layui-btn-normal" >
+                        <a href="javascript:;" title="答案统计" onclick="x_admin_show('{{ $data->name }}','{{ route('admin_word_count_answerPage',$data->id) }}')">
+                            <i class="iconfont"  >&#xe757;</i>
+                        </a>
+                        &nbsp;&nbsp;&nbsp;
+                        <a href="javascript:;" title="答卷列表" onclick="x_admin_show('{{ $data->name }}','{{ route('admin_word_resultsPage',$data->id) }}')">
+                            <i class="iconfont"  >&#xe6b5;</i><sup>&nbsp;{{$data->result()->count()}}</sup>
+                        </a>
+
+                        <!-- <button onclick="x_admin_show('{{ $data->name }}','{{ route('admin_word_resultsPage',$data->id) }}')" class="layui-btn  layui-btn-sm layui-btn-radius layui-btn-normal" >
                                 参与:{{$data->result()->count()}}人
-                        </button>
+                        </button> -->
                     </td>
                     <td class="td-status ">
                         <input type="checkbox" lay-filter="switchStatus" name="switch" lay-skin="switch" lay-text="发布|下架" value="{{ $data->id }}" @if($data->status == 1) checked @endif  >

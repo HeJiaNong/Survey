@@ -108,7 +108,7 @@ EOF;
         $rule->name = 'qq_number';
         $rule->title = 'QQ号码';
         $rule->topic_json = <<<EOF
-        {
+  {
    name: "qq_number",
    elements: [
     {
@@ -116,8 +116,14 @@ EOF;
      name: "qq_number",
      title: "QQ号码",
      isRequired: true,
-     inputType: "number",
-     maxLength: 10
+     validators: [
+      {
+       type: "numeric"
+      }
+     ],
+     inputType: "tel",
+     size: "",
+     maxLength: 10,
     }
    ]
   }

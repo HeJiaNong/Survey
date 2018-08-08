@@ -184,11 +184,34 @@ Route::prefix('admin')->namespace('Admin')->group( function () {
         //编辑问卷基本信息逻辑
         Route::put('/editStore/{word}','WordController@editStore')->name('admin_word_editStore');
 
+        //结果详情页
+        Route::get('/resultShow/{result}','WordController@resultShow')->name('admin_word_resultShow');
+
         //结果列表页
         Route::get('/resultsPage/{word}','WordController@resultsPage')->name('admin_word_resultsPage');
 
-        //结果详情页
-        Route::get('/resultShow/{result}','WordController@resultShow')->name('admin_word_resultShow');
+
+
+        //数据统计模块
+        Route::prefix('count')->group(function (){
+            //单问卷结果统计页面
+            Route::get('/answerPage/{word}','CountController@answerPage')->name('admin_word_count_answerPage');
+
+            //单问卷平均分统计
+            Route::get('/answerAvgPage/{word}','CountController@answerAvgPage')->name('admin_word_count_answerAvgPage');
+
+            //用户统计
+            Route::get('/user','CountController@user')->name('admin_word_count_user');
+
+            //单问卷答案列表
+            Route::get('/results','CountController@results')->name('admin_word_count_results');
+
+            //单问卷答案列表json数据接口
+            Route::get('/resultsJson','CountController@resultsJson')->name('admin_word_count_resultsJson');
+
+
+        });
+
 
     });
 
@@ -219,19 +242,19 @@ Route::prefix('admin')->namespace('Admin')->group( function () {
     });
 
     //题目列表
-    Route::middleware(['auth'])->prefix('topic')->group(function (){
-        //部门列表
-        Route::get('/','TopicController@index')->name('admin_topic_list_get');
-        //添加/修改
-        Route::match(['GET','POST','PUT'],'/save/{id?}', 'TopicController@save')->name('admin_topic_save');
-        //修改状态
-        Route::get('/status/{id}', 'TopicController@status')->name('admin_topic_status_get');
-        //批量修改状态
-        Route::get('/status_bulk/{ids}', 'TopicController@allStatus')->name('admin_topics_status_get');
-        //删除逻辑
-        Route::get('/del/{id}','TopicController@del')->name('admin_topic_del');
-        //搜索逻辑
-        Route::match(['GET','POST'],'/search', 'TopicController@searchStore')->name('admin_topic_search_post');
-    });
+//    Route::middleware(['auth'])->prefix('topic')->group(function (){
+//        //部门列表
+//        Route::get('/','TopicController@index')->name('admin_topic_list_get');
+//        //添加/修改
+//        Route::match(['GET','POST','PUT'],'/save/{id?}', 'TopicController@save')->name('admin_topic_save');
+//        //修改状态
+//        Route::get('/status/{id}', 'TopicController@status')->name('admin_topic_status_get');
+//        //批量修改状态
+//        Route::get('/status_bulk/{ids}', 'TopicController@allStatus')->name('admin_topics_status_get');
+//        //删除逻辑
+//        Route::get('/del/{id}','TopicController@del')->name('admin_topic_del');
+//        //搜索逻辑
+//        Route::match(['GET','POST'],'/search', 'TopicController@searchStore')->name('admin_topic_search_post');
+//    });
 
 });

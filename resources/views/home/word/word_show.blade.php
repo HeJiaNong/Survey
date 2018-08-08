@@ -45,41 +45,20 @@
         window.onresize=autodivheight; //浏览器窗口发生变化时同时变化DIV高度
     </script>
     <script>
-        //Example of adding new locale into the library.
-        // var mycustomSurveyStrings = {
-        //     pagePrevText: "My Page Prev",
-        //     pageNextText: "My Page Next",
-        //     completeText: "OK - Press to Complete"
-        // };
-        //
-        // Survey.surveyLocalization.locales["my"] = mycustomSurveyStrings;
-
         //主题
         Survey.StylesManager.applyTheme("stone");
 
+        //获取题目
         var json = {!! $word->content !!};
-
-        // var json = {
-        //     elements: [
-        //         {
-        //             "type": "emotionsratings",
-        //             "name": "emotionsratings-widget",
-        //             "title": "Please rate the movie you've just watched",
-        //             "choices": ["1", "2", "3", "4", "5"]
-        //         }
-        //     ]
-        // };
 
         //生成问卷
         window.survey = new Survey.Model(json);
 
         //提交问卷
         survey.onComplete.add(function (result) {
-            // console.log(JSON.stringify(result.data));
             //设置URL
             var url = '{{ route('home_wordSend',$word->id) }}';
             var rules = '{!! request()->route('rules') !!}';
-
 
             //发异步发送问卷数据 request()->route('rules')
             $.ajax({
@@ -88,7 +67,7 @@
                 url         : url,          //请求链接地址
                 traditional : true,         //阻止深度序列化   默认为true
                 data        : {
-                    'rule' : rules,
+                    'rule'  : rules,
                     'answer':JSON.stringify(result.data),
                 },  //数据为题目的json格式
                 dataType    : "json",       //预期服务器返回的数据格式
@@ -106,10 +85,8 @@
                     layer.msg('操作失败', {icon: 1, time: 1000});
                 }
             });
+        });
 
-            {{--window.location.href="{{ route('wordSend',$word->id) }}"+"/"+JSON.stringify(result.data);--}}
-                // document.querySelector('#surveyResult').innerHTML = "result: " + JSON.stringify(result.data);
-            });
         //本土化
         survey.locale = 'zh-cn';
 
