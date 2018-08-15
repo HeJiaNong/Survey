@@ -21,8 +21,8 @@ class CategoryTableSeeder extends Seeder
 
         //指定一条数据
         $teacher = Category::find(1);
-        $teacher->name = '新华分数统计';
-        $teacher->describe = '此分组下的问卷专门用于学校问卷分数统计调查';
+        $teacher->name = '新华统计';
+        $teacher->describe = '此分组下的问卷专门用于学校问卷统计调查';
         //保存数据
         $teacher->save();
 
