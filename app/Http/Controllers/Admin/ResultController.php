@@ -133,7 +133,7 @@ class ResultController extends BaseController
             return '暂无答卷';
         }
 
-        dump($topic);
+//        dump($topic);
 
         return view('admin.word.result.subjectDataStatistics',compact('topic'));
     }
