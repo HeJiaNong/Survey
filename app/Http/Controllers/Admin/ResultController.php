@@ -89,6 +89,7 @@ class ResultController extends BaseController
 
         //题目列表
         $topics = [];
+//        dd(json_decode($word->content));
 
         //前方高能警告 请准备好纸巾，尿不湿
         foreach (json_decode($word->content,true)['pages'] as $value){
@@ -97,7 +98,11 @@ class ResultController extends BaseController
                 $v['content'] = [];
                 foreach ($word->result as $result){
                     if ($result->status == 1){  //只计算未作废的答卷
-                        $v['answer'][$result->id] = $result->answer[$v['name']] ?? '';
+                        if (isset($v['valueName'])){
+                            $v['answer'][$result->id] = $result->answer[$v['valueName']] ?? '';
+                        }else{
+                            $v['answer'][$result->id] = $result->answer[$v['name']] ?? '';
+                        }
                     }
                 }
                 foreach (json_decode($word->content,true)['pages'] as $page){
@@ -112,7 +117,8 @@ class ResultController extends BaseController
             }
         }
 
-//        dump($topics);
+
+
 
         return view('admin.word.result.topic',compact('word','topics'));
     }
@@ -127,7 +133,7 @@ class ResultController extends BaseController
             return '暂无答卷';
         }
 
-//        dump($topic);
+        dump($topic);
 
         return view('admin.word.result.subjectDataStatistics',compact('topic'));
     }
