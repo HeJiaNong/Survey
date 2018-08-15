@@ -27,7 +27,7 @@ class CountController extends Controller
     }
 
     /*
-     * 各问卷交卷数量周报数据接口
+     * 所有问卷数量周报数据接口
      */
     public function resultsJson(){
         //获取上周Carbon对象
@@ -80,105 +80,16 @@ class CountController extends Controller
     }
 
     /*
-     * 单个问卷答案统计页面
+     * 问卷模板下所有答卷统计
      */
-    public function answerPage(Word $word){
-        //动态添加模型关联
-        $word->load('result');
+    public function wordCount(Word $word){
 
-        //题目列表
-        $item = [];
+        //todo 图形统计 周计，月计，年计
 
-        //结果集
-        $data = [];
-
-        //可计算分数的题目
-        $topics = [];
-
-        $type = [
-            'radiogroup',       //单项选择
-            'rating',           //评分
-            'emotionsratings'   //情绪评级
-        ];
-
-        //赋值可计算的题目
-        foreach (json_decode($word->content,true)['pages'] as $value){
-            foreach ($value['elements'] as $v){
-                if (in_array($v['type'],$type)){
-                    $topics[] = $v['name'];
-                }
-            }
-        }
-
-        //题目列表赋值
-        foreach (json_decode($word->content,true)['pages'][0]['elements'] as $v){
-            $item[] = $v['name'];
-        }
-
-        //结果集赋值
-        $data = $word->result()->where('word_id',$word->id)->paginate(10);
-
-        //添加总分属性
-        foreach ($data as $result){
-            $result->score = array_sum(array_values(array_intersect_key($result->answer,array_flip($topics))));
-        }
-
-        return view('admin.word.count.answer',compact('word','item','data'));
+        return view('admin.word.count.answer',compact('word'));
     }
 
-    /*
-     * 单问卷平均分统计
-     */
-    public function answerAvgPage(Word $word){
 
-        //结果集赋值
-        $data = $word->result()->where('word_id',$word->id)->get();
-
-        //todo 算出每道题的平均分
-        //平均分
-        $avg = [];
-
-        //题目列表
-        $topics = [];
-
-        //可计算的题目
-        $topics2 = [];
-
-        //类型
-        $type = [
-            'radiogroup',       //单项选择
-            'rating',           //评分
-            'emotionsratings'   //情绪评级
-        ];
-
-        //题目列表赋值
-        foreach (json_decode($word->content,true)['pages'][0]['elements'] as $v){
-            $topics[] = $v['name'];
-        }
-
-
-
-        //赋值可计算的题目
-        foreach (json_decode($word->content,true)['pages'] as $value){
-            foreach ($value['elements'] as $v){
-                if (in_array($v['type'],$type)){
-                    $topics2[] = $v['name'];
-                }
-            }
-        }
-
-        $score = [];
-
-        foreach ($topics2 as $value){
-            $score[$value] = 0;
-            foreach ($word->result as $result){
-                $score[$value] += $result->answer[$value];
-            }
-        }
-
-
-        return view('admin.word.count.avg',compact('word','data','score'));
-    }
 
 
 }

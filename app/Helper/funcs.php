@@ -30,3 +30,34 @@ function array_is_eq(array $oneArr,array $twoArr) : bool {
 
     return true;
 }
+
+/**
+ * 通过name获取title
+ * @param $name string    name
+ * @return string   返回title
+ */
+function getTopicTitleByName(string $name){
+    $title = '未知';
+    switch ($name){
+        case 'radiogroup'       : $title = '单项选择';break;
+        case 'rating'           : $title = '评分';break;
+        case 'text'             : $title = '文本框';break;
+        case 'dropdown'         : $title = '下拉框';break;
+        case 'comment'          : $title = '多行文本框';break;
+        case 'checkbox'         : $title = '多项选择';break;
+        case 'imagepicker'      : $title = '图片选择器';break;
+        case 'boolean'          : $title = '布尔选择';break;
+        case 'html'             : $title = 'Html代码';break;
+        case 'expression'       : $title = '表达式';break;
+        case 'file'             : $title = '文件上传';break;
+        case 'matrix'           : $title = '矩阵(单选题)';break;
+        case 'matrixdropdown'   : $title = '矩阵(多选题)';break;
+        case 'matrixdynamic'    : $title = '矩阵(动态问题)';break;
+        case 'multipletext'     : $title = '文本框组';break;
+        case 'panel'            : $title = '面板';break;
+        case 'paneldynamic'     : $title = '面板(动态)';break;
+        case 'emotionsratings'  : $title = '情绪评级';break;
+    }
+
+    return $title;
+}

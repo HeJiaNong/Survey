@@ -19,7 +19,7 @@ class TeachersTableSeeder extends Seeder
 
         Teacher::insert($teachers->toArray());
 
-        //赋值多对多关联
+        //赋值多对多关联   班级
         foreach (Teacher::all() as $teacher){
             $teacher->grade()->attach(mt_rand(1,20));
         }

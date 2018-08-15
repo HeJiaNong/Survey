@@ -16,7 +16,8 @@ $factory->define(\App\Models\Word::class, function (Faker $faker) {
     return [
         'name' => $name,
         'describe' => $faker->text,
-        'category_id' => mt_rand(1,4),
+        'category_id' => mt_rand(1,3),
+        'topics_html' => '暂无',
         'content' => '{
  "pages": [
   {

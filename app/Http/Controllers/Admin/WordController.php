@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Result;
 use App\Models\Word;
@@ -10,11 +11,23 @@ use Illuminate\Support\Facades\URL;
 use Illuminate\Validation\Rule;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
-class WordController extends BaseController
+class WordController extends Controller
 {
     protected $model_name = 'Word';
 
     protected $interaction = 'Grade';
+
+    /*
+     * 公共列表展示页
+     */
+    public function index()
+    {
+
+        $dataset = Word::paginate(10);  //分页
+
+        return view("admin.Word.Word_list", compact('dataset'));
+    }
+
 
     /*
      * 问卷添加页面
@@ -38,8 +51,6 @@ class WordController extends BaseController
             'grade' => 'nullable|array'
         ]);
 
-        //todo 添加规则功能，暂时为：用户信息输入，班级选择
-//        dump($request);
 
         $field = array_intersect($word->getFillable(), array_keys($request->toArray()));   //得到最终将要加入数据库的字段
 
@@ -47,6 +58,7 @@ class WordController extends BaseController
             $word->$v = \request()->$v;        //循环赋值给数组
         }
 
+        //问卷初始内容
         $content = <<<EOF
 {
  "pages": [
@@ -58,9 +70,6 @@ class WordController extends BaseController
 EOF;
         //添加时给问卷一个默认页面
         $word->content = $content;
-
-
-//        dd($word);
 
         $word->save();     //将数组入库,这时候$word就有id,可以执行以下通过id生成二维码操作
 
@@ -78,7 +87,6 @@ EOF;
         if ($request->grade !== null){
             $word->grade()->toggle($request->grade);   //班级关联关系增加
         }
-
 
         return ['msg' => '添加成功'];            //返回结果
     }
@@ -118,6 +126,7 @@ EOF;
         $newRule    = $request->rule??[];   //提交的规则
         $oldGrade   = [];                   //之前的班级
         $newGrade   = $request->grade??[];  //提交的班级
+
         //循环赋值
         foreach ($word->rule as $value){$oldRule[] = $value->id;}
         //循环赋值
@@ -167,7 +176,6 @@ EOF;
      * 编辑器
      */
     public function editor(Word $word){
-//        return view('survey.builder.builder',compact('word'));
         return view('admin.word.editor',compact('word'));
     }
 
@@ -188,33 +196,67 @@ EOF;
             $word->$v = $request->$v;    //循环赋值
         }
 
+        //获取题目列表
+        $topics = [];
+        foreach (json_decode($word->content,true)['pages'] as $value){
+            foreach ($value['elements'] as $v){
+                $topics[] = $v;
+            }
+        }
+
         $word->save();    //保存至数据库
 
         return ['msg' => '编辑成功'];            //响应结果
 
     }
 
-
     /*
-     * 问卷结果列表页
+     *  单个题目页
      */
-    public function resultsPage(Word $word){
-        //动态添加模型关联
-        $word->load('grade','rule','result');
+    public function showIndividualTopics(Request $request){
+        $content = $request->toArray()['content'];
 
-        //查询到当前问卷的结果列表并分页
-        $paginate = Result::where('word_id','=',$word->id)->paginate(10);
-
-        return view('admin.word.resultsPage',compact('word','paginate'));
-    }
-
-    /*
-     * 单问卷平均分概况
-     */
-    public function resultShow(Result $result){
-        return view('admin.word.resultShow',compact('result'));
+        return view('admin.word.showIndividualTopics',compact('content'));
     }
 
 
+    /*
+     * 问卷删除逻辑
+     */
+    public function del(Word $word)
+    {
+        $word->result()->delete();
+
+        $word->delete();
+
+        return ['msg' => '已删除!'];
+    }
+
+    /*
+     * 问卷上下架
+     */
+    /*
+ * 修改状态   1启用  0停用
+ */
+    public function status(Word $word)
+    {
+        //Laravel 会自动解析定义在路由或控制器行为中与类型提示的变量名匹配的路由段名称的 Eloquent 模型
+        //如果在数据库中找不到对应的模型实例，将会自动生成 404 异常。
+        //所以，如果数据库没有这条记录，将会直接返回error，触发前端错误提醒
+        //只需要执行删除程序即可
+        //修改用户的状态    1启用/0停用
+
+
+        if ($word->status === 1) {
+            $word->status = 0;
+        } else {
+            $word->status = 1;
+        }
+
+        //保存状态
+        $word->save();
+
+        return ['msg' => '操作成功!'];
+    }
 
 }

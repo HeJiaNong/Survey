@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\Route;
  * 前台页面路由集合
  */
 Route::prefix('/')->namespace('Home')->group( function () {
+
     //Home页
     Route::get('/', 'HomeController@index')->name('home');
 
@@ -55,6 +56,7 @@ Route::prefix('admin')->namespace('Admin')->group( function () {
     Route::middleware(['auth'])->get('/', 'AdminController@index')->name('admin');
     //后台桌面页
     Route::middleware(['auth'])->get('/desktop', 'AdminController@desktop')->name('admin_desktop');
+
     //用户管理模块
     Route::middleware(['auth'])->prefix('user')->group(function () {
         //列表
@@ -147,14 +149,16 @@ Route::prefix('admin')->namespace('Admin')->group( function () {
     Route::middleware(['auth'])->prefix('word')->group(function (){
         //列表
         Route::get('/','WordController@index')->name('admin_word_list_get');
+
         //添加/修改
-        Route::match(['GET','POST','PUT'],'/save/{id?}', 'WordController@save')->name('admin_word_save');
+//        Route::match(['GET','POST','PUT'],'/save/{id?}', 'WordController@save')->name('admin_word_save');
+
         //修改状态
-        Route::get('/status/{id?}', 'WordController@status')->name('admin_word_status_get');
-        //批量修改状态
-        Route::get('/status_bulk/{ids}', 'WordController@allStatus')->name('admin_words_status_get');
+        Route::get('/status/{word}', 'WordController@status')->name('admin_word_status_get');
+
         //删除逻辑
-        Route::get('/del/{id}','WordController@del')->name('admin_word_del');
+        Route::get('/del/{word}','WordController@del')->name('admin_word_del');
+
         //搜索逻辑
         Route::match(['GET','POST'],'/search', 'WordController@searchStore')->name('admin_word_search_post');
 
@@ -184,21 +188,38 @@ Route::prefix('admin')->namespace('Admin')->group( function () {
         //编辑问卷基本信息逻辑
         Route::put('/editStore/{word}','WordController@editStore')->name('admin_word_editStore');
 
-        //结果详情页
-        Route::get('/resultShow/{result}','WordController@resultShow')->name('admin_word_resultShow');
-
-        //结果列表页
-        Route::get('/resultsPage/{word}','WordController@resultsPage')->name('admin_word_resultsPage');
+        //单个问题展示页
+        Route::get('/showIndividualTopics','WordController@showIndividualTopics')->name('showIndividualTopics');
 
 
+        //答卷模块
+        Route::prefix('result')->group(function (){
+            //结果详情页
+            Route::get('/resultShow/{result}','ResultController@resultShow')->name('admin_word_result_resultShow');
+
+            //结果列表页
+            Route::get('/resultsPage/{word}','ResultController@resultsPage')->name('admin_word_result_resultsPage');
+
+            //作废答卷页
+            Route::get('/scrapResultsPage/{word}','ResultController@scrapResultsPage')->name('admin_word_result_scrapResultsPage');
+
+            //作废答卷/修改状态
+            Route::get('/status/{id?}', 'ResultController@status')->name('admin_word_result_status_get');
+
+            //题目分析页面
+            Route::get('/topic/{word}','ResultController@topic')->name('admin_word_result_topic_get');
+
+            //单个题目的数据整合/统计/展示
+            Route::get('/subjectDataStatistics','ResultController@subjectDataStatistics')->name('admin_word_result_subjectDataStatistics');
+            Route::get('/subjectDataStatisticsEcharts','ResultController@subjectDataStatisticsEcharts')->name('admin_word_result_subjectDataStatisticsEcharts');
+
+
+        });
 
         //数据统计模块
         Route::prefix('count')->group(function (){
             //单问卷结果统计页面
-            Route::get('/answerPage/{word}','CountController@answerPage')->name('admin_word_count_answerPage');
-
-            //单问卷平均分统计
-            Route::get('/answerAvgPage/{word}','CountController@answerAvgPage')->name('admin_word_count_answerAvgPage');
+            Route::get('/wordCount/{word}','CountController@wordCount')->name('admin_word_wordCount');
 
             //用户统计
             Route::get('/user','CountController@user')->name('admin_word_count_user');
@@ -211,8 +232,6 @@ Route::prefix('admin')->namespace('Admin')->group( function () {
 
 
         });
-
-
     });
 
     //问卷分类
@@ -226,7 +245,7 @@ Route::prefix('admin')->namespace('Admin')->group( function () {
         //批量修改状态
         Route::get('/status_bulk/{ids}', 'CategoryController@allStatus')->name('admin_categorys_status_get');
         //删除逻辑
-        Route::get('/del/{id}','CategoryController@del')->name('admin_category_del');
+        Route::get('/del/{category}','CategoryController@del')->name('admin_category_del');
         //搜索逻辑
         Route::match(['GET','POST'],'/search', 'CategoryController@searchStore')->name('admin_category_search_post');
 
@@ -240,21 +259,5 @@ Route::prefix('admin')->namespace('Admin')->group( function () {
         //编辑逻辑
         Route::put('/edit/{category}','CategoryController@editStore')->name('admin_category_editStore');
     });
-
-    //题目列表
-//    Route::middleware(['auth'])->prefix('topic')->group(function (){
-//        //部门列表
-//        Route::get('/','TopicController@index')->name('admin_topic_list_get');
-//        //添加/修改
-//        Route::match(['GET','POST','PUT'],'/save/{id?}', 'TopicController@save')->name('admin_topic_save');
-//        //修改状态
-//        Route::get('/status/{id}', 'TopicController@status')->name('admin_topic_status_get');
-//        //批量修改状态
-//        Route::get('/status_bulk/{ids}', 'TopicController@allStatus')->name('admin_topics_status_get');
-//        //删除逻辑
-//        Route::get('/del/{id}','TopicController@del')->name('admin_topic_del');
-//        //搜索逻辑
-//        Route::match(['GET','POST'],'/search', 'TopicController@searchStore')->name('admin_topic_search_post');
-//    });
 
 });

@@ -8,7 +8,7 @@ class Category extends Model
 {
     protected $table = 'category';
 
-    protected $fillable = ['name','describe'];
+    protected $fillable = ['name','describe','formula_mode'];
 
     /*
      * 模型关联

@@ -14,6 +14,7 @@ $factory->define(\App\Models\Category::class, function (Faker $faker) {
 
     return [
         'name' => $name,
+        'describe' => '巴拉巴拉...',
         'created_at' => $date_time,
         'updated_at' => $date_time,
     ];

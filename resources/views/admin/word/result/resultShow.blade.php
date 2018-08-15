@@ -8,7 +8,7 @@
 @section('body')
     <div class="x-nav">
       <span class="layui-breadcrumb">
-          <a href="{{ route('admin_word_resultsPage',$result->word->id) }}">{{ $result->word->name }}</a>
+          <a href="{{ route('admin_word_result_resultsPage',$result->word->id) }}">{{ $result->word->name }}</a>
         <a><cite>id:{{ $result->id }}</cite></a>
       </span>
         <a class="layui-btn layui-btn-small" style="line-height:1.6em;margin-top:3px;float:right" href="javascript:location.replace(location.href);" title="刷新">

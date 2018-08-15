@@ -14,6 +14,18 @@
                     <input value="{{ $category->name }}" type="text" id="L_username" name="name" required="required" lay-verify="nikename" autocomplete="off" class="layui-input">
                 </div>
             </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label"><span class="x-red">*</span>统计方式</label>
+                <div class="layui-input-inline">
+                    <select name="formula_mode" disabled="disabled">
+                        <option value="1" @if($category->formula_mode == 1) selected="selected" @endif >普通统计</option>
+                        <option value="2" @if($category->formula_mode == 2) selected="selected" @endif>分数统计</option>
+                    </select>
+                </div>
+                <div class="layui-form-mid layui-word-aux"><a title="普通统计:无任何限制。&nbsp;&nbsp;分数统计:单问卷总分100，每道题5分! 统计数据将只会统计分数,其他题型不会纳入统计!" onclick="alert('普通统计:无任何限制。&nbsp;&nbsp;分数统计:单问卷总分100，每道题5分! 统计数据将只会统计分数,其他题型不会纳入统计!');" href="javascript:;" ><i class="iconfont">&#xe6f2;</i></a></div>
+            </div>
+
             <div class="layui-form-item">
                 <label for="L_username" class="layui-form-label">
                     描述
@@ -26,7 +38,7 @@
                 <label for="L_repass" class="layui-form-label">
                 </label>
                 <button  class="layui-btn" lay-filter="add" lay-submit="">
-                    增加
+                    编辑
                 </button>
                 <input type="submit">
             </div>

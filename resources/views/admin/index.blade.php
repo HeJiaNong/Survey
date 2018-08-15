@@ -49,7 +49,7 @@
                         <li>
                             <a _href="{{ route('admin_category_list_get') }}">
                                 <i class="iconfont">&#xe6a7;</i>
-                                <cite>问卷分类</cite>
+                                <cite>问卷分组</cite>
                             </a>
                         </li >
                         <li>

@@ -39,7 +39,8 @@
                     </div>
                 </th>
                 <th>ID</th>
-                <th>问卷类型</th>
+                <th>分组名称</th>
+                <th>统计方式</th>
                 <th>描述</th>
                 <th>创建时间</th>
                 <th>操作</th>
@@ -55,6 +56,16 @@
                     </td>
                     <td>{{ $data->id }}</td>
                     <td>{{ $data->name }}</td>
+                    <td>
+                        @switch($data->formula_mode)
+                            @case(1)
+                                普通统计
+                            @break
+                            @case(2)
+                                分数统计
+                            @break
+                        @endswitch
+                    </td>
                     <td>{{ $data->describe }}</td>
                     <td>{{ $data->created_at }}</td>
                     <td class="td-manage">
@@ -129,7 +140,7 @@
 
         /*用户-删除*/
         function member_del(obj, url) {
-            layer.confirm('确认要删除吗？', function (index) {
+            layer.confirm('确认要删除吗？<br /><span class="x-red">删除后此分组下的所有问卷都将会被清空!</span>', function (index) {
                 //发异步删除数据
                 $.ajax({
                     async: true,    //异步
@@ -140,13 +151,9 @@
                     dataType: "json",
                     cache: true,
                     //服务器返回执行操作的状态
-                    success: function(status) {
-                        if (status === 1){
-                            $(obj).parents("tr").remove();
-                            layer.msg('已删除!', {icon: 1, time: 1000});
-                        }else {
-                            layer.msg('删除失败!', {icon:2, time: 1000});
-                        }
+                    success: function(data) {
+                        $(obj).parents("tr").remove();
+                        layer.msg(data.msg, {icon: 1, time: 1000});
                     },
                     error:function (data) {
                         layer.msg('删除失败!', {icon:2, time: 1000});

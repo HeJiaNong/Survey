@@ -14,7 +14,8 @@ return [
      |
      */
     //如果你想要关闭该分析器，在配置文件 config/debugbar.php 中设置 enabled 为 false 即可。
-    'enabled' => env('DEBUGBAR_ENABLED', null),
+//    'enabled' => env('DEBUGBAR_ENABLED', null),
+    'enabled' => false,
     'except' => [
         //
     ],

@@ -15,6 +15,7 @@ class CreateResultsTable extends Migration
     {
         Schema::create('results', function (Blueprint $table) {
             $table->increments('id');
+            $table->boolean('status')->default(true)->comment('状态');
             $table->integer('word_id')->unsigned()->comment('所属问卷id');
             $table->text('answer')->comment('答案内容');
             $table->integer('grade_id')->nullable()->unsigned()->comment('所属班级');

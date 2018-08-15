@@ -98,15 +98,15 @@
 
                     </td>
                     <td>
-                        <a href="javascript:;" title="答案统计" onclick="x_admin_show('{{ $data->name }}','{{ route('admin_word_count_answerPage',$data->id) }}')">
+                        <a href="javascript:;" title="数据统计" onclick="x_admin_show('{{ $data->name }}','{{ route('admin_word_wordCount',$data->id) }}')">
                             <i class="iconfont"  >&#xe757;</i>
                         </a>
                         &nbsp;&nbsp;&nbsp;
-                        <a href="javascript:;" title="答卷列表" onclick="x_admin_show('{{ $data->name }}','{{ route('admin_word_resultsPage',$data->id) }}')">
+                        <a href="javascript:;" title="答卷列表" onclick="x_admin_show('{{ $data->name }}','{{ route('admin_word_result_resultsPage',$data->id) }}')">
                             <i class="iconfont"  >&#xe6b5;</i><sup>&nbsp;{{$data->result()->count()}}</sup>
                         </a>
 
-                        <!-- <button onclick="x_admin_show('{{ $data->name }}','{{ route('admin_word_resultsPage',$data->id) }}')" class="layui-btn  layui-btn-sm layui-btn-radius layui-btn-normal" >
+                        <!-- <button onclick="x_admin_show('{{ $data->name }}','{{ route('admin_word_result_resultsPage',$data->id) }}')" class="layui-btn  layui-btn-sm layui-btn-radius layui-btn-normal" >
                                 参与:{{$data->result()->count()}}人
                         </button> -->
                     </td>
@@ -114,7 +114,7 @@
                         <input type="checkbox" lay-filter="switchStatus" name="switch" lay-skin="switch" lay-text="发布|下架" value="{{ $data->id }}" @if($data->status == 1) checked @endif  >
                     </td>
                     <td class="td-manage">
-                        <a id="edit2" url="x_admin_show('编辑问卷','{{ route('admin_word_editPage',$data->id) }}',1000,600)" href="javascript:;" title="编辑问卷" @if($data->status == 0) onclick="x_admin_show('编辑问卷','{{ route('admin_word_editPage',$data->id) }}',1000,600)" @endif>
+                        <a id="edit2" url="x_admin_show('编辑问卷','{{ route('admin_word_editPage',$data->id) }}',1000,600)" href="javascript:;" title="编辑问卷" @if($data->status == 0) x_admin_show('编辑问卷','{{ route('admin_word_editPage',$data->id) }}',1000,600)x_admin_show('编辑问卷','{{ route('admin_word_editPage',$data->id) }}',1000,600)x_admin_show('编辑问卷','{{ route('admin_word_editPage',$data->id) }}',1000,600)x_admin_show('编辑问卷','{{ route('admin_word_editPage',$data->id) }}',1000,600)x_admin_show('编辑问卷','{{ route('admin_word_editPage',$data->id) }}',1000,600) @endif>
                             <i class="layui-icon">&#xe642;</i>
                         </a>
                         <a id="del" url="member_del(this,'{{ route('admin_word_del',$data->id) }}')" href="javascript:;" title="删除" @if($data->status == 0) onclick="member_del(this,'{{ route('admin_word_del',$data->id) }}')" @endif>
@@ -143,7 +143,7 @@
                 var form = layui.form;
                 form.on('switch(switchStatus)',function (obj) {
                     var id = obj.value;    //获取id
-                    var url = '{{ route('admin_word_status_get') }}'+'/'+id;
+                    var url = '{{ url('/admin/word/status') }}'+'/'+id;
                     var checked = obj.elem.checked;
 
                     $.ajax({
@@ -234,7 +234,7 @@
 
         /*用户-删除*/
         function member_del(obj, url) {
-            layer.confirm('确认要删除吗？', function (index) {
+            layer.confirm('确认要删除吗？<br /><span class="x-red">该问卷下的所有答卷将会清空!</span>', function (index) {
                 //发异步删除数据
                 $.ajax({
                     async: true,    //异步
@@ -245,13 +245,9 @@
                     dataType: "json",
                     cache: true,
                     //服务器返回执行操作的状态
-                    success: function (status) {
-                        if (status === 1) {
-                            $(obj).parents("tr").remove();
-                            layer.msg('已删除!', {icon: 1, time: 1000});
-                        } else {
-                            layer.msg('删除失败!', {icon: 2, time: 1000});
-                        }
+                    success: function (data) {
+                        $(obj).parents("tr").remove();
+                        layer.msg(data.msg, {icon: 1, time: 1000});
                     },
                     error: function (data) {
                         layer.msg('删除失败!', {icon: 2, time: 1000});

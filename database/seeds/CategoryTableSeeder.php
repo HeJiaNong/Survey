@@ -15,9 +15,16 @@ class CategoryTableSeeder extends Seeder
         //生成数据
         //times 要生成记录的数量
         //make 生成数据
-        $users = factory(Category::class)->times(3)->make();
+        $data = factory(Category::class)->times(3)->make();
 
-        Category::insert($users->toArray());
+        Category::insert($data->toArray());
+
+        //指定一条数据
+        $teacher = Category::find(1);
+        $teacher->name = '新华分数统计';
+        $teacher->describe = '此分组下的问卷专门用于学校问卷分数统计调查';
+        //保存数据
+        $teacher->save();
 
     }
 }
