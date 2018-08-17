@@ -199,39 +199,41 @@ class ResultController extends BaseController
         $rowsTopic = [];
         $i = 0; //记录条数
         foreach ($word->result as $result){
-            $rowsInfo[$i][] = $result->id;  //答卷id
-            $rowsInfo[$i][] = $result->created_at->toDateTimeString();  //答卷时间
-            $rowsInfo[$i][] = $result->city;    //地区
+            if ($result->status !== 0){
+                $rowsInfo[$i][] = $result->id;  //答卷id
+                $rowsInfo[$i][] = $result->created_at->toDateTimeString();  //答卷时间
+                $rowsInfo[$i][] = $result->city;    //地区
 
-            //规则字段
-            if ($word->rule->isNotEmpty()){
-                foreach ($word->rule as $rule){
-                    $rowsRule[$i][] = $result[$rule['name']];
-                }
-            }
-            //班级字段
-            if ($word->grade->isNotEmpty()){
-                $rowsRule[$i][] = Grade::find($result->grade_id)['name'];
-            }
-            //赋值题目列表
-            foreach ($prependRowTopic as $item){
-                $name = isset($item['valueName'])?$item['valueName']:$item['name'];
-                $rowsTopic[$i][$name] = [];
-                if (isset($result->answer[$name])){
-                    if (is_array($result->answer[$name])){
-                        $str = '';
-                        foreach ($result->answer[$name] as $value){
-                            $str .= '['.$value.']';
-                        }
-                        $rowsTopic[$i][$name] = $str;
-                    }else{
-                        $rowsTopic[$i][$name] = $result->answer[$name];
+                //规则字段
+                if ($word->rule->isNotEmpty()){
+                    foreach ($word->rule as $rule){
+                        $rowsRule[$i][] = $result[$rule['name']];
                     }
-                }else{
-                    $rowsTopic[$i][$name] = null;
                 }
+                //班级字段
+                if ($word->grade->isNotEmpty()){
+                    $rowsRule[$i][] = Grade::find($result->grade_id)['name'];
+                }
+                //赋值题目列表
+                foreach ($prependRowTopic as $item){
+                    $name = isset($item['valueName'])?$item['valueName']:$item['name'];
+                    $rowsTopic[$i][$name] = [];
+                    if (isset($result->answer[$name])){
+                        if (is_array($result->answer[$name])){
+                            $str = '';
+                            foreach ($result->answer[$name] as $value){
+                                $str .= '['.$value.']';
+                            }
+                            $rowsTopic[$i][$name] = $str;
+                        }else{
+                            $rowsTopic[$i][$name] = $result->answer[$name];
+                        }
+                    }else{
+                        $rowsTopic[$i][$name] = null;
+                    }
+                }
+                $i++;
             }
-            $i++;
         }
 
         $prependRow = [];
