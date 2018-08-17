@@ -56,7 +56,12 @@
                             location.href= data.url;
                         },
                         error : function (data) {
-                            layer.msg(data.responseJSON.msg);
+                            if (data.responseJSON.msg !== undefined){
+                                layer.msg(data.responseJSON.msg);
+                            }else {
+                                layer.msg('很抱歉，你的邮箱和密码不匹配');
+                            }
+
                         }
                     });
                     return false;

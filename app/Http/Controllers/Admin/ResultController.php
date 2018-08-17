@@ -124,7 +124,7 @@ class ResultController extends BaseController
             }
         }
 
-        dump($topics);
+//        dump($topics);
 
         return view('admin.word.result.topic',compact('word','topics'));
     }

@@ -21,7 +21,7 @@
                        placeholder="开始日" name="start" id="start">
                 <input @if(isset($end)) value="{{ $end }}" @endif class="layui-input" autocomplete="off" placeholder="截止日"
                        name="end" id="end">
-                <input @if(isset($dataname)) value="{{ $dataname }}" @endif type="text" name="username" placeholder="请输入用户名"
+                <input @if(isset($dataname)) value="{{ $dataname }}" @endif type="text" name="username" placeholder="请输入问卷名"
                        autocomplete="off" class="layui-input">
                 <button class="layui-btn" lay-submit="" lay-filter="sreach"><i class="layui-icon">&#xe615;</i></button>
             </form>
@@ -44,7 +44,7 @@
                 </th>
                 <th>ID</th>
                 <th>问卷名称</th>
-                <th>类型</th>
+                <th>分组</th>
                 <th style="width: 120px">描述</th>
                 <th style="width: 60px">参与规则</th>
                 <th>更新时间</th>

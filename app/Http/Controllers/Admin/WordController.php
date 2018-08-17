@@ -236,8 +236,8 @@ EOF;
      * 问卷上下架
      */
     /*
- * 修改状态   1启用  0停用
- */
+     * 修改状态   1启用  0停用
+     */
     public function status(Word $word)
     {
         //Laravel 会自动解析定义在路由或控制器行为中与类型提示的变量名匹配的路由段名称的 Eloquent 模型
@@ -257,6 +257,31 @@ EOF;
         $word->save();
 
         return ['msg' => '操作成功!'];
+    }
+
+    /*
+     * 搜索
+     */
+    public function searchStore(Request $request)
+    {
+        $start = $request->start;
+        $end = $request->end;
+        $username = $request->username;
+
+        $start = empty($start) ? date('Y-m-d H:i:s', 0) : $start . ' 00:00:00';     //如果开始时间为空，则为初始时间
+
+        $end = empty($end) ? date('Y-m-d H:i:s', time()) : $end . ' ' . explode(' ', date('Y-m-d H:i:s', time()))[1];   //如果结束时间为空，则为当前时间
+
+        if (empty($username)) {
+            $dataset = Word::whereBetween('created_at', [$start, $end])->paginate(10);    //如果用户名为空，则不添加用户名条件
+        } else {
+            $dataset = Word::where('name', 'like', '%' . $username . '%')->whereBetween('created_at', [$start, $end])->paginate(10);  //如果都有值，则添加所有条件
+        }
+
+        $start = explode(' ', $start)[0];
+        $end = explode(' ', $end)[0];
+
+        return view("admin.word.word_list",compact('dataset', 'start', 'end', 'username'));
     }
 
 }

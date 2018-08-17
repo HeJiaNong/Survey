@@ -102,4 +102,29 @@ class BranchController extends Controller
         return ['msg' => '删除部门成功'];
     }
 
+    /*
+ * 搜索
+ */
+    public function searchStore(Request $request)
+    {
+        $start = $request->start;
+        $end = $request->end;
+        $username = $request->username;
+
+        $start = empty($start) ? date('Y-m-d H:i:s', 0) : $start . ' 00:00:00';     //如果开始时间为空，则为初始时间
+
+        $end = empty($end) ? date('Y-m-d H:i:s', time()) : $end . ' ' . explode(' ', date('Y-m-d H:i:s', time()))[1];   //如果结束时间为空，则为当前时间
+
+        if (empty($username)) {
+            $dataset = Branch::whereBetween('created_at', [$start, $end])->paginate(10);    //如果用户名为空，则不添加用户名条件
+        } else {
+            $dataset = Branch::where('name', 'like', '%' . $username . '%')->whereBetween('created_at', [$start, $end])->paginate(10);  //如果都有值，则添加所有条件
+        }
+
+        $start = explode(' ', $start)[0];
+        $end = explode(' ', $end)[0];
+
+        return view("admin.branch.branch_list",compact('dataset', 'start', 'end', 'username'));
+    }
+
 }
