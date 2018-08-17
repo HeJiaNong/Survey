@@ -114,7 +114,7 @@
                         <input type="checkbox" lay-filter="switchStatus" name="switch" lay-skin="switch" lay-text="发布|下架" value="{{ $data->id }}" @if($data->status == 1) checked @endif  >
                     </td>
                     <td class="td-manage">
-                        <a id="edit2" url="x_admin_show('编辑问卷','{{ route('admin_word_editPage',$data->id) }}',1000,600)" href="javascript:;" title="编辑问卷" @if($data->status == 0) x_admin_show('编辑问卷','{{ route('admin_word_editPage',$data->id) }}',1000,600)x_admin_show('编辑问卷','{{ route('admin_word_editPage',$data->id) }}',1000,600)x_admin_show('编辑问卷','{{ route('admin_word_editPage',$data->id) }}',1000,600)x_admin_show('编辑问卷','{{ route('admin_word_editPage',$data->id) }}',1000,600)x_admin_show('编辑问卷','{{ route('admin_word_editPage',$data->id) }}',1000,600) @endif>
+                        <a id="edit2" url="x_admin_show('编辑问卷','{{ route('admin_word_editPage',$data->id) }}',1000,600)" href="javascript:;" title="编辑问卷" @if($data->status == 0) onclick="x_admin_show('编辑问卷','{{ route('admin_word_editPage',$data->id) }}',1000,600)" @endif>
                             <i class="layui-icon">&#xe642;</i>
                         </a>
                         <a id="del" url="member_del(this,'{{ route('admin_word_del',$data->id) }}')" href="javascript:;" title="删除" @if($data->status == 0) onclick="member_del(this,'{{ route('admin_word_del',$data->id) }}')" @endif>
