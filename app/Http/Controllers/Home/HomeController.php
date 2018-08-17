@@ -191,11 +191,11 @@ class HomeController extends Controller
         $ipArea = getAreaByIp($request->getClientIp());
 
         //获得ip信息并纳入结果集
-        $result['ip_address'] = $ipArea['data']['ip'];
-        $result['country'] = $ipArea['data']['country']; //国家
-        $result['region'] = $ipArea['data']['region'];   //地区
-        $result['city'] = $ipArea['data']['city'];       //城市
-        $result['isp'] = $ipArea['data']['isp'];         //运营商
+        $result['ip_address']   = $ipArea['data']['ip']         ?? null;    //ip地址
+        $result['country']      = $ipArea['data']['country']    ?? null;    //国家
+        $result['region']       = $ipArea['data']['region']     ?? null;    //地区
+        $result['city']         = $ipArea['data']['city']       ?? null;    //城市
+        $result['isp']          = $ipArea['data']['isp']        ?? null;    //运营商
 
         //事务提交，失败回滚
         DB::transaction(function () use ($word, $result) {

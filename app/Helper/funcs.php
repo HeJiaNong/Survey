@@ -9,6 +9,15 @@
  * @return array
  */
 function getAreaByIp(string $ip) : array {
+    //防止内网ip测试时接口报错 手动返回数据
+    if ($ip == '127.0.0.1'){
+        $ipArea['data']['ip']       = '127.0.0.1';
+        $ipArea['data']['country']  = 'XX'; //国家
+        $ipArea['data']['region']   = 'XX';   //地区
+        $ipArea['data']['city']     = '内网IP';       //城市
+        $ipArea['data']['isp']      = '内网IP';         //运营商
+        return $ipArea;
+    }
     return json_decode(file_get_contents('http://ip.taobao.com/service/getIpInfo.php?ip=' . $ip),true);
 }
 
@@ -61,3 +70,4 @@ function getTopicTitleByName(string $name){
 
     return $title;
 }
+

@@ -13,7 +13,6 @@
 
 use Illuminate\Support\Facades\Route;
 
-
 /*
  * 前台页面路由集合
  */
@@ -56,6 +55,84 @@ Route::prefix('admin')->namespace('Admin')->group( function () {
     Route::middleware(['auth'])->get('/', 'AdminController@index')->name('admin');
     //后台桌面页
     Route::middleware(['auth'])->get('/desktop', 'AdminController@desktop')->name('admin_desktop');
+
+    //问卷模板管理
+    Route::middleware(['auth'])->prefix('word')->group(function (){
+        //列表
+        Route::get('/','WordController@index')->name('admin_word_list_get');
+        //修改状态
+        Route::get('/status/{word}', 'WordController@status')->name('admin_word_status_get');
+        //删除逻辑
+        Route::get('/del/{word}','WordController@del')->name('admin_word_del');
+        //搜索逻辑
+        Route::match(['GET','POST'],'/search', 'WordController@searchStore')->name('admin_word_search_post');
+        //发布问卷
+        Route::get('/add','WordController@addPage')->name('admin_word_addPage');
+        //发布逻辑
+        Route::post('/add','WordController@addStore')->name('admin_word_addStore');
+        //问卷测试页
+        Route::get('/show/{word}','WordController@show')->name('admin_word_show');
+        //问卷编辑器页
+        Route::get('/editor/{word}','WordController@editor')->name('admin_word_editor');
+        //保存问卷
+        Route::post('/save_editor/{word}','WordController@saveEditor')->name('admin_word_saveEditor');
+        //获取试题
+        Route::get('/get_survey/{word}','WordController@getSurvey')->name('admin_word_getSurvey');
+        //显示问卷规则
+        Route::get('/show_rule/{word}','WordController@showRule')->name('admin_word_showRule');
+        //编辑问卷基本信息页面
+        Route::get('/editpage/{word}','WordController@editPage')->name('admin_word_editPage');
+        //编辑问卷基本信息逻辑
+        Route::put('/editStore/{word}','WordController@editStore')->name('admin_word_editStore');
+        //单个问题展示页
+        Route::get('/showIndividualTopics','WordController@showIndividualTopics')->name('showIndividualTopics');
+
+        //答卷模块
+        Route::prefix('result')->group(function (){
+            //结果详情页
+            Route::get('/resultShow/{result}','ResultController@resultShow')->name('admin_word_result_resultShow');
+
+            //结果列表页
+            Route::get('/resultsPage/{word}','ResultController@resultsPage')->name('admin_word_result_resultsPage');
+
+            //作废答卷页
+            Route::get('/scrapResultsPage/{word}','ResultController@scrapResultsPage')->name('admin_word_result_scrapResultsPage');
+
+            //作废答卷/修改状态
+            Route::get('/status/{id?}', 'ResultController@status')->name('admin_word_result_status_get');
+
+            //题目分析页面
+            Route::get('/topic/{word}','ResultController@topic')->name('admin_word_result_topic_get');
+
+            //单个题目的数据整合/统计/展示
+            Route::get('/subjectDataStatistics','ResultController@subjectDataStatistics')->name('admin_word_result_subjectDataStatistics');
+
+            //单个题目的数据整合/统计/展示--echarts
+            Route::get('/subjectDataStatisticsEcharts','ResultController@subjectDataStatisticsEcharts')->name('admin_word_result_subjectDataStatisticsEcharts');
+
+            //导出excel
+            Route::get('/exportExcel/{word}','ResultController@exportExcel')->name('admin_word_result_exportExcel');
+
+
+        });
+
+        //数据统计模块
+        Route::prefix('count')->group(function (){
+            //单问卷结果统计页面
+            Route::get('/wordCount/{word}','CountController@wordCount')->name('admin_word_wordCount');
+
+            //用户统计
+            Route::get('/user','CountController@user')->name('admin_word_count_user');
+
+            //单问卷答案列表
+            Route::get('/results','CountController@results')->name('admin_word_count_results');
+
+            //单问卷答案列表json数据接口
+            Route::get('/resultsJson','CountController@resultsJson')->name('admin_word_count_resultsJson');
+
+
+        });
+    });
 
     //用户管理模块
     Route::middleware(['auth'])->prefix('user')->group(function () {
@@ -143,95 +220,6 @@ Route::prefix('admin')->namespace('Admin')->group( function () {
         Route::get('/del/{id}','GradeController@del')->name('admin_grade_del');
         //搜索逻辑
         Route::match(['GET','POST'],'/search', 'GradeController@searchStore')->name('admin_grade_search_post');
-    });
-
-    //问卷模板管理
-    Route::middleware(['auth'])->prefix('word')->group(function (){
-        //列表
-        Route::get('/','WordController@index')->name('admin_word_list_get');
-
-        //添加/修改
-//        Route::match(['GET','POST','PUT'],'/save/{id?}', 'WordController@save')->name('admin_word_save');
-
-        //修改状态
-        Route::get('/status/{word}', 'WordController@status')->name('admin_word_status_get');
-
-        //删除逻辑
-        Route::get('/del/{word}','WordController@del')->name('admin_word_del');
-
-        //搜索逻辑
-        Route::match(['GET','POST'],'/search', 'WordController@searchStore')->name('admin_word_search_post');
-
-        //发布问卷
-        Route::get('/add','WordController@addPage')->name('admin_word_addPage');
-        //发布逻辑
-        Route::post('/add','WordController@addStore')->name('admin_word_addStore');
-
-        //问卷测试页
-        Route::get('/show/{word}','WordController@show')->name('admin_word_show');
-
-        //问卷编辑器页
-        Route::get('/editor/{word}','WordController@editor')->name('admin_word_editor');
-
-        //保存问卷
-        Route::post('/save_editor/{word}','WordController@saveEditor')->name('admin_word_saveEditor');
-
-        //获取试题
-        Route::get('/get_survey/{word}','WordController@getSurvey')->name('admin_word_getSurvey');
-
-        //显示问卷规则
-        Route::get('/show_rule/{word}','WordController@showRule')->name('admin_word_showRule');
-
-        //编辑问卷基本信息页面
-        Route::get('/editpage/{word}','WordController@editPage')->name('admin_word_editPage');
-
-        //编辑问卷基本信息逻辑
-        Route::put('/editStore/{word}','WordController@editStore')->name('admin_word_editStore');
-
-        //单个问题展示页
-        Route::get('/showIndividualTopics','WordController@showIndividualTopics')->name('showIndividualTopics');
-
-
-        //答卷模块
-        Route::prefix('result')->group(function (){
-            //结果详情页
-            Route::get('/resultShow/{result}','ResultController@resultShow')->name('admin_word_result_resultShow');
-
-            //结果列表页
-            Route::get('/resultsPage/{word}','ResultController@resultsPage')->name('admin_word_result_resultsPage');
-
-            //作废答卷页
-            Route::get('/scrapResultsPage/{word}','ResultController@scrapResultsPage')->name('admin_word_result_scrapResultsPage');
-
-            //作废答卷/修改状态
-            Route::get('/status/{id?}', 'ResultController@status')->name('admin_word_result_status_get');
-
-            //题目分析页面
-            Route::get('/topic/{word}','ResultController@topic')->name('admin_word_result_topic_get');
-
-            //单个题目的数据整合/统计/展示
-            Route::get('/subjectDataStatistics','ResultController@subjectDataStatistics')->name('admin_word_result_subjectDataStatistics');
-            Route::get('/subjectDataStatisticsEcharts','ResultController@subjectDataStatisticsEcharts')->name('admin_word_result_subjectDataStatisticsEcharts');
-
-
-        });
-
-        //数据统计模块
-        Route::prefix('count')->group(function (){
-            //单问卷结果统计页面
-            Route::get('/wordCount/{word}','CountController@wordCount')->name('admin_word_wordCount');
-
-            //用户统计
-            Route::get('/user','CountController@user')->name('admin_word_count_user');
-
-            //单问卷答案列表
-            Route::get('/results','CountController@results')->name('admin_word_count_results');
-
-            //单问卷答案列表json数据接口
-            Route::get('/resultsJson','CountController@resultsJson')->name('admin_word_count_resultsJson');
-
-
-        });
     });
 
     //问卷分类

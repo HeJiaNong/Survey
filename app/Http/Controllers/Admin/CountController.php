@@ -86,7 +86,10 @@ class CountController extends Controller
 
         //todo 图形统计 周计，月计，年计
 
-        return view('admin.word.count.answer',compact('word'));
+        //统计单个问卷下参与人数的展示
+        //
+
+        return view('admin.word.count.word',compact('word'));
     }
 
 

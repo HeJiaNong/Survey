@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\Grade;
 use App\Models\Result;
 use App\Models\Word;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ResultController extends BaseController
 {
@@ -15,10 +17,6 @@ class ResultController extends BaseController
      * 问卷结果列表页
      */
     public function resultsPage(Word $word){
-
-        if ($word->category->formula_mode == 2){
-            dump('分数');
-        }
 
         //动态添加模型关联
         $word->load('grade','rule','result');
@@ -33,8 +31,8 @@ class ResultController extends BaseController
         foreach ($data as $v){
             $colspan['topic'] = count($v->answer);
 
-            //这里+1是＋的地区字段
-            $colspan['basic'] = $v->word->rule->count() + 1;
+            //这里+1是＋的地区字段 和时间
+            $colspan['basic'] = $v->word->rule->count() + 1 +1;
 
             if ($v->word->grade->isNotEmpty()){
                 $colspan['basic'] += 1;
@@ -42,7 +40,16 @@ class ResultController extends BaseController
             break;
         }
 
-        return view('admin.word.result.resultsPage',compact('word','data','colspan'));
+        //问卷题目列表
+        $topics = [];
+
+        foreach (json_decode($word->content,true)['pages'] as $value){
+            foreach ($value['elements'] as $v){
+                $topics[] = $v;
+            }
+        }
+
+        return view('admin.word.result.resultsPage',compact('word','data','colspan','topics'));
     }
 
     /*
@@ -117,8 +124,7 @@ class ResultController extends BaseController
             }
         }
 
-
-
+        dump($topics);
 
         return view('admin.word.result.topic',compact('word','topics'));
     }
@@ -149,6 +155,118 @@ class ResultController extends BaseController
         }
 
         return view('admin.word.count.topics.'.$topic['type'],compact('topic'));
+    }
+
+    /**
+     * 导出问卷下所有答卷的excel
+     */
+    public function exportExcel(Word $word){
+        //动态加载模型关联
+        $word->load('rule','grade','result');
+
+        //第一行的题目与基本信息数据
+        $prependRowInfo = [];   //基本信息
+        $prependRowRule = [];   //规则信息
+        $prependRowTopic = [];  //题目信息
+
+        //固定的3各字段
+        $prependRowInfo[] = '答卷ID';
+        $prependRowInfo[] = '答卷时间';
+        $prependRowInfo[] = '地区';
+
+        //是否需要添加规则字段
+        if ($word->rule->isNotEmpty()){
+            foreach ($word->rule as $rule){
+                $prependRowRule[] = $rule['title'];
+            }
+        }
+        //是否需要添加班级字段
+        if ($word->grade->isNotEmpty()){
+            $prependRowRule[] = '班级';
+        }
+
+        foreach (json_decode($word->content,true)['pages'] as $value){
+            //问题列表
+            foreach ($value['elements'] as $v){
+                $prependRowTopic[] = $v;
+            }
+        }
+
+
+        //行数据
+        $rowsInfo = [];
+        $rowsRule = [];
+        $rowsTopic = [];
+        $i = 0; //记录条数
+        foreach ($word->result as $result){
+            $rowsInfo[$i][] = $result->id;  //答卷id
+            $rowsInfo[$i][] = $result->created_at->toDateTimeString();  //答卷时间
+            $rowsInfo[$i][] = $result->city;    //地区
+
+            //规则字段
+            if ($word->rule->isNotEmpty()){
+                foreach ($word->rule as $rule){
+                    $rowsRule[$i][] = $result[$rule['name']];
+                }
+            }
+            //班级字段
+            if ($word->grade->isNotEmpty()){
+                $rowsRule[$i][] = Grade::find($result->grade_id)['name'];
+            }
+            //赋值题目列表
+            foreach ($prependRowTopic as $item){
+                $name = isset($item['valueName'])?$item['valueName']:$item['name'];
+                $rowsTopic[$i][$name] = [];
+                if (isset($result->answer[$name])){
+                    if (is_array($result->answer[$name])){
+                        $str = '';
+                        foreach ($result->answer[$name] as $value){
+                            $str .= '['.$value.']';
+                        }
+                        $rowsTopic[$i][$name] = $str;
+                    }else{
+                        $rowsTopic[$i][$name] = $result->answer[$name];
+                    }
+                }else{
+                    $rowsTopic[$i][$name] = null;
+                }
+            }
+            $i++;
+        }
+
+        $prependRow = [];
+        $rows = [];
+
+        foreach ($prependRowTopic as $k => $v){
+            $prependRowTopic[$k] = isset($v['title'])?$v['title']:$v['name'];
+        }
+
+        //合并首行
+        $prependRow = array_merge(array_values($prependRowInfo),array_values($prependRowRule),array_values($prependRowTopic));
+
+        //合并多行
+        foreach ($rowsTopic as $k => $v){
+            if ($rowsRule == null){ //如果没有规则信息
+                $rows[] = array_merge(array_values($rowsInfo[$k]),array_values($rowsTopic[$k]));
+            }else{
+                $rows[] = array_merge(array_values($rowsInfo[$k]),array_values($rowsRule[$k]),array_values($rowsTopic[$k]));
+            }
+
+        }
+
+        //下载excel
+        Excel::create($word->name, function($excel) use($word,$prependRow,$rows) {
+            //创建一个sheet
+            $excel->sheet($word->name, function($sheet) use($prependRow,$rows) {
+                //首行
+                $sheet->prependRow($prependRow);
+                //增加多行
+                $sheet->rows($rows);
+                //冻结第一行
+                $sheet->freezeFirstRow();
+            });
+
+        })->export('xls');  //导出到Excel5（xls）
     }
 
 }

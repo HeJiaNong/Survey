@@ -25,6 +25,7 @@
             &nbsp;&nbsp;<span><a href="{{ route('admin_word_result_topic_get',$word->id) }}">题目分析</a></span>
             &nbsp;&nbsp;<span><a href="{{ route('admin_word_result_scrapResultsPage',$word->id) }}">作废答卷</a></span>
 
+            &nbsp;&nbsp;<span> <a href="{{ route('admin_word_result_exportExcel',$word->id) }}" title="下载excel"><i class="iconfont">&#xe714;</i></a></span>
             <span class="x-right" style="line-height:40px">共有数据：{{ $data->total() }} 条</span>
         </xblock>
 
@@ -33,13 +34,13 @@
             <table  align="center" style="width:3000px;"  class="layui-table"  lay-size="sm"  >
             <thead>
             <tr>
-                <th style="text-align:center;" colspan="3">
+                <th style="text-align:center;border: #4dff7d 1px solid" colspan="2">
                     操作区
                 </th>
-                <th style="text-align:center;" colspan="{{ $colspan['basic'] }}">
+                <th style="text-align:center;border: #ffabdf 1px solid" colspan="{{ $colspan['basic'] }}">
                     基本信息区
                 </th>
-                <th style="text-align:center;" colspan="{{ $colspan['topic'] }}">
+                <th style="text-align:center;border: aqua 1px solid" colspan="{{ count($topics) }}">
                     题目答案区
                 </th>
             </tr>
@@ -59,11 +60,12 @@
                     <th>班级</th>
                 @endif
 
-                @foreach($data as $value)
-                    @foreach($value->answer as $key => $item)
-                        <th title="{{ $key }}">{{ str_limit($key,20) }}</th>
-                    @endforeach
-                    @break
+                @foreach($topics as $value)
+                    @if(isset($value['title']))
+                        <th title="{{ $value['title'] }}">{{ str_limit($value['title'],20) }}</th>
+                    @else
+                        <th title="{{ $value['name'] }}">{{ str_limit($value['name'],20) }}</th>
+                    @endif
                 @endforeach
             </tr>
             </thead>
@@ -87,21 +89,26 @@
                     @if($word->grade->isNotEmpty())
                         <td>{{ $result->grade->name }}</td>
                     @endif
+                    {{--答案--}}
+                    @foreach($topics as $topic)
+                        @php
+                            $name = isset($topic['valueName'])?$topic['valueName']:$topic['name'];  //赋值一个变量
+                        @endphp
 
-                    @foreach($data as $value)
-                        @foreach($value->answer as $key => $item)
-                            @if(is_array($item))
+                        @if(isset($result->answer[$name]))
+                            @if(is_array($result->answer[$name]))
                                 <td>
-                                    @foreach($item as $i)
-                                        {{ $i }} |
+                                    @foreach($result->answer[$name] as $item)
+                                        [{{ $item }}]
                                     @endforeach
                                 </td>
                             @else
-                                <td>{{ $item }}</td>
+                                <td>{{ $result->answer[$name] }}</td>
                             @endif
 
-                        @endforeach
-                        @break
+                        @else
+                            <td></td>
+                        @endif
                     @endforeach
                 </tr>
             @endforeach
