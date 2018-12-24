@@ -25,7 +25,7 @@ class WordController extends Controller
 
         $dataset = Word::paginate(10);  //分页
 
-        return view("admin.Word.Word_list", compact('dataset'));
+        return view("admin.word.word_list", compact('dataset'));
     }
 
 
