@@ -193,7 +193,9 @@
             });
         }
 
-
+        /*
+        批量停用操作
+         */
         function delAll(argument) {
             //获取所有被选中的多选框
             var data = tableCheck.getData();
@@ -219,8 +221,9 @@
                     });
                 });
             }
-
         }
+
+
     </script>
 @endsection
 
