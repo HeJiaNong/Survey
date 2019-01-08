@@ -96,7 +96,7 @@ return [
     'required_if'          => 'Il campo :attribute è richiesto quando :other è :value.',
     'required_unless'      => 'Il campo :attribute è richiesto a meno che :other sia in :values.',
     'required_with'        => 'Il campo :attribute è richiesto quando :values è presente.',
-    'required_with_all'    => 'Il campo :attribute è richiesto quando :values è presente.',
+    'required_with_all'    => 'Il campo :attribute è richiesto quando :values sono presenti.',
     'required_without'     => 'Il campo :attribute è richiesto quando :values non è presente.',
     'required_without_all' => 'Il campo :attribute è richiesto quando nessuno di :values è presente.',
     'same'                 => ':attribute e :other devono coincidere.',
@@ -111,6 +111,7 @@ return [
     'unique'               => ':attribute è stato già utilizzato.',
     'uploaded'             => ':attribute non è stato caricato.',
     'url'                  => 'Il formato del campo :attribute non è valido.',
+    'uuid'                 => 'The :attribute must be a valid UUID.',
 
     /*
     |--------------------------------------------------------------------------

@@ -44,13 +44,13 @@ return [
     'gt'                   => [
         'numeric' => 'De :attribute moet groter zijn dan :value.',
         'file'    => 'De :attribute moet groter zijn dan :value kilobytes.',
-        'string'  => 'De :attribute moet meer dan :value karakters bevatten.',
+        'string'  => 'De :attribute moet meer dan :value tekens bevatten.',
         'array'   => 'De :attribute moet meer dan :value waardes bevatten.',
     ],
     'gte'                  => [
         'numeric' => 'De :attribute moet groter of gelijk zijn aan :value.',
         'file'    => 'De :attribute moet groter of gelijk zijn aan :value kilobytes.',
-        'string'  => 'De :attribute moet :value karakters of meer bevatten.',
+        'string'  => 'De :attribute moet minimaal :value tekens bevatten.',
         'array'   => 'De :attribute moet :value waardes of meer bevatten.',
     ],
     'image'                => ':attribute moet een afbeelding zijn.',
@@ -64,19 +64,19 @@ return [
     'lt'                   => [
         'numeric' => 'De :attribute moet kleiner zijn dan :value.',
         'file'    => 'De :attribute moet kleiner zijn dan :value kilobytes.',
-        'string'  => 'De :attribute moet minder dan :value karakters bevatten.',
+        'string'  => 'De :attribute moet minder dan :value tekens bevatten.',
         'array'   => 'De :attribute moet minder dan :value waardes bevatten.',
     ],
     'lte'                  => [
         'numeric' => 'De :attribute moet kleiner of gelijk zijn aan :value.',
         'file'    => 'De :attribute moet kleiner of gelijk zijn aan :value kilobytes.',
-        'string'  => 'De :attribute moet :value karakters of minder bevatten.',
+        'string'  => 'De :attribute moet maximaal :value tekens bevatten.',
         'array'   => 'De :attribute moet :value waardes of minder bevatten.',
     ],
     'max'                  => [
         'numeric' => ':attribute mag niet hoger dan :max zijn.',
         'file'    => ':attribute mag niet meer dan :max kilobytes zijn.',
-        'string'  => ':attribute mag niet uit meer dan :max karakters bestaan.',
+        'string'  => ':attribute mag niet uit meer dan :max tekens bestaan.',
         'array'   => ':attribute mag niet meer dan :max items bevatten.',
     ],
     'mimes'                => ':attribute moet een bestand zijn van het bestandstype :values.',
@@ -84,7 +84,7 @@ return [
     'min'                  => [
         'numeric' => ':attribute moet minimaal :min zijn.',
         'file'    => ':attribute moet minimaal :min kilobytes zijn.',
-        'string'  => ':attribute moet minimaal :min karakters zijn.',
+        'string'  => ':attribute moet minimaal :min tekens zijn.',
         'array'   => ':attribute moet minimaal :min items bevatten.',
     ],
     'not_in'               => 'Het formaat van :attribute is ongeldig.',
@@ -103,14 +103,15 @@ return [
     'size'                 => [
         'numeric' => ':attribute moet :size zijn.',
         'file'    => ':attribute moet :size kilobyte zijn.',
-        'string'  => ':attribute moet :size karakters zijn.',
+        'string'  => ':attribute moet :size tekens zijn.',
         'array'   => ':attribute moet :size items bevatten.',
     ],
-    'string'               => ':attribute moet een tekenreeks zijn.',
+    'string'               => ':attribute moet een tekst zijn.',
     'timezone'             => ':attribute moet een geldige tijdzone zijn.',
     'unique'               => ':attribute is al in gebruik.',
     'uploaded'             => 'Het uploaden van :attribute is mislukt.',
     'url'                  => ':attribute is geen geldige URL.',
+    'uuid'                 => 'The :attribute must be a valid UUID.',
 
     /*
     |--------------------------------------------------------------------------

@@ -93,7 +93,7 @@ return [
     'present'              => ':Attribute майдони кўрсатилиши керак.',
     'regex'                => ':Attribute майдони хато форматда.',
     'required'             => ':Attribute майдони тўлдирилиши шарт.',
-    'required_if'          => ':Attribute майдони тўлдирилиши шарт, қачонки :other майдони :values га тенг бўлса.',
+    'required_if'          => ':Attribute майдони тўлдирилиши шарт, қачонки :other майдони :value га тенг бўлса.',
     'required_unless'      => ':Attribute майдони тўлдирилиши шарт, қачонки :other майдони :values га тенг бўлмаса.',
     'required_with'        => ':Attribute майдони тўлдирилиши шарт, қачонки :values кўрсатилган бўлса.',
     'required_with_all'    => ':Attribute майдони тўлдирилиши шарт, қачонки :values кўрсатилган бўлса.',
@@ -111,6 +111,7 @@ return [
     'unique'               => ':Attribute майдонининг бундай қиймати мавжуд (киритлган).',
     'uploaded'             => ':Attribute майдонини юклаш муваффақиятли амалга ошмади.',
     'url'                  => ':Attribute майдони нотўғри форматга эга.',
+    'uuid'                 => 'The :attribute must be a valid UUID.',
 
     /*
     |--------------------------------------------------------------------------

@@ -12,9 +12,9 @@
 namespace Symfony\Component\HttpKernel\Tests\DataCollector;
 
 use PHPUnit\Framework\TestCase;
-use Symfony\Component\HttpKernel\DataCollector\DumpDataCollector;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\DataCollector\DumpDataCollector;
 use Symfony\Component\VarDumper\Cloner\Data;
 use Symfony\Component\VarDumper\Dumper\CliDumper;
 
@@ -125,11 +125,8 @@ EOTXT;
         $collector->dump($data);
         $line = __LINE__ - 1;
         $output = preg_replace("/\033\[[^m]*m/", '', ob_get_clean());
-        if (\PHP_VERSION_ID >= 50400) {
-            $this->assertSame("DumpDataCollectorTest.php on line {$line}:\n456\n", $output);
-        } else {
-            $this->assertSame("\"DumpDataCollectorTest.php on line {$line}:\"\n456\n", $output);
-        }
+
+        $this->assertSame("DumpDataCollectorTest.php on line {$line}:\n456\n", $output);
 
         ob_start();
         $collector->__destruct();

@@ -13,7 +13,7 @@
         <div class="sv_custom_header"></div>
         <div class="sv_container">
             <div class="sv_header">
-                <h3>欢迎参与 "{{ $word->name }}" 问卷调查</h3>
+                <h3>欢迎参与 <b>"{{ $word->name }}"</b></h3>
                 <p>{{ $word->describe }}</p>
             </div>
         </div>
@@ -46,7 +46,7 @@
     </script>
     <script>
         //主题
-        Survey.StylesManager.applyTheme("stone");
+        Survey.StylesManager.applyTheme("winterstone");
 
         //获取题目
         var json = {!! $word->content !!};

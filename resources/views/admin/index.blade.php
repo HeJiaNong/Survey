@@ -58,29 +58,29 @@
                                 <cite>问卷列表</cite>
                             </a>
                         </li >
-                        <li class="open">
-                            <a href="javascript:;">
-                                <i class="iconfont">&#xe757;</i>
-                                <cite>数据统计</cite>
-                                <i class="iconfont nav_right"></i>
-                            </a>
-                            <ul class="sub-menu" style="display: block;">
-                                <li>
-                                    <a _href="{{ route('admin_word_count_user') }}">
-                                        <i class="iconfont"></i>
-                                        <cite>用户统计</cite>
+                        {{--<li class="open">--}}
+                            {{--<a href="javascript:;">--}}
+                                {{--<i class="iconfont">&#xe757;</i>--}}
+                                {{--<cite>数据统计</cite>--}}
+                                {{--<i class="iconfont nav_right"></i>--}}
+                            {{--</a>--}}
+                            {{--<ul class="sub-menu" style="display: block;">--}}
+                                {{--<li>--}}
+                                    {{--<a _href="{{ route('admin_word_count_user') }}">--}}
+                                        {{--<i class="iconfont"></i>--}}
+                                        {{--<cite>用户统计</cite>--}}
 
-                                    </a>
-                                </li>
-                                <li>
-                                    <a _href="{{ route('admin_word_count_results') }}">
-                                        <i class="iconfont"></i>
-                                        <cite>答卷统计</cite>
+                                    {{--</a>--}}
+                                {{--</li>--}}
+                                {{--<li>--}}
+                                    {{--<a _href="{{ route('admin_word_count_results') }}">--}}
+                                        {{--<i class="iconfont"></i>--}}
+                                        {{--<cite>答卷统计</cite>--}}
 
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
+                                    {{--</a>--}}
+                                {{--</li>--}}
+                            {{--</ul>--}}
+                        {{--</li>--}}
                     </ul>
                 </li>
 

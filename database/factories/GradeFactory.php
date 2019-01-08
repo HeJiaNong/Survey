@@ -11,7 +11,7 @@ $factory->define(\App\Models\Grade::class, function (Faker $faker) {
     $date_time = $faker->date . ' ' . $faker->time;
 
 
-    $name = array_random(['16','17','18']).array_random(['两年','两年半','三年']).array_random(['软件','艺术','DT','天猫','VR']).mt_rand(1,10);
+    $name = array_random(['15','16','17','18','19']).array_random(['两年','两年半','三年']).array_random(['软件','艺术','DT','天猫','VR']).mt_rand(1,10);
 
     return [
         'name' => $name,

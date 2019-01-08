@@ -27,6 +27,8 @@
             <input value="登录" lay-submit lay-filter="login" style="width:100%;" type="submit">
             <hr class="hr20" >
             {{--<input type="submit">--}}
+            <p>账号:admin@qq.com</p>
+            <p>密码:123456</p>
         </form>
     </div>
 

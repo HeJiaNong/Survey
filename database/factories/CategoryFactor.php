@@ -10,7 +10,7 @@ $factory->define(\App\Models\Category::class, function (Faker $faker) {
      */
     $date_time = $faker->date . ' ' . $faker->time;
 
-    $name = array_random(['问卷调查','在线考试','在线投票','报名表单','在线测评','业余生活调查']);
+    $name = $faker->unique()->randomElement(['问卷调查','在线考试','在线投票','报名表单','在线测评','业余生活调查']);
 
     return [
         'name' => $name,

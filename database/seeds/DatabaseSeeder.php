@@ -20,10 +20,13 @@ class DatabaseSeeder extends Seeder
         $this->call(TeachersTableSeeder::class);
         $this->call(BranchTableSeeder::class);
         $this->call(GradeTableSeeder::class);
-        $this->call(WordTableSeeder::class);
+//        $this->call(WordTableSeeder::class);
         $this->call(CategoryTableSeeder::class);
         $this->call(RuleTableSeeder::class);
 
         Model::reguard();
+        $this->call(IseedResultsTableSeeder::class);
+        $this->call(IseedWordsTableSeeder::class);
+        $this->call(QRCodeSeeder::class);
     }
 }

@@ -22,7 +22,7 @@ class ResultController extends BaseController
         $word->load('grade','rule','result');
 
         //查询到当前问卷的结果列表并分页
-        $data = $word->result()->where('word_id',$word->id)->where('status',1)->paginate(5);
+        $data = $word->result()->where('word_id',$word->id)->where('status',1)->paginate(12);
 
         //用于存储各区的字段数量
         $colspan['topic'] = 0;
@@ -98,7 +98,7 @@ class ResultController extends BaseController
         $topics = [];
 //        dd(json_decode($word->content));
 
-        //前方高能警告 请准备好纸巾，尿不湿
+        //TODO 此方案导致get请求URL长度过长！！！
         foreach (json_decode($word->content,true)['pages'] as $value){
             foreach ($value['elements'] as $v){
                 $v['answers'] = [];

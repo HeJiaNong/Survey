@@ -20,11 +20,11 @@ class UsersTableSeeder extends Seeder
 
         //指定一条数据
         $user = User::find(1);
-        $user->name = '何佳农';
+        $user->name = 'Admin';
         $user->sex = '男';
-        $user->email = 'jianonghe@gmail.com';
-        $user->password = bcrypt('hejiang335200');
-        $user->number = 18780260029;
+        $user->email = 'admin@qq.com';
+        $user->password = bcrypt('123456');
+        $user->number = 18818881888;
         $user->addr = '成都';
         $user->status = 1;
         //保存数据

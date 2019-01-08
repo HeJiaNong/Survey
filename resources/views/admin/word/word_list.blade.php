@@ -98,12 +98,12 @@
 
                     </td>
                     <td>
-                        <a href="javascript:;" title="数据统计" onclick="x_admin_show('{{ $data->name }}','{{ route('admin_word_wordCount',$data->id) }}')">
-                            <i class="iconfont"  >&#xe757;</i>
-                        </a>
+                        {{--<a href="javascript:;" title="数据统计" onclick="x_admin_show('{{ $data->name }}','{{ route('admin_word_wordCount',$data->id) }}')">--}}
+                            {{--<i class="iconfont"  >&#xe757;</i>--}}
+                        {{--</a>--}}
                         &nbsp;&nbsp;&nbsp;
                         <a href="javascript:;" title="答卷列表" onclick="x_admin_show('{{ $data->name }}','{{ route('admin_word_result_resultsPage',$data->id) }}')">
-                            <i class="iconfont"  >&#xe6b5;</i><sup>&nbsp;{{$data->result()->count()}}</sup>
+                            <i class="iconfont"  >&#xe757;</i><sup>&nbsp;{{$data->result()->count()}}</sup>
                         </a>
 
                         <!-- <button onclick="x_admin_show('{{ $data->name }}','{{ route('admin_word_result_resultsPage',$data->id) }}')" class="layui-btn  layui-btn-sm layui-btn-radius layui-btn-normal" >
